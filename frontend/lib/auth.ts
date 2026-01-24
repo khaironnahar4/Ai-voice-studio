@@ -4,9 +4,11 @@ import prisma from "./prisma";
 import bcrypt from "bcryptjs";
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL,
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  // authenticaiton with email and password
   emailAndPassword: {
     enabled: true,
     password: {
@@ -18,6 +20,7 @@ export const auth = betterAuth({
       },
     },
   },
+  // social authentication providers
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
