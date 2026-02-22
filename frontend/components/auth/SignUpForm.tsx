@@ -59,7 +59,8 @@ export function SignUpForm() {
         },
         {
           onSuccess: async () => {
-            toast.success("Please see your email to verify your account");
+            toast.success("Created your account successfully.");
+            // toast.success("Please see your email to verify your account");
           },
           onError: (ctx) => {
             toast.error(ctx.error.message);
