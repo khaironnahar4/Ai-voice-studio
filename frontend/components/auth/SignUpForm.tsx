@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { signIn, signUp } from "@/lib/auth-client";
 import { Spinner } from "../ui/spinner";
 import { Separator } from "../ui/separator";
+import { useRouter } from "next/router";
 
 const formSchema = z
   .object({
@@ -39,6 +40,8 @@ const formSchema = z
   });
 
 export function SignUpForm() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,6 +63,7 @@ export function SignUpForm() {
         {
           onSuccess: async () => {
             toast.success("Created your account successfully.");
+            router.push("/sign-in");
             // toast.success("Please see your email to verify your account");
           },
           onError: (ctx) => {
