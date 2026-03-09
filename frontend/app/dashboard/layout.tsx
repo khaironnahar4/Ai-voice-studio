@@ -4,29 +4,17 @@ import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 
 import {
-  Menu,
-  X,
-  Plus,
   User,
-  Clock,
   Settings,
   LogOut,
-  Home,
-  BookOpen,
   Bell,
   Search,
   ChevronDown,
 } from 'lucide-react';
-import Link from "next/link";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/dashboard/app-sidebar";
 
-interface SidebarItem {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-  href: string;
-  badge?: number;
-}
 
 export default function DashboardLayout({
   children,
@@ -37,25 +25,6 @@ export default function DashboardLayout({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const sidebarContentRef = useRef<HTMLDivElement>(null);
 
-  // Animation for sidebar collapse/expand
-  useEffect(() => {
-    if (sidebarRef.current) {
-      gsap.to(sidebarRef.current, {
-        width: sidebarOpen ? 280 : 100,
-        duration: 0.4,
-        ease: 'power2.inOut',
-      });
-    }
-
-    if (sidebarContentRef.current) {
-      gsap.to(sidebarContentRef.current, {
-        opacity: sidebarOpen ? 1 : 0,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        delay: sidebarOpen ? 0.1 : 0,
-      });
-    }
-  }, [sidebarOpen]);
 
 
 
@@ -65,18 +34,21 @@ export default function DashboardLayout({
   };
 
   return (
-
-     <div className="flex h-screen bg-gray-50 dark:bg-slate-950">
-      {/* Sidebar */}
       
+        <SidebarProvider>
+    {/* <div className="flex w-full h-screen bg-gray-50 dark:bg-slate-950"> */}
+      {/* Sidebar */}
+      <AppSidebar />
 
       {/* Main Content Area */}
-      <div
-        className="flex flex-col flex-1 transition-all duration-300"
-        style={{ marginLeft: 280 }}
+      <main className="w-full p-4">
+        <SidebarTrigger />
+        <div
+        className="flex flex-col flex-1 transition-all duration-300 w-full"
+        
       >
         {/* Top Navbar */}
-        <nav className="h-20 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 shadow-sm sticky top-0 z-30">
+        <nav className="h-20 w-full bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700 shadow-sm sticky top-0 z-30">
           <div className="h-full px-6 flex items-center justify-between">
             {/* Left Side */}
             <div className="flex items-center gap-4 flex-1">
@@ -168,14 +140,9 @@ export default function DashboardLayout({
           <div className="p-6 lg:p-8">{children}</div>
         </main>
       </div>
+      </main>
 
-      {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 lg:hidden z-30"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-    </div>
+    {/* </div> */}
+     </SidebarProvider>
   );
 }
