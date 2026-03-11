@@ -6,6 +6,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/utils/ThemeProvider";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -23,7 +24,9 @@ const dm = DM_Sans({
 export const metadata: Metadata = {
   title: "Vocera — AI Text to Voice",
   description:
-    "Transform your scripts into natural, expressive speech with AI-powered voices.",
+    "Transform your scripts into natural, expressive speech with AI-powered voices. Perfect for podcasts, videos, and more.",
+  keywords: ['text to speech', 'AI voice', 'TTS', 'voice synthesis', 'audio generation'],
+  authors: [{ name: 'Vocera' }],
 };
 
 export default function RootLayout({
@@ -36,9 +39,11 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${dm.variable} antialiased w-full min-w-dvw overflow-hidden`}
       >
-        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        {children}
-        <Toaster position="bottom-right" richColors />
+        <ThemeProvider>
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          {children}
+          <Toaster position="bottom-right" richColors />
+        </ThemeProvider>
       </body>
     </html>
   );
