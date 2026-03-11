@@ -7,6 +7,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/utils/ThemeProvider";
+import { SmoothScrollProvider } from "@/utils/SmoothScrollProvider";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -25,8 +26,14 @@ export const metadata: Metadata = {
   title: "Vocera — AI Text to Voice",
   description:
     "Transform your scripts into natural, expressive speech with AI-powered voices. Perfect for podcasts, videos, and more.",
-  keywords: ['text to speech', 'AI voice', 'TTS', 'voice synthesis', 'audio generation'],
-  authors: [{ name: 'Vocera' }],
+  keywords: [
+    "text to speech",
+    "AI voice",
+    "TTS",
+    "voice synthesis",
+    "audio generation",
+  ],
+  authors: [{ name: "Vocera" }],
 };
 
 export default function RootLayout({
@@ -35,15 +42,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${syne.variable} ${dm.variable} antialiased w-full min-w-dvw overflow-hidden`}
       >
-        <ThemeProvider>
-          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-          {children}
-          <Toaster position="bottom-right" richColors />
-        </ThemeProvider>
+        <SmoothScrollProvider>
+          <ThemeProvider>
+            <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+            {children}
+            <Toaster position="bottom-right" richColors />
+          </ThemeProvider>
+        </SmoothScrollProvider>
       </body>
     </html>
   );
