@@ -23,6 +23,22 @@ const config: Config = {
           DEFAULT: "rgb(var(--surface) / <alpha-value>)",
           2: "rgb(var(--surface2) / <alpha-value>)",
         },
+        vocera: {
+          bg:     '#0F0F1A',
+          card:   '#16162A',
+          card2:  '#1E1E3A',
+          purple: '#6C3CE1',
+          violet: '#9B6FF5',
+          muted:  '#A0A0C8',
+          subtle: '#64648C',
+        },
+      },
+      maxWidth: {
+        '8xl': '1280px',
+      },
+      boxShadow: {
+        'glow-sm': '0 0 12px rgba(108,60,225,0.5)',
+        'glow':    '0 0 30px rgba(108,60,225,0.4), 0 0 60px rgba(108,60,225,0.15)',
       },
       keyframes: {
         fadeUp: {
