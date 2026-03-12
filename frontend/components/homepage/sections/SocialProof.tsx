@@ -43,7 +43,7 @@ export default function SocialProof() {
     <section
       id="social-proof"
       ref={containerRef as React.RefObject<HTMLDivElement>}
-      className="relative py-24 lg:py-32 bg-vocera-card/30"
+      className="relative py-12 lg:py-16 bg-vocera-card/30"
       aria-labelledby="proof-heading"
     >
       <div aria-hidden="true" className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-vocera-purple/20 to-transparent" />

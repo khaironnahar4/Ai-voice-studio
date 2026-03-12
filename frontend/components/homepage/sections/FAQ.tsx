@@ -47,7 +47,7 @@ export default function FAQ() {
     <section
       id="faq"
       ref={containerRef as React.RefObject<HTMLDivElement>}
-      className="relative py-24 lg:py-32"
+      className="relative py-12 lg:py-16"
       aria-labelledby="faq-heading"
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

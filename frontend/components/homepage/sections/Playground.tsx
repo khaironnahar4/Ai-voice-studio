@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Play, Download, Share2, Pause, Mic, SlidersHorizontal } from 'lucide-react'
+import { Play, Download, Share2, Pause, Mic } from 'lucide-react'
 import { useScrollReveal } from '@/utils/useScrollReveal'
 
 const VOICES = [
@@ -72,12 +72,12 @@ export default function Playground() {
     <section
       id="playground"
       ref={containerRef as React.RefObject<HTMLDivElement>}
-      className="relative py-24 lg:py-32 bg-vocera-card/50"
+      className="relative py-12 lg:py-16 bg-vocera-card/50"
       aria-labelledby="playground-heading"
     >
       {/* Ambient glow */}
-      <div aria-hidden="true" className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-vocera-purple/30 to-transparent" />
-      <div aria-hidden="true" className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-vocera-purple/20 to-transparent" />
+      <div aria-hidden="true" className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-vocera-purple/30 to-transparent" />
+      <div aria-hidden="true" className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-vocera-purple/20 to-transparent" />
 
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}

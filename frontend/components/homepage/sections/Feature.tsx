@@ -66,7 +66,7 @@ export default function Features() {
     <section
       id="features"
       ref={containerRef as React.RefObject<HTMLDivElement>}
-      className="relative py-24 lg:py-32"
+      className="relative py-12 lg:py-16"
       aria-labelledby="features-heading"
     >
       {/* Section glow */}

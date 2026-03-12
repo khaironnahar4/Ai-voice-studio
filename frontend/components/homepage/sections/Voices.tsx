@@ -48,7 +48,7 @@ export default function Voices() {
 
   const filtered = activeFilter === 'All'
     ? VOICES
-    : VOICES.filter((v) => v.tags.includes(activeFilter as String))
+    : VOICES.filter((v) => v.tags.includes(activeFilter as string))
 
   const handlePlay = (id: VoiceId) => {
     if (playingId === id) {
@@ -63,7 +63,7 @@ export default function Voices() {
     <section
       id="voices"
       ref={containerRef as React.RefObject<HTMLDivElement>}
-      className="relative py-24 lg:py-32"
+      className="relative py-12 lg:py-16"
       aria-labelledby="voices-heading"
     >
       <div

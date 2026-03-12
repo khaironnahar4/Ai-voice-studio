@@ -33,7 +33,7 @@ export default function CTABanner() {
   return (
     <section
       id="cta-banner"
-      className="relative py-28 lg:py-40 overflow-hidden"
+      className="relative py-14 lg:py-20 overflow-hidden"
       aria-labelledby="cta-heading"
     >
       {/* Gradient background */}
