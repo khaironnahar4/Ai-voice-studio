@@ -46,7 +46,7 @@ const TABS = [
 type TabId = typeof TABS[number]['id']
 
 export default function UseCases() {
-  const containerRef = useScrollReveal('.reveal')
+  // const containerRef = useScrollReveal('.reveal')
   const [activeTab, setTab] = useState<TabId>('creators')
 
   const tab = TABS.find((t) => t.id === activeTab)!
@@ -54,21 +54,21 @@ export default function UseCases() {
   return (
     <section
       id="use-cases"
-      ref={containerRef as React.RefObject<HTMLDivElement>}
+      // ref={containerRef as React.RefObject<HTMLDivElement>}
       className="relative py-12 lg:py-16 bg-vocera-card/30"
       aria-labelledby="usecases-heading"
     >
-      <div aria-hidden="true" className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/6 to-transparent" />
+      <div  className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/6 to-transparent" />
 
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-12">
-          <span className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out inline-block text-xs font-bold uppercase tracking-widest text-vocera-violet mb-4">
+          <span className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out inline-block text-xs font-bold uppercase tracking-widest text-vocera-violet mb-4">
             Built for Everyone
           </span>
           <h2
             id="usecases-heading"
-            className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out font-display font-extrabold text-4xl sm:text-5xl text-white leading-tight"
+            className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out font-display font-extrabold text-4xl sm:text-5xl text-white leading-tight"
           >
             How Will You Use{' '}
             <span className="text-gradient">Vocera?</span>
@@ -77,7 +77,7 @@ export default function UseCases() {
 
         {/* Tab buttons */}
         <div
-          className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out flex flex-wrap justify-center gap-3 mb-12"
+          className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out flex flex-wrap justify-center gap-3 mb-12"
           role="tablist"
           aria-label="Use case categories"
         >
@@ -107,7 +107,7 @@ export default function UseCases() {
           id={`tabpanel-${activeTab}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeTab}`}
-          className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out"
+          className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out"
           key={activeTab}
         >
           <div className="glass-card rounded-3xl p-8 lg:p-12 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -150,7 +150,7 @@ export default function UseCases() {
             <div className="flex items-center justify-center">
               <div className="relative glass rounded-3xl p-10 text-center max-w-sm w-full border border-vocera-purple/20">
                 <div
-                  aria-hidden="true"
+                  
                   className="absolute inset-0 rounded-3xl bg-linear-to-br from-vocera-purple/15 to-transparent pointer-events-none"
                 />
                 <div className="font-display font-extrabold text-7xl lg:text-8xl text-gradient leading-none mb-3">
