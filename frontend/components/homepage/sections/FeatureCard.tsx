@@ -27,10 +27,10 @@ export default function FeatureCard({ feature }: { feature: Feature }) {
       className={[
         'reveal opacity-0 translate-y-2 transition-all duration-[1.2s] ease-out delay-500',
         'relative glass-card rounded-2xl p-6 overflow-hidden',
-        'hover:border-vocera-purple transition-all duration-700',
+        'hover:border-vocera-purple hover:glow-purple-sm transition-all duration-700',
         'group cursor-default',
         size === 'lg' ? 'md:col-span-2' : '',
-        accent ? 'border-vocera-purple/25 bg-gradient-card' : '',
+        accent ? 'border-vocera-purple/50 bg-vocera-card' : '',
       ].join(' ')}
     >
       {/* Background glow for accent card */}
@@ -44,7 +44,7 @@ export default function FeatureCard({ feature }: { feature: Feature }) {
       <div className={['flex gap-6', size === 'lg' ? 'flex-col sm:flex-row' : 'flex-col'].join(' ')}>
         {/* Icon & stat */}
         <div className="shrink-0">
-          <div className="w-12 h-12 rounded-xl bg-vocera-purple/15 flex items-center justify-center mb-4 group-hover:bg-vocera-purple/25 transition-colors duration-300">
+          <div className="w-12 h-12 rounded-xl bg-vocera-purple/15 flex items-center justify-center mb-4 group-hover:bg-vocera-purple/50 transition-colors duration-300">
             <Icon className="w-5 h-5 text-vocera-violet" strokeWidth={2} />
           </div>
           <span className="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest text-vocera-violet bg-vocera-purple/15 border border-vocera-purple/20">

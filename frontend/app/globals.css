@@ -35,6 +35,15 @@
   --color-brand-dark: #5429b8;
   --color-brand-muted: #ede9ff;
 
+   /*  ── Vocera palette ───────────────────  */
+  --color-vocera-bg: #0F0F1A;
+  --color-vocera-card: #16162A;
+  --color-vocera-card2: #1E1E3A;
+  --color-vocera-purple: #6C3CE1;
+  --color-vocera-violet: #9B6FF5;
+  --color-vocera-muted: #A0A0C8;
+  --color-vocera-subtle: #64648C;
+
   /* Semantic color aliases (light mode defaults — overridden in .dark) */
   --color-bg: #f5f4ff;
   --color-bg-alt: #edeaff;
@@ -99,6 +108,15 @@
   --radius-2xl: 1.5rem;
   --radius-3xl: 2rem;
   --radius-full: 9999px;
+
+  /* Animations  */
+  --animate-fadeUp: fadeUp 0.4s ease both;
+  --animate-pulse2: pulse2 2s ease-in-out infinite;
+  --animate-spin-fast: spin 0.7s linear infinite;
+  --animate-waveBar: waveBar 1s ease-in-out infinite;
+
+  /* Layout  */
+  --container-8xl: 1280px;
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -204,6 +222,8 @@
   --code-bg:          237 233 255;
   --code-text:        108 60 225;
   --code-border:      190 181 240;
+
+   
 }
 
 
