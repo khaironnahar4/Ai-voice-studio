@@ -23,11 +23,11 @@ type VoiceId = typeof VOICES[number]['id']
 
 function MiniWave({ playing }: { playing: boolean }) {
   return (
-    <div className="flex items-end gap-[2px] h-5" aria-hidden="true">
+    <div className="flex items-end gap-0.5 h-5" aria-hidden="true">
       {Array.from({ length: 8 }).map((_, i) => (
         <div
           key={i}
-          className="wave-bar w-[2px]"
+          className="wave-bar w-0.5"
           style={{
             height: `${30 + Math.abs(Math.sin(i * 1.1)) * 70}%`,
             animationDelay: `${(i * 0.08).toFixed(2)}s`,
@@ -68,7 +68,7 @@ export default function Voices() {
     >
       <div
         aria-hidden="true"
-        className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-vocera-violet/6 rounded-full blur-[120px] pointer-events-none"
+        className="absolute bottom-0 right-0 w-125 h-125 bg-vocera-violet/6 rounded-full blur-[120px] pointer-events-none"
       />
 
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -119,7 +119,7 @@ export default function Voices() {
                 className={[
                   'reveal opacity-0 translate-y-8 transition-all duration-700 ease-out',
                   'glass-card rounded-2xl p-5 flex items-center gap-4',
-                  'hover:-translate-y-1 hover:border-vocera-purple/30 transition-all duration-300 group',
+                  ' hover:border-vocera-purple/30 transition-all duration-300 group',
                 ].join(' ')}
                 style={{ transitionDelay: `${Math.min(i * 60, 300)}ms` }}
               >

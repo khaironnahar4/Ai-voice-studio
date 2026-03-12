@@ -87,7 +87,7 @@ export default function SocialProof() {
                 'reveal opacity-0 translate-y-8 transition-all duration-700 ease-out',
                 'glass-card rounded-2xl p-6 flex flex-col gap-4',
                 'border-l-2 border-l-vocera-purple',
-                'hover:-translate-y-1 hover:border-vocera-purple/40 transition-all duration-300',
+                'hover:border-vocera-purple/40 transition-all duration-300',
               ].join(' ')}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
