@@ -40,25 +40,25 @@ const FAQS = [
 ] as const
 
 export default function FAQ() {
-  const containerRef = useScrollReveal('.reveal')
+  // const containerRef = useScrollReveal('.reveal')
   const [openIndex, setOpen] = useState<number | null>(0)
 
   return (
     <section
       id="faq"
-      ref={containerRef as React.RefObject<HTMLDivElement>}
+      // ref={containerRef as React.RefObject<HTMLDivElement>}
       className="relative py-12 lg:py-16"
       aria-labelledby="faq-heading"
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-14">
-          <span className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out inline-block text-xs font-bold uppercase tracking-widest text-vocera-violet mb-4">
+          <span className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out inline-block text-xs font-bold uppercase tracking-widest text-vocera-violet mb-4">
             FAQ
           </span>
           <h2
             id="faq-heading"
-            className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out font-display font-extrabold text-4xl sm:text-5xl text-white leading-tight"
+            className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out font-display font-extrabold text-4xl sm:text-5xl text-white leading-tight"
           >
             Common Questions,{' '}
             <span className="text-gradient">Honest Answers</span>
@@ -73,7 +73,7 @@ export default function FAQ() {
               <div
                 key={q}
                 className={[
-                  'reveal opacity-0 translate-y-8 transition-all duration-700 ease-out',
+                  'reveala opacity-100 translate-y-8 transition-all duration-700 ease-out',
                   'glass-card rounded-2xl overflow-hidden',
                   isOpen ? 'border-vocera-purple/30' : '',
                 ].join(' ')}
@@ -113,7 +113,7 @@ export default function FAQ() {
                   aria-labelledby={`faq-question-${i}`}
                   className={[
                     'overflow-hidden transition-all duration-300 ease-out',
-                    isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+                    isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-100',
                   ].join(' ')}
                 >
                   <p className="px-6 pb-6 text-sm text-vocera-muted leading-relaxed">
@@ -126,7 +126,7 @@ export default function FAQ() {
         </dl>
 
         {/* Bottom CTA */}
-        <div className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out text-center mt-12">
+        <div className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out text-center mt-12">
           <p className="text-vocera-muted text-sm mb-4">Still have questions?</p>
           <a
             href="/contact"
