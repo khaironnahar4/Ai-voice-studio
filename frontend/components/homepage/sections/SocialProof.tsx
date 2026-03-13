@@ -117,7 +117,7 @@ export default function SocialProof() {
 
         {/* Logo marquee */}
         <div className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-vocera-subtle mb-8">
+          <p className="text-center mx-auto text-xs font-semibold uppercase tracking-widest text-vocera-subtle mb-8">
             Trusted by teams at
           </p>
           <div className="relative overflow-hidden">

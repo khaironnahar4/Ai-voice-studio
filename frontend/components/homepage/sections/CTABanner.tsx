@@ -85,7 +85,7 @@ export default function CTABanner() {
           </Link>
         </div>
 
-        <p className="mt-6 text-white/50 text-sm">
+        <p className="mt-6 text-white/50 text-sm mx-auto">
           Free forever · No credit card · 200+ AI voices ready to go
         </p>
       </div>

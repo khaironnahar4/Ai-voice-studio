@@ -126,8 +126,8 @@ export default function FAQ() {
         </dl>
 
         {/* Bottom CTA */}
-        <div className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out text-center mt-12">
-          <p className="text-vocera-muted text-sm mb-4">Still have questions?</p>
+        <div className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out text-center mx-auto mt-12">
+          <p className="text-vocera-muted text-sm mb-4 mx-auto">Still have questions?</p>
           <a
             href="/contact"
             className="inline-flex items-center gap-2 text-vocera-violet font-semibold text-sm hover:underline"

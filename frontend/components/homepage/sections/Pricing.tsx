@@ -214,7 +214,7 @@ export default function Pricing() {
         </div>
 
         {/* Footer note */}
-        <p className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out text-center text-xs text-vocera-subtle mt-8">
+        <p className="reveal opacity-0 translate-y-8 transition-all duration-700 ease-out text-center mx-auto text-xs text-vocera-subtle mt-8">
           All plans include a 14-day free trial on paid features. No credit card required to start.
         </p>
       </div>
