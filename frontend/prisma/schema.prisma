@@ -178,3 +178,26 @@ model ElVoiceSyncLog {
   @@index([status],    map: "idx_el_voice_sync_log_status")
   @@map("el_voice_sync_log")
 }
+
+
+// ============================================================
+// VOICE CATALOG
+// ============================================================
+
+/// Supported speech synthesis languages (BCP-47 codes).
+/// Seeded at migration; updated when new languages are added to EL.
+model Language {
+  id         Int      @id @default(autoincrement()) @db.SmallInt
+  code       String   @unique @db.VarChar(10)
+  name       String   @db.VarChar(100)
+  nativeName String?  @map("native_name") @db.VarChar(100)
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // ── Relations ──────────────────────────────
+  // voiceModels VoiceModel[]
+
+  @@index([code],     map: "idx_languages_code")
+  @@index([isActive], map: "idx_languages_is_active")
+  @@map("languages")
+}
