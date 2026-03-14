@@ -152,3 +152,29 @@ model ElUsageSync {
   @@index([syncedAt], map: "idx_el_usage_sync_synced_at")
   @@map("el_usage_sync")
 }
+
+
+/// Audit log for every voice library sync operation.
+model ElVoiceSyncLog {
+  id                String    @id @default(uuid()) @db.Uuid
+
+  /// full | incremental | single_voice
+  syncType          String    @map("sync_type") @db.VarChar(30)
+
+  /// running | completed | failed | partial
+  status            String    @db.VarChar(20)
+
+  voicesFetched     Int       @default(0) @map("voices_fetched")
+  voicesAdded       Int       @default(0) @map("voices_added")
+  voicesUpdated     Int       @default(0) @map("voices_updated")
+  voicesDeactivated Int       @default(0) @map("voices_deactivated")
+  pagesFetched      Int       @default(0) @map("pages_fetched") @db.SmallInt
+  durationMs        Int?      @map("duration_ms")
+  errorMessage      String?   @map("error_message") @db.Text
+  startedAt         DateTime  @default(now()) @map("started_at") @db.Timestamptz
+  completedAt       DateTime? @map("completed_at") @db.Timestamptz
+
+  @@index([startedAt], map: "idx_el_voice_sync_log_started_at")
+  @@index([status],    map: "idx_el_voice_sync_log_status")
+  @@map("el_voice_sync_log")
+}
