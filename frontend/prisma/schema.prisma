@@ -122,3 +122,33 @@ model ElSpeechModel {
   @@index([isActive],     map: "idx_el_speech_models_is_active")
   @@map("el_speech_models")
 }
+
+/// Periodic snapshots of ElevenLabs character usage.
+/// Synced hourly via GET /v1/user/subscription.
+/// Append-only — no updates, all rows kept for trend analysis.
+model ElUsageSync {
+  id                        BigInt    @id @default(autoincrement())
+  charactersUsed            BigInt    @map("characters_used")
+  characterLimit            BigInt    @map("character_limit")
+
+  /// character_limit - characters_used (computed before insert)
+  charactersRemaining       BigInt    @map("characters_remaining")
+
+  voiceLimit                Int?      @map("voice_limit")
+  professionalVoiceLimit    Int?      @map("professional_voice_limit")
+  canExtendCharacterLimit   Boolean   @default(false) @map("can_extend_character_limit")
+  canUseInstantVoiceCloning Boolean   @default(false) @map("can_use_instant_voice_cloning")
+
+  /// EL plan tier name: free, starter, creator, pro, enterprise
+  elPlanTier                String?   @map("el_plan_tier") @db.VarChar(50)
+
+  nextCharacterResetAt      DateTime? @map("next_character_reset_at") @db.Timestamptz
+
+  /// Full raw EL API response for debugging
+  rawResponse               Json?     @map("raw_response")
+
+  syncedAt                  DateTime  @default(now()) @map("synced_at") @db.Timestamptz
+
+  @@index([syncedAt], map: "idx_el_usage_sync_synced_at")
+  @@map("el_usage_sync")
+}
