@@ -80,3 +80,45 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+// ============================================================
+// ELEVENLABS — API SYNC TABLES
+// ============================================================
+
+/// Mirrors ElevenLabs model catalog.
+/// Synced daily via GET /v1/models.
+model ElSpeechModel {
+  id                      String    @id @default(uuid()) @db.Uuid
+
+  /// ElevenLabs model string: eleven_v3, eleven_flash_v2_5, eleven_multilingual_v2
+  elModelId               String    @unique @map("el_model_id") @db.VarChar(100)
+
+  name                    String    @db.VarChar(150)
+  description             String?   @db.Text
+  canDoTts                Boolean   @default(true) @map("can_do_tts")
+
+  /// ISO 639-1 language codes this model supports
+  supportedLanguages      String[]  @map("supported_languages") @db.Text
+
+  /// Character limit per single request: 5000 (v3), 10000 (v2), 40000 (flash)
+  maxCharactersPerRequest Int       @map("max_characters_per_request")
+
+  /// True for Flash models (~75ms latency)
+  isFlash                 Boolean   @default(false) @map("is_flash")
+
+  /// True for deprecated models (monolingual_v1, turbo_v2)
+  isDeprecated            Boolean   @default(false) @map("is_deprecated")
+  isActive                Boolean   @default(true) @map("is_active")
+
+  /// Relative cost factor from EL pricing
+  tokenCostFactor         Decimal?  @map("token_cost_factor") @db.Decimal(5, 4)
+
+  lastSyncedAt            DateTime  @default(now()) @map("last_synced_at") @db.Timestamptz
+  createdAt               DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt               DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+
+  @@index([elModelId],    map: "idx_el_speech_models_el_model_id")
+  @@index([isActive],     map: "idx_el_speech_models_is_active")
+  @@map("el_speech_models")
+}
