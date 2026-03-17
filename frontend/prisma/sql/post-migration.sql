@@ -17,7 +17,18 @@ CREATE TRIGGER trg_voice_models_updated_at
 CREATE TRIGGER trg_tts_requests_updated_at
   BEFORE UPDATE ON tts_requests
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
--- (repeat for: el_speech_models, subscriptions, plans, usage_analytics)
+CREATE TRIGGER trg_el_speech_models_updated_at
+  BEFORE UPDATE ON el_speech_models
+  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+CREATE TRIGGER trg_subscriptions_updated_at
+  BEFORE UPDATE ON subscriptions
+  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+CREATE TRIGGER trg_plans_updated_at
+  BEFORE UPDATE ON plans
+  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+CREATE TRIGGER trg_usage_analytics_updated_at
+  BEFORE UPDATE ON usage_analytics 
+  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 
 -- 2. One active subscription per user (partial unique index)
 CREATE UNIQUE INDEX uq_subscriptions_user_active
