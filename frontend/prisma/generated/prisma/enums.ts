@@ -9,7 +9,47 @@
 * 🟢 You can import this file directly.
 */
 
+export const RequestStatus = {
+  pending: 'pending',
+  queued: 'queued',
+  processing: 'processing',
+  completed: 'completed',
+  failed: 'failed',
+  cancelled: 'cancelled'
+} as const
+
+export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const JobStatus = {
+  waiting: 'waiting',
+  active: 'active',
+  completed: 'completed',
+  failed: 'failed',
+  delayed: 'delayed',
+  cancelled: 'cancelled'
+} as const
+
+export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus]
+
+
+export const SubscriptionStatus = {
+  active: 'active',
+  trialing: 'trialing',
+  past_due: 'past_due',
+  cancelled: 'cancelled',
+  expired: 'expired'
+} as const
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
+
+
+export const InvoiceStatus = {
+  draft: 'draft',
+  open: 'open',
+  paid: 'paid',
+  void: 'void',
+  uncollectible: 'uncollectible'
+} as const
+
+export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]

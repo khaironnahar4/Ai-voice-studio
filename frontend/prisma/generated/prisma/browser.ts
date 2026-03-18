@@ -37,3 +37,105 @@ export type Account = Prisma.AccountModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model ElSpeechModel
+ * Mirrors ElevenLabs model catalog.
+ * Synced daily via GET /v1/models.
+ */
+export type ElSpeechModel = Prisma.ElSpeechModelModel
+/**
+ * Model ElUsageSync
+ * Periodic snapshots of ElevenLabs character usage.
+ * Synced hourly via GET /v1/user/subscription.
+ * Append-only — no updates, all rows kept for trend analysis.
+ */
+export type ElUsageSync = Prisma.ElUsageSyncModel
+/**
+ * Model ElVoiceSyncLog
+ * Audit log for every voice library sync operation.
+ */
+export type ElVoiceSyncLog = Prisma.ElVoiceSyncLogModel
+/**
+ * Model Language
+ * Supported speech synthesis languages (BCP-47 codes).
+ * Seeded at migration; updated when new languages are added to EL.
+ */
+export type Language = Prisma.LanguageModel
+/**
+ * Model VoiceModel
+ * Voice personas available for TTS synthesis.
+ * Synced daily from ElevenLabs GET /v1/voices.
+ */
+export type VoiceModel = Prisma.VoiceModelModel
+/**
+ * Model TtsRequest
+ * Primary workload table. One row per user TTS submission.
+ * Should be range-partitioned by createdAt (monthly) at scale.
+ * NOTE: Add CHECK constraints via raw SQL after migration:
+ * CHECK (stability BETWEEN 0 AND 1)
+ * CHECK (similarity_boost BETWEEN 0 AND 1)
+ * CHECK (style BETWEEN 0 AND 1)
+ */
+export type TtsRequest = Prisma.TtsRequestModel
+/**
+ * Model AudioFile
+ * Metadata about generated audio files.
+ * Binary files live in S3/Cloudflare R2; this table tracks the reference.
+ */
+export type AudioFile = Prisma.AudioFileModel
+/**
+ * Model Job
+ * Background job tracking table.
+ * Complements pg-boss/BullMQ with a durable, queryable audit trail.
+ */
+export type Job = Prisma.JobModel
+/**
+ * Model RateLimitRule
+ * Throttling policy definitions per role or plan.
+ */
+export type RateLimitRule = Prisma.RateLimitRuleModel
+/**
+ * Model RateLimitEvent
+ * Rolling log of rate-limit window counters per user.
+ * Redis handles the hot-path counting; this table is the audit layer.
+ * Rows purged after 7 days by scheduled cleanup job.
+ */
+export type RateLimitEvent = Prisma.RateLimitEventModel
+/**
+ * Model Plan
+ * SaaS pricing tiers: Free, Pro, Business, Enterprise.
+ */
+export type Plan = Prisma.PlanModel
+/**
+ * Model Subscription
+ * User subscription to a plan.
+ * NOTE: Enforce one-active-per-user via raw SQL partial unique index:
+ * CREATE UNIQUE INDEX uq_subscriptions_user_active
+ * ON subscriptions (user_id)
+ * WHERE status IN ('active', 'trialing');
+ */
+export type Subscription = Prisma.SubscriptionModel
+/**
+ * Model Invoice
+ * One invoice per billing period per subscription.
+ */
+export type Invoice = Prisma.InvoiceModel
+/**
+ * Model InvoiceItem
+ * Line items within an invoice.
+ */
+export type InvoiceItem = Prisma.InvoiceItemModel
+/**
+ * Model UsageAnalytics
+ * Aggregated daily usage metrics per user.
+ * Written by a background summarizer that rolls up tts_requests data.
+ * Powers user dashboard and admin analytics.
+ */
+export type UsageAnalytics = Prisma.UsageAnalyticsModel
+/**
+ * Model RequestCache
+ * TTS result deduplication cache.
+ * cache_key = SHA-256(inputText + elVoiceId + elModelId + languageCode + outputFormat)
+ * Cache HIT = serve existing audio file, zero EL API cost.
+ */
+export type RequestCache = Prisma.RequestCacheModel

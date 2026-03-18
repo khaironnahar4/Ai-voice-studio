@@ -54,7 +54,23 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  ElSpeechModel: 'ElSpeechModel',
+  ElUsageSync: 'ElUsageSync',
+  ElVoiceSyncLog: 'ElVoiceSyncLog',
+  Language: 'Language',
+  VoiceModel: 'VoiceModel',
+  TtsRequest: 'TtsRequest',
+  AudioFile: 'AudioFile',
+  Job: 'Job',
+  RateLimitRule: 'RateLimitRule',
+  RateLimitEvent: 'RateLimitEvent',
+  Plan: 'Plan',
+  Subscription: 'Subscription',
+  Invoice: 'Invoice',
+  InvoiceItem: 'InvoiceItem',
+  UsageAnalytics: 'UsageAnalytics',
+  RequestCache: 'RequestCache'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -136,12 +152,358 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const ElSpeechModelScalarFieldEnum = {
+  id: 'id',
+  elModelId: 'elModelId',
+  name: 'name',
+  description: 'description',
+  canDoTts: 'canDoTts',
+  supportedLanguages: 'supportedLanguages',
+  maxCharactersPerRequest: 'maxCharactersPerRequest',
+  isFlash: 'isFlash',
+  isDeprecated: 'isDeprecated',
+  isActive: 'isActive',
+  tokenCostFactor: 'tokenCostFactor',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ElSpeechModelScalarFieldEnum = (typeof ElSpeechModelScalarFieldEnum)[keyof typeof ElSpeechModelScalarFieldEnum]
+
+
+export const ElUsageSyncScalarFieldEnum = {
+  id: 'id',
+  charactersUsed: 'charactersUsed',
+  characterLimit: 'characterLimit',
+  charactersRemaining: 'charactersRemaining',
+  voiceLimit: 'voiceLimit',
+  professionalVoiceLimit: 'professionalVoiceLimit',
+  canExtendCharacterLimit: 'canExtendCharacterLimit',
+  canUseInstantVoiceCloning: 'canUseInstantVoiceCloning',
+  elPlanTier: 'elPlanTier',
+  nextCharacterResetAt: 'nextCharacterResetAt',
+  rawResponse: 'rawResponse',
+  syncedAt: 'syncedAt'
+} as const
+
+export type ElUsageSyncScalarFieldEnum = (typeof ElUsageSyncScalarFieldEnum)[keyof typeof ElUsageSyncScalarFieldEnum]
+
+
+export const ElVoiceSyncLogScalarFieldEnum = {
+  id: 'id',
+  syncType: 'syncType',
+  status: 'status',
+  voicesFetched: 'voicesFetched',
+  voicesAdded: 'voicesAdded',
+  voicesUpdated: 'voicesUpdated',
+  voicesDeactivated: 'voicesDeactivated',
+  pagesFetched: 'pagesFetched',
+  durationMs: 'durationMs',
+  errorMessage: 'errorMessage',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type ElVoiceSyncLogScalarFieldEnum = (typeof ElVoiceSyncLogScalarFieldEnum)[keyof typeof ElVoiceSyncLogScalarFieldEnum]
+
+
+export const LanguageScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  nativeName: 'nativeName',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type LanguageScalarFieldEnum = (typeof LanguageScalarFieldEnum)[keyof typeof LanguageScalarFieldEnum]
+
+
+export const VoiceModelScalarFieldEnum = {
+  id: 'id',
+  languageId: 'languageId',
+  name: 'name',
+  slug: 'slug',
+  provider: 'provider',
+  providerVoiceId: 'providerVoiceId',
+  gender: 'gender',
+  accent: 'accent',
+  styleTags: 'styleTags',
+  sampleAudioUrl: 'sampleAudioUrl',
+  isPremium: 'isPremium',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  elVoiceId: 'elVoiceId',
+  elCategory: 'elCategory',
+  elLabels: 'elLabels',
+  elDescription: 'elDescription',
+  elPreviewUrl: 'elPreviewUrl',
+  elAvailableForTiers: 'elAvailableForTiers',
+  elVerifiedLanguages: 'elVerifiedLanguages',
+  elHighQualityModelIds: 'elHighQualityModelIds',
+  elFineTuningStatus: 'elFineTuningStatus',
+  elSafetyControl: 'elSafetyControl',
+  elSharingEnabled: 'elSharingEnabled',
+  elSpeechModelId: 'elSpeechModelId',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VoiceModelScalarFieldEnum = (typeof VoiceModelScalarFieldEnum)[keyof typeof VoiceModelScalarFieldEnum]
+
+
+export const TtsRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  voiceModelId: 'voiceModelId',
+  elSpeechModelId: 'elSpeechModelId',
+  inputText: 'inputText',
+  inputTextHash: 'inputTextHash',
+  charCount: 'charCount',
+  wordCount: 'wordCount',
+  status: 'status',
+  priority: 'priority',
+  outputFormat: 'outputFormat',
+  languageCode: 'languageCode',
+  stability: 'stability',
+  similarityBoost: 'similarityBoost',
+  style: 'style',
+  useSpeakerBoost: 'useSpeakerBoost',
+  seed: 'seed',
+  applyTextNormalization: 'applyTextNormalization',
+  servedFromCache: 'servedFromCache',
+  options: 'options',
+  errorMessage: 'errorMessage',
+  retryCount: 'retryCount',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TtsRequestScalarFieldEnum = (typeof TtsRequestScalarFieldEnum)[keyof typeof TtsRequestScalarFieldEnum]
+
+
+export const AudioFileScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  userId: 'userId',
+  storageBucket: 'storageBucket',
+  storageKey: 'storageKey',
+  fileName: 'fileName',
+  fileFormat: 'fileFormat',
+  fileSizeBytes: 'fileSizeBytes',
+  durationSeconds: 'durationSeconds',
+  sampleRateHz: 'sampleRateHz',
+  bitrateKbps: 'bitrateKbps',
+  cdnUrl: 'cdnUrl',
+  signedUrl: 'signedUrl',
+  signedUrlExpiresAt: 'signedUrlExpiresAt',
+  downloadCount: 'downloadCount',
+  isPublic: 'isPublic',
+  checksumMd5: 'checksumMd5',
+  elRequestId: 'elRequestId',
+  elCharacterCost: 'elCharacterCost',
+  elModelUsed: 'elModelUsed',
+  elVoiceIdUsed: 'elVoiceIdUsed',
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type AudioFileScalarFieldEnum = (typeof AudioFileScalarFieldEnum)[keyof typeof AudioFileScalarFieldEnum]
+
+
+export const JobScalarFieldEnum = {
+  id: 'id',
+  queueName: 'queueName',
+  jobType: 'jobType',
+  requestId: 'requestId',
+  userId: 'userId',
+  payload: 'payload',
+  status: 'status',
+  priority: 'priority',
+  attempts: 'attempts',
+  maxAttempts: 'maxAttempts',
+  workerId: 'workerId',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  scheduledFor: 'scheduledFor',
+  result: 'result',
+  error: 'error',
+  createdAt: 'createdAt'
+} as const
+
+export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobScalarFieldEnum]
+
+
+export const RateLimitRuleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  scope: 'scope',
+  scopeId: 'scopeId',
+  resource: 'resource',
+  maxRequests: 'maxRequests',
+  windowSeconds: 'windowSeconds',
+  burstAllowance: 'burstAllowance',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type RateLimitRuleScalarFieldEnum = (typeof RateLimitRuleScalarFieldEnum)[keyof typeof RateLimitRuleScalarFieldEnum]
+
+
+export const RateLimitEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ruleId: 'ruleId',
+  resource: 'resource',
+  requestCount: 'requestCount',
+  windowStart: 'windowStart',
+  windowEnd: 'windowEnd',
+  blockedAt: 'blockedAt',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt'
+} as const
+
+export type RateLimitEventScalarFieldEnum = (typeof RateLimitEventScalarFieldEnum)[keyof typeof RateLimitEventScalarFieldEnum]
+
+
+export const PlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  priceMonthly: 'priceMonthly',
+  priceYearly: 'priceYearly',
+  charLimitMonthly: 'charLimitMonthly',
+  requestLimitMonthly: 'requestLimitMonthly',
+  storageLimitMb: 'storageLimitMb',
+  maxFileDurationSec: 'maxFileDurationSec',
+  concurrentJobs: 'concurrentJobs',
+  hasPremiumVoices: 'hasPremiumVoices',
+  hasApiAccess: 'hasApiAccess',
+  features: 'features',
+  stripeMonthlyPriceId: 'stripeMonthlyPriceId',
+  stripeYearlyPriceId: 'stripeYearlyPriceId',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
+
+
+export const SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  planId: 'planId',
+  status: 'status',
+  billingCycle: 'billingCycle',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  trialEndsAt: 'trialEndsAt',
+  cancelledAt: 'cancelledAt',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  stripeCustomerId: 'stripeCustomerId',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+
+
+export const InvoiceScalarFieldEnum = {
+  id: 'id',
+  subscriptionId: 'subscriptionId',
+  userId: 'userId',
+  status: 'status',
+  amountCents: 'amountCents',
+  currency: 'currency',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  paidAt: 'paidAt',
+  stripeInvoiceId: 'stripeInvoiceId',
+  pdfUrl: 'pdfUrl',
+  createdAt: 'createdAt'
+} as const
+
+export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
+export const InvoiceItemScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  description: 'description',
+  quantity: 'quantity',
+  unitPriceCents: 'unitPriceCents',
+  totalCents: 'totalCents',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type InvoiceItemScalarFieldEnum = (typeof InvoiceItemScalarFieldEnum)[keyof typeof InvoiceItemScalarFieldEnum]
+
+
+export const UsageAnalyticsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  planId: 'planId',
+  requestCount: 'requestCount',
+  completedCount: 'completedCount',
+  failedCount: 'failedCount',
+  cachedCount: 'cachedCount',
+  totalChars: 'totalChars',
+  totalDurationSec: 'totalDurationSec',
+  totalFileSizeBytes: 'totalFileSizeBytes',
+  apiCalls: 'apiCalls',
+  rateLimitHits: 'rateLimitHits',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UsageAnalyticsScalarFieldEnum = (typeof UsageAnalyticsScalarFieldEnum)[keyof typeof UsageAnalyticsScalarFieldEnum]
+
+
+export const RequestCacheScalarFieldEnum = {
+  id: 'id',
+  cacheKey: 'cacheKey',
+  audioFileId: 'audioFileId',
+  voiceModelId: 'voiceModelId',
+  outputFormat: 'outputFormat',
+  charCount: 'charCount',
+  hitCount: 'hitCount',
+  lastHitAt: 'lastHitAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type RequestCacheScalarFieldEnum = (typeof RequestCacheScalarFieldEnum)[keyof typeof RequestCacheScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -158,4 +520,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
