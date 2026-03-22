@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "./generated/prisma"
@@ -13,9 +7,600 @@ datasource db {
   provider = "postgresql"
 }
 
-// ============================================================
-// ENUMS
-// ============================================================
+model User {
+  id              String           @id @default(uuid()) @db.Uuid
+  name            String
+  email           String           @unique
+  emailVerified   Boolean          @default(false)
+  image           String?
+  createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+  role            String?
+  banned          Boolean?
+  banReason       String?
+  banExpires      DateTime?
+  accounts        Account[]
+  audioFiles      AudioFile[]
+  invoices        Invoice[]
+  jobs            Job[]
+  rateLimitEvents RateLimitEvent[]
+  sessions        Session[]
+  subscriptions   Subscription[]
+  ttsRequests     TtsRequest[]
+  usageAnalytics  UsageAnalytics[]
+
+  @@map("user")
+}
+
+model Session {
+  id            String   @id @default(uuid()) @db.Uuid
+  expiresAt     DateTime
+  token         String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  ipAddress     String?
+  userAgent     String?
+  userId        String   @map("user_id") @db.Uuid
+  impersonateBy String?
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(uuid()) @db.Uuid
+  accountId             String
+  providerId            String
+  userId                String    @map("user_id") @db.Uuid
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(uuid()) @db.Uuid
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+/// Mirrors ElevenLabs model catalog.
+/// Synced daily via GET /v1/models.
+model ElSpeechModel {
+  id                      String       @id @default(uuid()) @db.Uuid
+  /// ElevenLabs model string: eleven_v3, eleven_flash_v2_5, eleven_multilingual_v2
+  elModelId               String       @unique @map("el_model_id") @db.VarChar(100)
+  name                    String       @db.VarChar(150)
+  description             String?
+  canDoTts                Boolean      @default(true) @map("can_do_tts")
+  /// ISO 639-1 language codes this model supports
+  supportedLanguages      String[]     @map("supported_languages")
+  /// Character limit per single request: 5000 (v3), 10000 (v2), 40000 (flash)
+  maxCharactersPerRequest Int          @map("max_characters_per_request")
+  /// True for Flash models (~75ms latency)
+  isFlash                 Boolean      @default(false) @map("is_flash")
+  /// True for deprecated models (monolingual_v1, turbo_v2)
+  isDeprecated            Boolean      @default(false) @map("is_deprecated")
+  isActive                Boolean      @default(true) @map("is_active")
+  /// Relative cost factor from EL pricing
+  tokenCostFactor         Decimal?     @map("token_cost_factor") @db.Decimal(5, 4)
+  lastSyncedAt            DateTime     @default(now()) @map("last_synced_at") @db.Timestamptz(6)
+  createdAt               DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime     @updatedAt @map("updated_at") @db.Timestamptz(6)
+  ttsRequests             TtsRequest[]
+  voiceModels             VoiceModel[]
+
+  @@index([elModelId], map: "idx_el_speech_models_el_model_id")
+  @@index([isActive], map: "idx_el_speech_models_is_active")
+  @@map("el_speech_models")
+}
+
+/// Periodic snapshots of ElevenLabs character usage.
+/// Synced hourly via GET /v1/user/subscription.
+/// Append-only — no updates, all rows kept for trend analysis.
+model ElUsageSync {
+  id                        BigInt    @id @default(autoincrement())
+  charactersUsed            BigInt    @map("characters_used")
+  characterLimit            BigInt    @map("character_limit")
+  /// character_limit - characters_used (computed before insert)
+  charactersRemaining       BigInt    @map("characters_remaining")
+  voiceLimit                Int?      @map("voice_limit")
+  professionalVoiceLimit    Int?      @map("professional_voice_limit")
+  canExtendCharacterLimit   Boolean   @default(false) @map("can_extend_character_limit")
+  canUseInstantVoiceCloning Boolean   @default(false) @map("can_use_instant_voice_cloning")
+  /// EL plan tier name: free, starter, creator, pro, enterprise
+  elPlanTier                String?   @map("el_plan_tier") @db.VarChar(50)
+  nextCharacterResetAt      DateTime? @map("next_character_reset_at") @db.Timestamptz(6)
+  /// Full raw EL API response for debugging
+  rawResponse               Json?     @map("raw_response")
+  syncedAt                  DateTime  @default(now()) @map("synced_at") @db.Timestamptz(6)
+
+  @@index([syncedAt], map: "idx_el_usage_sync_synced_at")
+  @@map("el_usage_sync")
+}
+
+/// Audit log for every voice library sync operation.
+model ElVoiceSyncLog {
+  id                String    @id @default(uuid()) @db.Uuid
+  /// full | incremental | single_voice
+  syncType          String    @map("sync_type") @db.VarChar(30)
+  /// running | completed | failed | partial
+  status            String    @db.VarChar(20)
+  voicesFetched     Int       @default(0) @map("voices_fetched")
+  voicesAdded       Int       @default(0) @map("voices_added")
+  voicesUpdated     Int       @default(0) @map("voices_updated")
+  voicesDeactivated Int       @default(0) @map("voices_deactivated")
+  pagesFetched      Int       @default(0) @map("pages_fetched") @db.SmallInt
+  durationMs        Int?      @map("duration_ms")
+  errorMessage      String?   @map("error_message")
+  startedAt         DateTime  @default(now()) @map("started_at") @db.Timestamptz(6)
+  completedAt       DateTime? @map("completed_at") @db.Timestamptz(6)
+
+  @@index([startedAt], map: "idx_el_voice_sync_log_started_at")
+  @@index([status], map: "idx_el_voice_sync_log_status")
+  @@map("el_voice_sync_log")
+}
+
+/// Supported speech synthesis languages (BCP-47 codes).
+/// Seeded at migration; updated when new languages are added to EL.
+model Language {
+  id          Int          @id @default(autoincrement()) @db.SmallInt
+  code        String       @unique @db.VarChar(10)
+  name        String       @db.VarChar(100)
+  nativeName  String?      @map("native_name") @db.VarChar(100)
+  isActive    Boolean      @default(true) @map("is_active")
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  voiceModels VoiceModel[]
+
+  @@index([code], map: "idx_languages_code")
+  @@index([isActive], map: "idx_languages_is_active")
+  @@map("languages")
+}
+
+/// Voice personas available for TTS synthesis.
+/// Synced daily from ElevenLabs GET /v1/voices.
+model VoiceModel {
+  id                    String         @id @default(uuid()) @db.Uuid
+  languageId            Int            @map("language_id") @db.SmallInt
+  name                  String         @db.VarChar(100)
+  slug                  String         @unique @db.VarChar(100)
+  /// Always "elevenlabs" for EL-synced voices
+  provider              String         @db.VarChar(50)
+  providerVoiceId       String         @map("provider_voice_id") @db.VarChar(255)
+  gender                String?        @db.VarChar(20)
+  accent                String?        @db.VarChar(50)
+  /// e.g. ["conversational", "news", "storytelling"]
+  styleTags             String[]       @map("style_tags")
+  sampleAudioUrl        String?        @map("sample_audio_url")
+  /// Restricted to paid plans
+  isPremium             Boolean        @default(false) @map("is_premium")
+  isActive              Boolean        @default(true) @map("is_active")
+  sortOrder             Int            @default(0) @map("sort_order") @db.SmallInt
+  /// EL voice_id — used in all API calls
+  elVoiceId             String         @unique @map("el_voice_id") @db.VarChar(255)
+  /// premade | cloned | generated | professional | community
+  elCategory            String         @map("el_category") @db.VarChar(30)
+  /// { "accent": "american", "description": "...", "age": "young", "gender": "female", "use_case": "narration" }
+  elLabels              Json?          @default("{}") @map("el_labels")
+  elDescription         String?        @map("el_description")
+  /// EL-hosted voice preview audio URL (embed directly — free)
+  elPreviewUrl          String?        @map("el_preview_url")
+  /// EL plan tiers this voice is available on: ["free", "starter", "creator", "pro"]
+  elAvailableForTiers   String[]       @map("el_available_for_tiers")
+  /// [{ "language_id": "en", "model_id": "eleven_v3" }, ...]
+  elVerifiedLanguages   Json?          @default("[]") @map("el_verified_languages")
+  /// EL base model IDs this voice supports at high quality
+  elHighQualityModelIds String[]       @map("el_high_quality_model_ids")
+  /// draft | not_started | fine_tuning | fine_tuned | failed
+  elFineTuningStatus    String?        @map("el_fine_tuning_status") @db.VarChar(30)
+  /// NONE | BAN | CAPTCHA | ENTERPRISE_BAN
+  elSafetyControl       String?        @map("el_safety_control") @db.VarChar(30)
+  elSharingEnabled      Boolean        @default(false) @map("el_sharing_enabled")
+  /// FK to primary EL speech model for this voice
+  elSpeechModelId       String?        @map("el_speech_model_id") @db.Uuid
+  lastSyncedAt          DateTime?      @map("last_synced_at") @db.Timestamptz(6)
+  createdAt             DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt             DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
+  requestCaches         RequestCache[]
+  ttsRequests           TtsRequest[]
+  elSpeechModel         ElSpeechModel? @relation(fields: [elSpeechModelId], references: [id])
+  language              Language       @relation(fields: [languageId], references: [id])
+
+  @@unique([provider, providerVoiceId], map: "uq_voice_models_provider_voice")
+  @@index([languageId], map: "idx_voice_models_language_id")
+  @@index([elVoiceId], map: "idx_voice_models_el_voice_id")
+  @@index([elCategory], map: "idx_voice_models_el_category")
+  @@index([isActive], map: "idx_voice_models_is_active")
+  @@index([elSpeechModelId], map: "idx_voice_models_el_speech_model_id")
+  @@map("voice_models")
+}
+
+/// Primary workload table. One row per user TTS submission.
+/// Should be range-partitioned by createdAt (monthly) at scale.
+/// NOTE: Add CHECK constraints via raw SQL after migration:
+/// CHECK (stability BETWEEN 0 AND 1)
+/// CHECK (similarity_boost BETWEEN 0 AND 1)
+/// CHECK (style BETWEEN 0 AND 1)
+model TtsRequest {
+  id                     String        @id @default(uuid()) @db.Uuid
+  userId                 String        @map("user_id") @db.Uuid
+  voiceModelId           String        @map("voice_model_id") @db.Uuid
+  elSpeechModelId        String        @map("el_speech_model_id") @db.Uuid
+  /// The submitted text to convert to speech
+  inputText              String        @map("input_text")
+  /// SHA-256(inputText + elVoiceId + elModelId + languageCode + outputFormat)
+  /// Used for cache lookups
+  inputTextHash          String        @map("input_text_hash") @db.VarChar(64)
+  /// Character count for billing/quota enforcement
+  charCount              Int           @map("char_count")
+  wordCount              Int?          @map("word_count")
+  status                 RequestStatus @default(pending)
+  /// Higher = processed sooner. Default 0 = normal.
+  priority               Int           @default(0) @db.SmallInt
+  /// mp3 | wav | ogg | flac | mp3_44100_128 (EL format strings)
+  outputFormat           String        @default("mp3_44100_128") @map("output_format") @db.VarChar(30)
+  /// ISO 639-1 code: en, fr, de, bn — enforced by EL model
+  languageCode           String?       @map("language_code") @db.VarChar(5)
+  /// 0.0–1.0. Low = expressive; High = consistent
+  stability              Decimal       @default(0.500) @db.Decimal(4, 3)
+  /// 0.0–1.0. How closely to match original voice
+  similarityBoost        Decimal       @default(0.750) @map("similarity_boost") @db.Decimal(4, 3)
+  /// 0.0–1.0. Speaking style exaggeration
+  style                  Decimal       @default(0.000) @db.Decimal(4, 3)
+  /// Boosts speaker clarity (adds slight latency)
+  useSpeakerBoost        Boolean       @default(true) @map("use_speaker_boost")
+  /// For deterministic generation. NULL = random each time.
+  seed                   Int?
+  /// auto | on | off — EL text normalization mode
+  applyTextNormalization String        @default("auto") @map("apply_text_normalization") @db.VarChar(4)
+  /// TRUE if this request was served from request_cache
+  servedFromCache        Boolean       @default(false) @map("served_from_cache")
+  /// Provider-specific override options (JSONB)
+  options                Json?         @default("{}")
+  errorMessage           String?       @map("error_message")
+  retryCount             Int           @default(0) @map("retry_count") @db.SmallInt
+  completedAt            DateTime?     @map("completed_at") @db.Timestamptz(6)
+  createdAt              DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt              DateTime      @updatedAt @map("updated_at") @db.Timestamptz(6)
+  audioFile              AudioFile?
+  jobs                   Job[]
+  elSpeechModel          ElSpeechModel @relation(fields: [elSpeechModelId], references: [id])
+  user                   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voiceModel             VoiceModel    @relation(fields: [voiceModelId], references: [id])
+
+  @@index([userId, status], map: "idx_tts_requests_user_status")
+  @@index([inputTextHash], map: "idx_tts_requests_input_text_hash")
+  @@index([status, createdAt], map: "idx_tts_requests_status_created_at")
+  @@index([userId, createdAt], map: "idx_tts_requests_user_created_at")
+  @@map("tts_requests")
+}
+
+/// Metadata about generated audio files.
+/// Binary files live in S3/Cloudflare R2; this table tracks the reference.
+model AudioFile {
+  id                 String         @id @default(uuid()) @db.Uuid
+  /// One audio file per TTS request
+  requestId          String         @unique @map("request_id") @db.Uuid
+  /// Denormalized for fast user library queries without JOIN
+  userId             String         @map("user_id") @db.Uuid
+  storageBucket      String         @map("storage_bucket") @db.VarChar(100)
+  /// Object path: audio/{userId}/{YYYY/MM}/{requestId}.mp3
+  storageKey         String         @map("storage_key")
+  fileName           String         @map("file_name") @db.VarChar(255)
+  /// mp3 | wav | ogg | flac
+  fileFormat         String         @map("file_format") @db.VarChar(10)
+  fileSizeBytes      BigInt         @map("file_size_bytes")
+  durationSeconds    Decimal?       @map("duration_seconds") @db.Decimal(8, 3)
+  sampleRateHz       Int?           @map("sample_rate_hz")
+  bitrateKbps        Int?           @map("bitrate_kbps") @db.SmallInt
+  /// CDN-fronted permanent URL (for public files)
+  cdnUrl             String?        @map("cdn_url")
+  /// Temporary pre-signed download URL (15-min TTL)
+  signedUrl          String?        @map("signed_url")
+  signedUrlExpiresAt DateTime?      @map("signed_url_expires_at") @db.Timestamptz(6)
+  downloadCount      Int            @default(0) @map("download_count")
+  isPublic           Boolean        @default(false) @map("is_public")
+  checksumMd5        String?        @map("checksum_md5") @db.VarChar(32)
+  /// xi-request-id header from EL response — critical for support tickets
+  elRequestId        String?        @map("el_request_id") @db.VarChar(100)
+  /// Actual characters billed by EL (may differ from tts_requests.charCount after normalization)
+  elCharacterCost    Int?           @map("el_character_cost")
+  /// Denormalized EL model string for audit queries without JOIN
+  elModelUsed        String?        @map("el_model_used") @db.VarChar(100)
+  /// Denormalized EL voice_id (protects history if voice_model row changes)
+  elVoiceIdUsed      String?        @map("el_voice_id_used") @db.VarChar(255)
+  createdAt          DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// Soft delete — S3 purge happens after 30 days via cleanup job
+  deletedAt          DateTime?      @map("deleted_at") @db.Timestamptz(6)
+  request            TtsRequest     @relation(fields: [requestId], references: [id])
+  user               User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  requestCaches      RequestCache[]
+
+  @@index([userId], map: "idx_audio_files_user_id")
+  @@index([storageKey], map: "idx_audio_files_storage_key")
+  @@index([signedUrlExpiresAt], map: "idx_audio_files_signed_url_expires_at")
+  @@index([elRequestId], map: "idx_audio_files_el_request_id")
+  @@index([deletedAt], map: "idx_audio_files_deleted_at")
+  @@map("audio_files")
+}
+
+/// Background job tracking table.
+/// Complements pg-boss/BullMQ with a durable, queryable audit trail.
+model Job {
+  id           String      @id @default(uuid()) @db.Uuid
+  /// Logical queue name: tts.generate | tts.export | email.send
+  queueName    String      @map("queue_name") @db.VarChar(100)
+  /// Semantic type: GENERATE_AUDIO | SEND_EMAIL | SYNC_VOICES | REFRESH_SIGNED_URLS
+  jobType      String      @map("job_type") @db.VarChar(100)
+  /// NULL for non-TTS jobs (email, sync, etc.)
+  requestId    String?     @map("request_id") @db.Uuid
+  userId       String?     @map("user_id") @db.Uuid
+  /// Input data passed to the worker
+  payload      Json        @default("{}")
+  status       JobStatus   @default(waiting)
+  /// Higher = processed first within the same queue
+  priority     Int         @default(0) @db.SmallInt
+  attempts     Int         @default(0) @db.SmallInt
+  maxAttempts  Int         @default(3) @map("max_attempts") @db.SmallInt
+  /// Identity of the worker process handling this job
+  workerId     String?     @map("worker_id") @db.VarChar(100)
+  startedAt    DateTime?   @map("started_at") @db.Timestamptz(6)
+  completedAt  DateTime?   @map("completed_at") @db.Timestamptz(6)
+  /// For deferred/delayed jobs
+  scheduledFor DateTime?   @map("scheduled_for") @db.Timestamptz(6)
+  /// Output from worker: { audioFileId: "...", durationMs: 1234 }
+  result       Json?
+  /// Error details: { message: "...", stack: "...", code: "..." }
+  error        Json?
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  request      TtsRequest? @relation(fields: [requestId], references: [id])
+  user         User?       @relation(fields: [userId], references: [id])
+
+  @@index([queueName, status, priority], map: "idx_jobs_queue_status_priority")
+  @@index([requestId], map: "idx_jobs_request_id")
+  @@index([userId], map: "idx_jobs_user_id")
+  @@index([scheduledFor], map: "idx_jobs_scheduled_for")
+  @@index([status, createdAt], map: "idx_jobs_status_created_at")
+  @@map("jobs")
+}
+
+/// Throttling policy definitions per role or plan.
+model RateLimitRule {
+  id              Int              @id @default(autoincrement()) @db.SmallInt
+  name            String           @db.VarChar(100)
+  /// user | role | plan | global
+  scope           String           @db.VarChar(50)
+  /// The specific role name or plan slug this rule applies to
+  scopeId         String?          @map("scope_id")
+  /// What is being limited: tts_request | api_call | audio_download
+  resource        String           @db.VarChar(100)
+  maxRequests     Int              @map("max_requests")
+  /// Window duration in seconds: 60 | 3600 | 86400
+  windowSeconds   Int              @map("window_seconds")
+  /// Extra requests allowed in a burst above maxRequests
+  burstAllowance  Int              @default(0) @map("burst_allowance") @db.SmallInt
+  isActive        Boolean          @default(true) @map("is_active")
+  createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  rateLimitEvents RateLimitEvent[]
+
+  @@index([scope, scopeId, resource], map: "idx_rate_limit_rules_scope")
+  @@map("rate_limit_rules")
+}
+
+/// Rolling log of rate-limit window counters per user.
+/// Redis handles the hot-path counting; this table is the audit layer.
+/// Rows purged after 7 days by scheduled cleanup job.
+model RateLimitEvent {
+  id           BigInt        @id @default(autoincrement())
+  userId       String        @map("user_id") @db.Uuid
+  ruleId       Int           @map("rule_id") @db.SmallInt
+  resource     String        @db.VarChar(100)
+  requestCount Int           @default(1) @map("request_count")
+  windowStart  DateTime      @map("window_start") @db.Timestamptz(6)
+  windowEnd    DateTime      @map("window_end") @db.Timestamptz(6)
+  /// Set when this event caused a 429 response
+  blockedAt    DateTime?     @map("blocked_at") @db.Timestamptz(6)
+  ipAddress    String?       @map("ip_address") @db.VarChar(45)
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  rule         RateLimitRule @relation(fields: [ruleId], references: [id])
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, ruleId, windowStart], map: "idx_rate_limit_events_user_rule_window")
+  @@index([blockedAt], map: "idx_rate_limit_events_blocked_at")
+  @@index([createdAt], map: "idx_rate_limit_events_created_at")
+  @@map("rate_limit_events")
+}
+
+/// SaaS pricing tiers: Free, Pro, Business, Enterprise.
+model Plan {
+  id                   String           @id @default(uuid()) @db.Uuid
+  name                 String           @db.VarChar(100)
+  slug                 String           @unique @db.VarChar(50)
+  description          String?
+  /// Monthly price in cents (USD). 0 = free.
+  priceMonthly         Int              @default(0) @map("price_monthly_cents")
+  /// Annual price in cents
+  priceYearly          Int              @default(0) @map("price_yearly_cents")
+  /// Monthly character quota. NULL = unlimited.
+  charLimitMonthly     BigInt?          @map("char_limit_monthly")
+  /// Monthly TTS request cap. NULL = unlimited.
+  requestLimitMonthly  Int?             @map("request_limit_monthly")
+  /// Audio storage quota in MB. NULL = unlimited.
+  storageLimitMb       Int?             @map("storage_limit_mb")
+  /// Max audio length per single request in seconds
+  maxFileDurationSec   Int?             @map("max_file_duration_sec")
+  /// Max parallel background jobs
+  concurrentJobs       Int              @default(1) @map("concurrent_jobs") @db.SmallInt
+  /// Access to isPremium voice models
+  hasPremiumVoices     Boolean          @default(false) @map("has_premium_voices")
+  /// Programmatic API access (for developer/enterprise plans)
+  hasApiAccess         Boolean          @default(false) @map("has_api_access")
+  /// Additional feature flags as JSON
+  features             Json?            @default("{}")
+  stripeMonthlyPriceId String?          @map("stripe_price_id_monthly") @db.VarChar(255)
+  stripeYearlyPriceId  String?          @map("stripe_price_id_yearly") @db.VarChar(255)
+  isActive             Boolean          @default(true) @map("is_active")
+  createdAt            DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+  subscriptions        Subscription[]
+  usageAnalytics       UsageAnalytics[]
+
+  @@index([slug], map: "idx_plans_slug")
+  @@index([isActive], map: "idx_plans_is_active")
+  @@map("plans")
+}
+
+/// User subscription to a plan.
+/// NOTE: Enforce one-active-per-user via raw SQL partial unique index:
+/// CREATE UNIQUE INDEX uq_subscriptions_user_active
+/// ON subscriptions (user_id)
+/// WHERE status IN ('active', 'trialing');
+model Subscription {
+  id                   String             @id @default(uuid()) @db.Uuid
+  userId               String             @map("user_id") @db.Uuid
+  planId               String             @map("plan_id") @db.Uuid
+  status               SubscriptionStatus @default(active)
+  /// monthly | yearly
+  billingCycle         String             @default("monthly") @map("billing_cycle") @db.VarChar(10)
+  currentPeriodStart   DateTime           @map("current_period_start") @db.Timestamptz(6)
+  currentPeriodEnd     DateTime           @map("current_period_end") @db.Timestamptz(6)
+  /// NULL = no trial period
+  trialEndsAt          DateTime?          @map("trial_ends_at") @db.Timestamptz(6)
+  cancelledAt          DateTime?          @map("cancelled_at") @db.Timestamptz(6)
+  stripeSubscriptionId String?            @map("stripe_subscription_id") @db.VarChar(255)
+  stripeCustomerId     String?            @map("stripe_customer_id") @db.VarChar(255)
+  metadata             Json?              @default("{}")
+  createdAt            DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime           @updatedAt @map("updated_at") @db.Timestamptz(6)
+  invoices             Invoice[]
+  plan                 Plan               @relation(fields: [planId], references: [id])
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_subscriptions_user_id")
+  @@index([status], map: "idx_subscriptions_status")
+  @@index([stripeSubscriptionId], map: "idx_subscriptions_stripe_id")
+  @@map("subscriptions")
+}
+
+/// One invoice per billing period per subscription.
+model Invoice {
+  id              String        @id @default(uuid()) @db.Uuid
+  subscriptionId  String        @map("subscription_id") @db.Uuid
+  /// Denormalized for fast user invoice listing
+  userId          String        @map("user_id") @db.Uuid
+  status          InvoiceStatus @default(draft)
+  /// Total amount in cents
+  amountCents     Int           @map("amount_cents")
+  /// ISO 4217: USD, EUR, etc.
+  currency        String        @default("USD") @db.Char(3)
+  periodStart     DateTime      @map("period_start") @db.Timestamptz(6)
+  periodEnd       DateTime      @map("period_end") @db.Timestamptz(6)
+  paidAt          DateTime?     @map("paid_at") @db.Timestamptz(6)
+  stripeInvoiceId String?       @map("stripe_invoice_id") @db.VarChar(255)
+  pdfUrl          String?       @map("pdf_url")
+  createdAt       DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  items           InvoiceItem[]
+  subscription    Subscription  @relation(fields: [subscriptionId], references: [id])
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "idx_invoices_user_id")
+  @@index([subscriptionId], map: "idx_invoices_subscription_id")
+  @@index([status], map: "idx_invoices_status")
+  @@map("invoices")
+}
+
+/// Line items within an invoice.
+model InvoiceItem {
+  id             String   @id @default(uuid()) @db.Uuid
+  invoiceId      String   @map("invoice_id") @db.Uuid
+  /// "Pro Plan — Monthly", "Character Overage (50k chars)"
+  description    String
+  quantity       Int      @default(1)
+  /// Price per unit in cents
+  unitPriceCents Int      @map("unit_price_cents")
+  /// quantity × unitPriceCents
+  totalCents     Int      @map("total_cents")
+  /// plan | overage | addon | credit | tax
+  type           String   @db.VarChar(50)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  invoice        Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId], map: "idx_invoice_items_invoice_id")
+  @@map("invoice_items")
+}
+
+/// Aggregated daily usage metrics per user.
+/// Written by a background summarizer that rolls up tts_requests data.
+/// Powers user dashboard and admin analytics.
+model UsageAnalytics {
+  id                 BigInt   @id @default(autoincrement())
+  userId             String   @map("user_id") @db.Uuid
+  date               DateTime @db.Date
+  /// Plan active on this date (for historical plan tracking)
+  planId             String?  @map("plan_id") @db.Uuid
+  requestCount       Int      @default(0) @map("request_count")
+  completedCount     Int      @default(0) @map("completed_count")
+  failedCount        Int      @default(0) @map("failed_count")
+  cachedCount        Int      @default(0) @map("cached_count")
+  totalChars         BigInt   @default(0) @map("total_chars")
+  totalDurationSec   Decimal  @default(0) @map("total_duration_sec") @db.Decimal(12, 3)
+  totalFileSizeBytes BigInt   @default(0) @map("total_file_size_bytes")
+  apiCalls           Int      @default(0) @map("api_calls")
+  rateLimitHits      Int      @default(0) @map("rate_limit_hits")
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  plan               Plan?    @relation(fields: [planId], references: [id])
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date], map: "uq_usage_analytics_user_date")
+  @@index([userId, date], map: "idx_usage_analytics_user_date")
+  @@index([date], map: "idx_usage_analytics_date")
+  @@map("usage_analytics")
+}
+
+/// TTS result deduplication cache.
+/// cache_key = SHA-256(inputText + elVoiceId + elModelId + languageCode + outputFormat)
+/// Cache HIT = serve existing audio file, zero EL API cost.
+model RequestCache {
+  id           String     @id @default(uuid()) @db.Uuid
+  /// SHA-256 of the canonical request parameters
+  cacheKey     String     @unique @map("cache_key") @db.VarChar(64)
+  /// The cached audio output
+  audioFileId  String     @map("audio_file_id") @db.Uuid
+  voiceModelId String     @map("voice_model_id") @db.Uuid
+  /// mp3 | wav | ogg | flac
+  outputFormat String     @map("output_format") @db.VarChar(10)
+  charCount    Int        @map("char_count")
+  /// Total number of times this cache entry was served
+  hitCount     Int        @default(0) @map("hit_count")
+  lastHitAt    DateTime?  @map("last_hit_at") @db.Timestamptz(6)
+  /// NULL = never expires; set for volatile content
+  expiresAt    DateTime?  @map("expires_at") @db.Timestamptz(6)
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  audioFile    AudioFile  @relation(fields: [audioFileId], references: [id])
+  voiceModel   VoiceModel @relation(fields: [voiceModelId], references: [id])
+
+  @@index([cacheKey], map: "idx_request_cache_cache_key")
+  @@index([expiresAt], map: "idx_request_cache_expires_at")
+  @@index([lastHitAt], map: "idx_request_cache_last_hit_at")
+  @@map("request_cache")
+}
 
 enum RequestStatus {
   pending
@@ -57,800 +642,4 @@ enum InvoiceStatus {
   uncollectible
 
   @@map("invoice_status")
-}
-
-// ============================================================
-// IDENTITY & AUTHENTICATION
-// ============================================================
-
-/// Central user account table. Supports password and OAuth auth.
-/// Soft-delete via deletedAt for GDPR compliance.
-
-model User {
-  id            String    @id @default(uuid()) @db.Uuid
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  role          String?
-  banned        Boolean?
-  banReason     String?
-  banExpires    DateTime?
-
-  // ── Relations ──────────────────────────────
-  ttsRequests     TtsRequest[]
-  audioFiles      AudioFile[]
-  subscriptions   Subscription[]
-  invoices        Invoice[]
-  usageAnalytics  UsageAnalytics[]
-  rateLimitEvents RateLimitEvent[]
-  jobs            Job[]
-
-  @@unique([email])
-  @@map("user")
-}
-
-model Session {
-  id            String   @id @default(uuid()) @db.Uuid
-  expiresAt     DateTime
-  token         String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  ipAddress     String?
-  userAgent     String?
-  userId        String @map("user_id") @db.Uuid
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  impersonateBy String?
-
-  @@unique([token])
-  @@index([userId])
-  @@map("session")
-}
-
-model Account {
-  id                    String    @id @default(uuid()) @db.Uuid
-  accountId             String
-  providerId            String
-  userId                String @map("user_id") @db.Uuid
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String?
-  password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-
-  @@index([userId])
-  @@map("account")
-}
-
-model Verification {
-  id         String   @id @default(uuid()) @db.Uuid
-  identifier String
-  value      String
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@index([identifier])
-  @@map("verification")
-}
-
-// ============================================================
-// ELEVENLABS — API SYNC TABLES
-// ============================================================
-
-/// Mirrors ElevenLabs model catalog.
-/// Synced daily via GET /v1/models.
-model ElSpeechModel {
-  id String @id @default(uuid()) @db.Uuid
-
-  /// ElevenLabs model string: eleven_v3, eleven_flash_v2_5, eleven_multilingual_v2
-  elModelId String @unique @map("el_model_id") @db.VarChar(100)
-
-  name        String  @db.VarChar(150)
-  description String? @db.Text
-  canDoTts    Boolean @default(true) @map("can_do_tts")
-
-  /// ISO 639-1 language codes this model supports
-  supportedLanguages String[] @map("supported_languages") @db.Text
-
-  /// Character limit per single request: 5000 (v3), 10000 (v2), 40000 (flash)
-  maxCharactersPerRequest Int @map("max_characters_per_request")
-
-  /// True for Flash models (~75ms latency)
-  isFlash Boolean @default(false) @map("is_flash")
-
-  /// True for deprecated models (monolingual_v1, turbo_v2)
-  isDeprecated Boolean @default(false) @map("is_deprecated")
-  isActive     Boolean @default(true) @map("is_active")
-
-  /// Relative cost factor from EL pricing
-  tokenCostFactor Decimal? @map("token_cost_factor") @db.Decimal(5, 4)
-
-  lastSyncedAt DateTime @default(now()) @map("last_synced_at") @db.Timestamptz
-  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  voiceModels VoiceModel[]
-  ttsRequests TtsRequest[]
-
-  @@index([elModelId], map: "idx_el_speech_models_el_model_id")
-  @@index([isActive], map: "idx_el_speech_models_is_active")
-  @@map("el_speech_models")
-}
-
-/// Periodic snapshots of ElevenLabs character usage.
-/// Synced hourly via GET /v1/user/subscription.
-/// Append-only — no updates, all rows kept for trend analysis.
-model ElUsageSync {
-  id             BigInt @id @default(autoincrement())
-  charactersUsed BigInt @map("characters_used")
-  characterLimit BigInt @map("character_limit")
-
-  /// character_limit - characters_used (computed before insert)
-  charactersRemaining BigInt @map("characters_remaining")
-
-  voiceLimit                Int?    @map("voice_limit")
-  professionalVoiceLimit    Int?    @map("professional_voice_limit")
-  canExtendCharacterLimit   Boolean @default(false) @map("can_extend_character_limit")
-  canUseInstantVoiceCloning Boolean @default(false) @map("can_use_instant_voice_cloning")
-
-  /// EL plan tier name: free, starter, creator, pro, enterprise
-  elPlanTier String? @map("el_plan_tier") @db.VarChar(50)
-
-  nextCharacterResetAt DateTime? @map("next_character_reset_at") @db.Timestamptz
-
-  /// Full raw EL API response for debugging
-  rawResponse Json? @map("raw_response")
-
-  syncedAt DateTime @default(now()) @map("synced_at") @db.Timestamptz
-
-  @@index([syncedAt], map: "idx_el_usage_sync_synced_at")
-  @@map("el_usage_sync")
-}
-
-/// Audit log for every voice library sync operation.
-model ElVoiceSyncLog {
-  id String @id @default(uuid()) @db.Uuid
-
-  /// full | incremental | single_voice
-  syncType String @map("sync_type") @db.VarChar(30)
-
-  /// running | completed | failed | partial
-  status String @db.VarChar(20)
-
-  voicesFetched     Int       @default(0) @map("voices_fetched")
-  voicesAdded       Int       @default(0) @map("voices_added")
-  voicesUpdated     Int       @default(0) @map("voices_updated")
-  voicesDeactivated Int       @default(0) @map("voices_deactivated")
-  pagesFetched      Int       @default(0) @map("pages_fetched") @db.SmallInt
-  durationMs        Int?      @map("duration_ms")
-  errorMessage      String?   @map("error_message") @db.Text
-  startedAt         DateTime  @default(now()) @map("started_at") @db.Timestamptz
-  completedAt       DateTime? @map("completed_at") @db.Timestamptz
-
-  @@index([startedAt], map: "idx_el_voice_sync_log_started_at")
-  @@index([status], map: "idx_el_voice_sync_log_status")
-  @@map("el_voice_sync_log")
-}
-
-// ============================================================
-// VOICE CATALOG
-// ============================================================
-
-/// Supported speech synthesis languages (BCP-47 codes).
-/// Seeded at migration; updated when new languages are added to EL.
-model Language {
-  id         Int      @id @default(autoincrement()) @db.SmallInt
-  code       String   @unique @db.VarChar(10)
-  name       String   @db.VarChar(100)
-  nativeName String?  @map("native_name") @db.VarChar(100)
-  isActive   Boolean  @default(true) @map("is_active")
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  voiceModels VoiceModel[]
-
-  @@index([code], map: "idx_languages_code")
-  @@index([isActive], map: "idx_languages_is_active")
-  @@map("languages")
-}
-
-/// Voice personas available for TTS synthesis.
-/// Synced daily from ElevenLabs GET /v1/voices.
-model VoiceModel {
-  id         String @id @default(uuid()) @db.Uuid
-  languageId Int    @map("language_id") @db.SmallInt
-  name       String @db.VarChar(100)
-  slug       String @unique @db.VarChar(100)
-
-  /// Always "elevenlabs" for EL-synced voices
-  provider        String @db.VarChar(50)
-  providerVoiceId String @map("provider_voice_id") @db.VarChar(255)
-
-  gender String? @db.VarChar(20)
-  accent String? @db.VarChar(50)
-
-  /// e.g. ["conversational", "news", "storytelling"]
-  styleTags String[] @map("style_tags") @db.Text
-
-  sampleAudioUrl String? @map("sample_audio_url") @db.Text
-
-  /// Restricted to paid plans
-  isPremium Boolean @default(false) @map("is_premium")
-  isActive  Boolean @default(true) @map("is_active")
-  sortOrder Int     @default(0) @map("sort_order") @db.SmallInt
-
-  // ── ElevenLabs Specific Fields ─────────────
-
-  /// EL voice_id — used in all API calls
-  elVoiceId String @unique @map("el_voice_id") @db.VarChar(255)
-
-  /// premade | cloned | generated | professional | community
-  elCategory String @map("el_category") @db.VarChar(30)
-
-  /// { "accent": "american", "description": "...", "age": "young", "gender": "female", "use_case": "narration" }
-  elLabels Json? @default("{}") @map("el_labels")
-
-  elDescription String? @map("el_description") @db.Text
-
-  /// EL-hosted voice preview audio URL (embed directly — free)
-  elPreviewUrl String? @map("el_preview_url") @db.Text
-
-  /// EL plan tiers this voice is available on: ["free", "starter", "creator", "pro"]
-  elAvailableForTiers String[] @map("el_available_for_tiers") @db.Text
-
-  /// [{ "language_id": "en", "model_id": "eleven_v3" }, ...]
-  elVerifiedLanguages Json? @default("[]") @map("el_verified_languages")
-
-  /// EL base model IDs this voice supports at high quality
-  elHighQualityModelIds String[] @map("el_high_quality_model_ids") @db.Text
-
-  /// draft | not_started | fine_tuning | fine_tuned | failed
-  elFineTuningStatus String? @map("el_fine_tuning_status") @db.VarChar(30)
-
-  /// NONE | BAN | CAPTCHA | ENTERPRISE_BAN
-  elSafetyControl String? @map("el_safety_control") @db.VarChar(30)
-
-  elSharingEnabled Boolean @default(false) @map("el_sharing_enabled")
-
-  /// FK to primary EL speech model for this voice
-  elSpeechModelId String? @map("el_speech_model_id") @db.Uuid
-
-  lastSyncedAt DateTime? @map("last_synced_at") @db.Timestamptz
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  language      Language       @relation(fields: [languageId], references: [id], onDelete: Restrict)
-  elSpeechModel ElSpeechModel? @relation(fields: [elSpeechModelId], references: [id], onDelete: SetNull)
-  ttsRequests   TtsRequest[]
-  requestCaches RequestCache[]
-
-  @@unique([provider, providerVoiceId], map: "uq_voice_models_provider_voice")
-  @@index([languageId], map: "idx_voice_models_language_id")
-  @@index([elVoiceId], map: "idx_voice_models_el_voice_id")
-  @@index([elCategory], map: "idx_voice_models_el_category")
-  @@index([isActive], map: "idx_voice_models_is_active")
-  @@index([elSpeechModelId], map: "idx_voice_models_el_speech_model_id")
-  @@map("voice_models")
-}
-
-// ============================================================
-// TTS ENGINE
-// ============================================================
-
-/// Primary workload table. One row per user TTS submission.
-/// Should be range-partitioned by createdAt (monthly) at scale.
-/// NOTE: Add CHECK constraints via raw SQL after migration:
-///   CHECK (stability BETWEEN 0 AND 1)
-///   CHECK (similarity_boost BETWEEN 0 AND 1)
-///   CHECK (style BETWEEN 0 AND 1)
-model TtsRequest {
-  id              String @id @default(uuid()) @db.Uuid
-  userId          String @map("user_id") @db.Uuid
-  voiceModelId    String @map("voice_model_id") @db.Uuid
-  elSpeechModelId String @map("el_speech_model_id") @db.Uuid
-
-  /// The submitted text to convert to speech
-  inputText String @map("input_text") @db.Text
-
-  /// SHA-256(inputText + elVoiceId + elModelId + languageCode + outputFormat)
-  /// Used for cache lookups
-  inputTextHash String @map("input_text_hash") @db.VarChar(64)
-
-  /// Character count for billing/quota enforcement
-  charCount Int  @map("char_count")
-  wordCount Int? @map("word_count")
-
-  status RequestStatus @default(pending)
-
-  /// Higher = processed sooner. Default 0 = normal.
-  priority Int @default(0) @db.SmallInt
-
-  /// mp3 | wav | ogg | flac | mp3_44100_128 (EL format strings)
-  outputFormat String @default("mp3_44100_128") @map("output_format") @db.VarChar(30)
-
-  // ── ElevenLabs Voice Settings ───────────────
-  /// ISO 639-1 code: en, fr, de, bn — enforced by EL model
-  languageCode String? @map("language_code") @db.VarChar(5)
-
-  /// 0.0–1.0. Low = expressive; High = consistent
-  stability Decimal @default(0.500) @db.Decimal(4, 3)
-
-  /// 0.0–1.0. How closely to match original voice
-  similarityBoost Decimal @default(0.750) @map("similarity_boost") @db.Decimal(4, 3)
-
-  /// 0.0–1.0. Speaking style exaggeration
-  style Decimal @default(0.000) @db.Decimal(4, 3)
-
-  /// Boosts speaker clarity (adds slight latency)
-  useSpeakerBoost Boolean @default(true) @map("use_speaker_boost")
-
-  /// For deterministic generation. NULL = random each time.
-  seed Int?
-
-  /// auto | on | off — EL text normalization mode
-  applyTextNormalization String @default("auto") @map("apply_text_normalization") @db.VarChar(4)
-  // ────────────────────────────────────────────
-
-  /// TRUE if this request was served from request_cache
-  servedFromCache Boolean @default(false) @map("served_from_cache")
-
-  /// Provider-specific override options (JSONB)
-  options Json? @default("{}")
-
-  errorMessage String?   @map("error_message") @db.Text
-  retryCount   Int       @default(0) @map("retry_count") @db.SmallInt
-  completedAt  DateTime? @map("completed_at") @db.Timestamptz
-  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  voiceModel    VoiceModel    @relation(fields: [voiceModelId], references: [id], onDelete: Restrict)
-  elSpeechModel ElSpeechModel @relation(fields: [elSpeechModelId], references: [id], onDelete: Restrict)
-  audioFile     AudioFile?
-  jobs          Job[]
-
-  @@index([userId, status], map: "idx_tts_requests_user_status")
-  @@index([inputTextHash], map: "idx_tts_requests_input_text_hash")
-  @@index([status, createdAt], map: "idx_tts_requests_status_created_at")
-  @@index([userId, createdAt], map: "idx_tts_requests_user_created_at")
-  @@map("tts_requests")
-}
-
-/// Metadata about generated audio files.
-/// Binary files live in S3/Cloudflare R2; this table tracks the reference.
-model AudioFile {
-  id String @id @default(uuid()) @db.Uuid
-
-  /// One audio file per TTS request
-  requestId String @unique @map("request_id") @db.Uuid
-
-  /// Denormalized for fast user library queries without JOIN
-  userId String @map("user_id") @db.Uuid
-
-  storageBucket String @map("storage_bucket") @db.VarChar(100)
-
-  /// Object path: audio/{userId}/{YYYY/MM}/{requestId}.mp3
-  storageKey String @map("storage_key") @db.Text
-
-  fileName String @map("file_name") @db.VarChar(255)
-
-  /// mp3 | wav | ogg | flac
-  fileFormat String @map("file_format") @db.VarChar(10)
-
-  fileSizeBytes   BigInt   @map("file_size_bytes")
-  durationSeconds Decimal? @map("duration_seconds") @db.Decimal(8, 3)
-  sampleRateHz    Int?     @map("sample_rate_hz")
-  bitrateKbps     Int?     @map("bitrate_kbps") @db.SmallInt
-
-  /// CDN-fronted permanent URL (for public files)
-  cdnUrl String? @map("cdn_url") @db.Text
-
-  /// Temporary pre-signed download URL (15-min TTL)
-  signedUrl          String?   @map("signed_url") @db.Text
-  signedUrlExpiresAt DateTime? @map("signed_url_expires_at") @db.Timestamptz
-
-  downloadCount Int     @default(0) @map("download_count")
-  isPublic      Boolean @default(false) @map("is_public")
-  checksumMd5   String? @map("checksum_md5") @db.VarChar(32)
-
-  // ── ElevenLabs Response Data ─────────────
-  /// xi-request-id header from EL response — critical for support tickets
-  elRequestId String? @map("el_request_id") @db.VarChar(100)
-
-  /// Actual characters billed by EL (may differ from tts_requests.charCount after normalization)
-  elCharacterCost Int? @map("el_character_cost")
-
-  /// Denormalized EL model string for audit queries without JOIN
-  elModelUsed String? @map("el_model_used") @db.VarChar(100)
-
-  /// Denormalized EL voice_id (protects history if voice_model row changes)
-  elVoiceIdUsed String? @map("el_voice_id_used") @db.VarChar(255)
-  // ─────────────────────────────────────────
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-
-  /// Soft delete — S3 purge happens after 30 days via cleanup job
-  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  request       TtsRequest     @relation(fields: [requestId], references: [id], onDelete: Restrict)
-  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  requestCaches RequestCache[]
-
-  @@index([userId], map: "idx_audio_files_user_id")
-  @@index([storageKey], map: "idx_audio_files_storage_key")
-  @@index([signedUrlExpiresAt], map: "idx_audio_files_signed_url_expires_at")
-  @@index([elRequestId], map: "idx_audio_files_el_request_id")
-  @@index([deletedAt], map: "idx_audio_files_deleted_at")
-  @@map("audio_files")
-}
-
-// ============================================================
-// JOB QUEUE
-// ============================================================
-
-/// Background job tracking table.
-/// Complements pg-boss/BullMQ with a durable, queryable audit trail.
-model Job {
-  id String @id @default(uuid()) @db.Uuid
-
-  /// Logical queue name: tts.generate | tts.export | email.send
-  queueName String @map("queue_name") @db.VarChar(100)
-
-  /// Semantic type: GENERATE_AUDIO | SEND_EMAIL | SYNC_VOICES | REFRESH_SIGNED_URLS
-  jobType String @map("job_type") @db.VarChar(100)
-
-  /// NULL for non-TTS jobs (email, sync, etc.)
-  requestId String? @map("request_id") @db.Uuid
-
-  userId String? @map("user_id") @db.Uuid
-
-  /// Input data passed to the worker
-  payload Json @default("{}")
-
-  status JobStatus @default(waiting)
-
-  /// Higher = processed first within the same queue
-  priority Int @default(0) @db.SmallInt
-
-  attempts    Int @default(0) @db.SmallInt
-  maxAttempts Int @default(3) @map("max_attempts") @db.SmallInt
-
-  /// Identity of the worker process handling this job
-  workerId String? @map("worker_id") @db.VarChar(100)
-
-  startedAt   DateTime? @map("started_at") @db.Timestamptz
-  completedAt DateTime? @map("completed_at") @db.Timestamptz
-
-  /// For deferred/delayed jobs
-  scheduledFor DateTime? @map("scheduled_for") @db.Timestamptz
-
-  /// Output from worker: { audioFileId: "...", durationMs: 1234 }
-  result Json?
-
-  /// Error details: { message: "...", stack: "...", code: "..." }
-  error Json?
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  request TtsRequest? @relation(fields: [requestId], references: [id], onDelete: SetNull)
-  user    User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
-
-  @@index([queueName, status, priority], map: "idx_jobs_queue_status_priority")
-  @@index([requestId], map: "idx_jobs_request_id")
-  @@index([userId], map: "idx_jobs_user_id")
-  @@index([scheduledFor], map: "idx_jobs_scheduled_for")
-  @@index([status, createdAt], map: "idx_jobs_status_created_at")
-  @@map("jobs")
-}
-
-// ============================================================
-// RATE LIMITING
-// ============================================================
-
-/// Throttling policy definitions per role or plan.
-model RateLimitRule {
-  id   Int    @id @default(autoincrement()) @db.SmallInt
-  name String @db.VarChar(100)
-
-  /// user | role | plan | global
-  scope String @db.VarChar(50)
-
-  /// The specific role name or plan slug this rule applies to
-  scopeId String? @map("scope_id") @db.Text
-
-  /// What is being limited: tts_request | api_call | audio_download
-  resource String @db.VarChar(100)
-
-  maxRequests Int @map("max_requests")
-
-  /// Window duration in seconds: 60 | 3600 | 86400
-  windowSeconds Int @map("window_seconds")
-
-  /// Extra requests allowed in a burst above maxRequests
-  burstAllowance Int @default(0) @map("burst_allowance") @db.SmallInt
-
-  isActive  Boolean  @default(true) @map("is_active")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  rateLimitEvents RateLimitEvent[]
-
-  @@index([scope, scopeId, resource], map: "idx_rate_limit_rules_scope")
-  @@map("rate_limit_rules")
-}
-
-/// Rolling log of rate-limit window counters per user.
-/// Redis handles the hot-path counting; this table is the audit layer.
-/// Rows purged after 7 days by scheduled cleanup job.
-model RateLimitEvent {
-  id           BigInt   @id @default(autoincrement())
-  userId       String   @map("user_id") @db.Uuid
-  ruleId       Int      @map("rule_id") @db.SmallInt
-  resource     String   @db.VarChar(100)
-  requestCount Int      @default(1) @map("request_count")
-  windowStart  DateTime @map("window_start") @db.Timestamptz
-  windowEnd    DateTime @map("window_end") @db.Timestamptz
-
-  /// Set when this event caused a 429 response
-  blockedAt DateTime? @map("blocked_at") @db.Timestamptz
-  ipAddress String?   @map("ip_address") @db.VarChar(45)
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  rule RateLimitRule @relation(fields: [ruleId], references: [id], onDelete: Restrict)
-
-  @@index([userId, ruleId, windowStart], map: "idx_rate_limit_events_user_rule_window")
-  @@index([blockedAt], map: "idx_rate_limit_events_blocked_at")
-  @@index([createdAt], map: "idx_rate_limit_events_created_at")
-  @@map("rate_limit_events")
-}
-
-// ============================================================
-// BILLING
-// ============================================================
-
-/// SaaS pricing tiers: Free, Pro, Business, Enterprise.
-model Plan {
-  id          String  @id @default(uuid()) @db.Uuid
-  name        String  @db.VarChar(100)
-  slug        String  @unique @db.VarChar(50)
-  description String? @db.Text
-
-  /// Monthly price in cents (USD). 0 = free.
-  priceMonthly Int @default(0) @map("price_monthly_cents")
-
-  /// Annual price in cents
-  priceYearly Int @default(0) @map("price_yearly_cents")
-
-  /// Monthly character quota. NULL = unlimited.
-  charLimitMonthly BigInt? @map("char_limit_monthly")
-
-  /// Monthly TTS request cap. NULL = unlimited.
-  requestLimitMonthly Int? @map("request_limit_monthly")
-
-  /// Audio storage quota in MB. NULL = unlimited.
-  storageLimitMb Int? @map("storage_limit_mb")
-
-  /// Max audio length per single request in seconds
-  maxFileDurationSec Int? @map("max_file_duration_sec")
-
-  /// Max parallel background jobs
-  concurrentJobs Int @default(1) @map("concurrent_jobs") @db.SmallInt
-
-  /// Access to isPremium voice models
-  hasPremiumVoices Boolean @default(false) @map("has_premium_voices")
-
-  /// Programmatic API access (for developer/enterprise plans)
-  hasApiAccess Boolean @default(false) @map("has_api_access")
-
-  /// Additional feature flags as JSON
-  features Json? @default("{}")
-
-  stripeMonthlyPriceId String? @map("stripe_price_id_monthly") @db.VarChar(255)
-  stripeYearlyPriceId  String? @map("stripe_price_id_yearly") @db.VarChar(255)
-
-  isActive  Boolean  @default(true) @map("is_active")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  subscriptions  Subscription[]
-  usageAnalytics UsageAnalytics[]
-
-  @@index([slug], map: "idx_plans_slug")
-  @@index([isActive], map: "idx_plans_is_active")
-  @@map("plans")
-}
-
-/// User subscription to a plan.
-/// NOTE: Enforce one-active-per-user via raw SQL partial unique index:
-///   CREATE UNIQUE INDEX uq_subscriptions_user_active
-///   ON subscriptions (user_id)
-///   WHERE status IN ('active', 'trialing');
-model Subscription {
-  id     String             @id @default(uuid()) @db.Uuid
-  userId String             @map("user_id") @db.Uuid
-  planId String             @map("plan_id") @db.Uuid
-  status SubscriptionStatus @default(active)
-
-  /// monthly | yearly
-  billingCycle String @default("monthly") @map("billing_cycle") @db.VarChar(10)
-
-  currentPeriodStart DateTime @map("current_period_start") @db.Timestamptz
-  currentPeriodEnd   DateTime @map("current_period_end") @db.Timestamptz
-
-  /// NULL = no trial period
-  trialEndsAt DateTime? @map("trial_ends_at") @db.Timestamptz
-
-  cancelledAt          DateTime? @map("cancelled_at") @db.Timestamptz
-  stripeSubscriptionId String?   @map("stripe_subscription_id") @db.VarChar(255)
-  stripeCustomerId     String?   @map("stripe_customer_id") @db.VarChar(255)
-  metadata             Json?     @default("{}")
-  createdAt            DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt            DateTime  @updatedAt @map("updated_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan     Plan      @relation(fields: [planId], references: [id], onDelete: Restrict)
-  invoices Invoice[]
-
-  @@index([userId], map: "idx_subscriptions_user_id")
-  @@index([status], map: "idx_subscriptions_status")
-  @@index([stripeSubscriptionId], map: "idx_subscriptions_stripe_id")
-  @@map("subscriptions")
-}
-
-/// One invoice per billing period per subscription.
-model Invoice {
-  id             String @id @default(uuid()) @db.Uuid
-  subscriptionId String @map("subscription_id") @db.Uuid
-
-  /// Denormalized for fast user invoice listing
-  userId String @map("user_id") @db.Uuid
-
-  status InvoiceStatus @default(draft)
-
-  /// Total amount in cents
-  amountCents Int @map("amount_cents")
-
-  /// ISO 4217: USD, EUR, etc.
-  currency String @default("USD") @db.Char(3)
-
-  periodStart     DateTime  @map("period_start") @db.Timestamptz
-  periodEnd       DateTime  @map("period_end") @db.Timestamptz
-  paidAt          DateTime? @map("paid_at") @db.Timestamptz
-  stripeInvoiceId String?   @map("stripe_invoice_id") @db.VarChar(255)
-  pdfUrl          String?   @map("pdf_url") @db.Text
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  subscription Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items        InvoiceItem[]
-
-  @@index([userId], map: "idx_invoices_user_id")
-  @@index([subscriptionId], map: "idx_invoices_subscription_id")
-  @@index([status], map: "idx_invoices_status")
-  @@map("invoices")
-}
-
-/// Line items within an invoice.
-model InvoiceItem {
-  id        String @id @default(uuid()) @db.Uuid
-  invoiceId String @map("invoice_id") @db.Uuid
-
-  /// "Pro Plan — Monthly", "Character Overage (50k chars)"
-  description String @db.Text
-
-  quantity Int @default(1)
-
-  /// Price per unit in cents
-  unitPriceCents Int @map("unit_price_cents")
-
-  /// quantity × unitPriceCents
-  totalCents Int @map("total_cents")
-
-  /// plan | overage | addon | credit | tax
-  type String @db.VarChar(50)
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-
-  @@index([invoiceId], map: "idx_invoice_items_invoice_id")
-  @@map("invoice_items")
-}
-
-// ============================================================
-// ANALYTICS & REQUEST CACHE
-// ============================================================
-
-/// Aggregated daily usage metrics per user.
-/// Written by a background summarizer that rolls up tts_requests data.
-/// Powers user dashboard and admin analytics.
-model UsageAnalytics {
-  id     BigInt   @id @default(autoincrement())
-  userId String   @map("user_id") @db.Uuid
-  date   DateTime @db.Date
-
-  /// Plan active on this date (for historical plan tracking)
-  planId String? @map("plan_id") @db.Uuid
-
-  requestCount       Int      @default(0) @map("request_count")
-  completedCount     Int      @default(0) @map("completed_count")
-  failedCount        Int      @default(0) @map("failed_count")
-  cachedCount        Int      @default(0) @map("cached_count")
-  totalChars         BigInt   @default(0) @map("total_chars")
-  totalDurationSec   Decimal  @default(0) @map("total_duration_sec") @db.Decimal(12, 3)
-  totalFileSizeBytes BigInt   @default(0) @map("total_file_size_bytes")
-  apiCalls           Int      @default(0) @map("api_calls")
-  rateLimitHits      Int      @default(0) @map("rate_limit_hits")
-  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan Plan? @relation(fields: [planId], references: [id], onDelete: SetNull)
-
-  @@unique([userId, date], map: "uq_usage_analytics_user_date")
-  @@index([userId, date], map: "idx_usage_analytics_user_date")
-  @@index([date], map: "idx_usage_analytics_date")
-  @@map("usage_analytics")
-}
-
-/// TTS result deduplication cache.
-/// cache_key = SHA-256(inputText + elVoiceId + elModelId + languageCode + outputFormat)
-/// Cache HIT = serve existing audio file, zero EL API cost.
-model RequestCache {
-  id String @id @default(uuid()) @db.Uuid
-
-  /// SHA-256 of the canonical request parameters
-  cacheKey String @unique @map("cache_key") @db.VarChar(64)
-
-  /// The cached audio output
-  audioFileId String @map("audio_file_id") @db.Uuid
-
-  voiceModelId String @map("voice_model_id") @db.Uuid
-
-  /// mp3 | wav | ogg | flac
-  outputFormat String @map("output_format") @db.VarChar(10)
-
-  charCount Int @map("char_count")
-
-  /// Total number of times this cache entry was served
-  hitCount Int @default(0) @map("hit_count")
-
-  lastHitAt DateTime? @map("last_hit_at") @db.Timestamptz
-
-  /// NULL = never expires; set for volatile content
-  expiresAt DateTime? @map("expires_at") @db.Timestamptz
-
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-
-  // ── Relations ──────────────────────────────
-  audioFile  AudioFile  @relation(fields: [audioFileId], references: [id], onDelete: Restrict)
-  voiceModel VoiceModel @relation(fields: [voiceModelId], references: [id], onDelete: Restrict)
-
-  @@index([cacheKey], map: "idx_request_cache_cache_key")
-  @@index([expiresAt], map: "idx_request_cache_expires_at")
-  @@index([lastHitAt], map: "idx_request_cache_last_hit_at")
-  @@map("request_cache")
 }

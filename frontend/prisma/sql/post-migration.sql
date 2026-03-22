@@ -9,7 +9,7 @@ $$ LANGUAGE plpgsql;
 
 -- Attach trigger to every table with updated_at
 CREATE TRIGGER trg_users_updated_at
-  BEFORE UPDATE ON users
+  BEFORE UPDATE ON user
   FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 CREATE TRIGGER trg_voice_models_updated_at
   BEFORE UPDATE ON voice_models
