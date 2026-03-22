@@ -15,6 +15,7 @@ model User {
   image           String?
   createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+  deletedAt       DateTime?        @map("deleted_at")
   role            String?
   banned          Boolean?
   banReason       String?
@@ -29,7 +30,7 @@ model User {
   ttsRequests     TtsRequest[]
   usageAnalytics  UsageAnalytics[]
 
-  @@map("user")
+  @@map("users")
 }
 
 model Session {
