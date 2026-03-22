@@ -3,21 +3,6 @@ import prisma from "@/lib/prisma"
 
 async function main() {
 
-  // ── Roles ───────────────────────────────────────
-  const roles = [
-    { name: "super_admin", description: "Full system access" },
-    { name: "admin",       description: "Admin dashboard access" },
-    { name: "user",        description: "Standard user" },
-    { name: "guest",       description: "Read-only access" },
-  ]
-  for (const role of roles) {
-    await prisma.role.upsert({
-      where:  { name: role.name },
-      update: {},
-      create: role,
-    })
-  }
-
   // ── Plans ───────────────────────────────────────
   await prisma.plan.upsert({
     where:  { slug: "free" },
