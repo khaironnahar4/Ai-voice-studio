@@ -11,7 +11,7 @@ model User {
   id              String           @id @default(uuid()) @db.Uuid
   name            String
   email           String           @unique
-  emailVerified   Boolean          @default(false)
+  emailVerified   Boolean          
   image           String?
   createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
@@ -30,7 +30,7 @@ model User {
   ttsRequests     TtsRequest[]
   usageAnalytics  UsageAnalytics[]
 
-  @@map("users")
+  @@map("user")
 }
 
 model Session {

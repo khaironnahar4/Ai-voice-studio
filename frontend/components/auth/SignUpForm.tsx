@@ -22,10 +22,10 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { toast } from "sonner";
-import { signIn, signUp } from "@/lib/auth-client";
+import { signUp } from "@/lib/auth-client";
 import { Spinner } from "../ui/spinner";
 import { Separator } from "../ui/separator";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -63,11 +63,12 @@ export function SignUpForm() {
         {
           onSuccess: async () => {
             toast.success("Created your account successfully.");
-            router.push("/sign-in");
+            router.push("/");
             // toast.success("Please see your email to verify your account");
           },
           onError: (ctx) => {
             toast.error(ctx.error.message);
+            console.log(ctx.error);
           },
         }
       );

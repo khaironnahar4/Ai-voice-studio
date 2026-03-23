@@ -17,6 +17,7 @@ export const auth = betterAuth({
     },
   },
 
+  
   // authenticaiton with email and password
   emailAndPassword: {
     enabled: true,
@@ -28,7 +29,22 @@ export const auth = betterAuth({
         return bcrypt.compare(password, hash);
       },
     },
+
+    requireEmailVerification: true,
+
+    async sendVerificationEmail({ user, url }) {
+      // Wire to your email provider (Resend, Postmark, etc.)
+      // For now, log it — replace with real send in Phase 5
+      console.log(`[auth] verification email → ${user.email}: ${url}`);
+      // await sendEmail({ to: user.email, subject: "Verify your email", url });
+    },
+
+    async sendResetPassword({ user, url }) {
+      console.log(`[auth] reset password → ${user.email}: ${url}`);
+      // await sendEmail({ to: user.email, subject: "Reset your password", url });
+    },
   },
+
 
   // social authentication providers
   socialProviders: {
