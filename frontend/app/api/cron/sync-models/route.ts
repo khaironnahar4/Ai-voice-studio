@@ -1,5 +1,3 @@
-// app/api/cron/sync-models/route.ts
-
 import { syncElModels } from "@/lib/elevenLab/el-sync-jobs/sync-models";
 import { NextResponse } from "next/server";
 

@@ -334,8 +334,8 @@ export type UsageAnalyticsWhereInput = {
   rateLimitHits?: Prisma.IntFilter<"UsageAnalytics"> | number
   createdAt?: Prisma.DateTimeFilter<"UsageAnalytics"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UsageAnalytics"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   plan?: Prisma.XOR<Prisma.PlanNullableScalarRelationFilter, Prisma.PlanWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type UsageAnalyticsOrderByWithRelationInput = {
@@ -354,8 +354,8 @@ export type UsageAnalyticsOrderByWithRelationInput = {
   rateLimitHits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   plan?: Prisma.PlanOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type UsageAnalyticsWhereUniqueInput = Prisma.AtLeast<{
@@ -378,8 +378,8 @@ export type UsageAnalyticsWhereUniqueInput = Prisma.AtLeast<{
   rateLimitHits?: Prisma.IntFilter<"UsageAnalytics"> | number
   createdAt?: Prisma.DateTimeFilter<"UsageAnalytics"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UsageAnalytics"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   plan?: Prisma.XOR<Prisma.PlanNullableScalarRelationFilter, Prisma.PlanWhereInput> | null
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId_date">
 
 export type UsageAnalyticsOrderByWithAggregationInput = {
@@ -440,8 +440,8 @@ export type UsageAnalyticsCreateInput = {
   rateLimitHits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutUsageAnalyticsInput
   plan?: Prisma.PlanCreateNestedOneWithoutUsageAnalyticsInput
+  user: Prisma.UserCreateNestedOneWithoutUsageAnalyticsInput
 }
 
 export type UsageAnalyticsUncheckedCreateInput = {
@@ -476,8 +476,8 @@ export type UsageAnalyticsUpdateInput = {
   rateLimitHits?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutUsageAnalyticsNestedInput
   plan?: Prisma.PlanUpdateOneWithoutUsageAnalyticsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutUsageAnalyticsNestedInput
 }
 
 export type UsageAnalyticsUncheckedUpdateInput = {
@@ -1024,8 +1024,8 @@ export type UsageAnalyticsSelect<ExtArgs extends runtime.Types.Extensions.Intern
   rateLimitHits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.UsageAnalytics$planArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usageAnalytics"]>
 
 export type UsageAnalyticsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1044,8 +1044,8 @@ export type UsageAnalyticsSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   rateLimitHits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.UsageAnalytics$planArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usageAnalytics"]>
 
 export type UsageAnalyticsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1064,8 +1064,8 @@ export type UsageAnalyticsSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   rateLimitHits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.UsageAnalytics$planArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usageAnalytics"]>
 
 export type UsageAnalyticsSelectScalar = {
@@ -1088,23 +1088,23 @@ export type UsageAnalyticsSelectScalar = {
 
 export type UsageAnalyticsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "date" | "planId" | "requestCount" | "completedCount" | "failedCount" | "cachedCount" | "totalChars" | "totalDurationSec" | "totalFileSizeBytes" | "apiCalls" | "rateLimitHits" | "createdAt" | "updatedAt", ExtArgs["result"]["usageAnalytics"]>
 export type UsageAnalyticsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.UsageAnalytics$planArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type UsageAnalyticsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.UsageAnalytics$planArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type UsageAnalyticsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   plan?: boolean | Prisma.UsageAnalytics$planArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $UsageAnalyticsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UsageAnalytics"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     plan: Prisma.$PlanPayload<ExtArgs> | null
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: bigint
@@ -1519,8 +1519,8 @@ readonly fields: UsageAnalyticsFieldRefs;
  */
 export interface Prisma__UsageAnalyticsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   plan<T extends Prisma.UsageAnalytics$planArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UsageAnalytics$planArgs<ExtArgs>>): Prisma.Prisma__PlanClient<runtime.Types.Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

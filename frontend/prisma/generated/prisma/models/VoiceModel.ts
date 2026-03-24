@@ -385,10 +385,10 @@ export type VoiceModelWhereInput = {
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"VoiceModel"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
-  language?: Prisma.XOR<Prisma.LanguageScalarRelationFilter, Prisma.LanguageWhereInput>
-  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelNullableScalarRelationFilter, Prisma.ElSpeechModelWhereInput> | null
-  ttsRequests?: Prisma.TtsRequestListRelationFilter
   requestCaches?: Prisma.RequestCacheListRelationFilter
+  ttsRequests?: Prisma.TtsRequestListRelationFilter
+  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelNullableScalarRelationFilter, Prisma.ElSpeechModelWhereInput> | null
+  language?: Prisma.XOR<Prisma.LanguageScalarRelationFilter, Prisma.LanguageWhereInput>
 }
 
 export type VoiceModelOrderByWithRelationInput = {
@@ -420,10 +420,10 @@ export type VoiceModelOrderByWithRelationInput = {
   lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  language?: Prisma.LanguageOrderByWithRelationInput
-  elSpeechModel?: Prisma.ElSpeechModelOrderByWithRelationInput
-  ttsRequests?: Prisma.TtsRequestOrderByRelationAggregateInput
   requestCaches?: Prisma.RequestCacheOrderByRelationAggregateInput
+  ttsRequests?: Prisma.TtsRequestOrderByRelationAggregateInput
+  elSpeechModel?: Prisma.ElSpeechModelOrderByWithRelationInput
+  language?: Prisma.LanguageOrderByWithRelationInput
 }
 
 export type VoiceModelWhereUniqueInput = Prisma.AtLeast<{
@@ -459,10 +459,10 @@ export type VoiceModelWhereUniqueInput = Prisma.AtLeast<{
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"VoiceModel"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
-  language?: Prisma.XOR<Prisma.LanguageScalarRelationFilter, Prisma.LanguageWhereInput>
-  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelNullableScalarRelationFilter, Prisma.ElSpeechModelWhereInput> | null
-  ttsRequests?: Prisma.TtsRequestListRelationFilter
   requestCaches?: Prisma.RequestCacheListRelationFilter
+  ttsRequests?: Prisma.TtsRequestListRelationFilter
+  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelNullableScalarRelationFilter, Prisma.ElSpeechModelWhereInput> | null
+  language?: Prisma.XOR<Prisma.LanguageScalarRelationFilter, Prisma.LanguageWhereInput>
 }, "id" | "slug" | "elVoiceId" | "provider_providerVoiceId">
 
 export type VoiceModelOrderByWithAggregationInput = {
@@ -562,10 +562,10 @@ export type VoiceModelCreateInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  language: Prisma.LanguageCreateNestedOneWithoutVoiceModelsInput
-  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutVoiceModelsInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutVoiceModelInput
   requestCaches?: Prisma.RequestCacheCreateNestedManyWithoutVoiceModelInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutVoiceModelInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutVoiceModelsInput
+  language: Prisma.LanguageCreateNestedOneWithoutVoiceModelsInput
 }
 
 export type VoiceModelUncheckedCreateInput = {
@@ -597,8 +597,8 @@ export type VoiceModelUncheckedCreateInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutVoiceModelInput
   requestCaches?: Prisma.RequestCacheUncheckedCreateNestedManyWithoutVoiceModelInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutVoiceModelInput
 }
 
 export type VoiceModelUpdateInput = {
@@ -628,10 +628,10 @@ export type VoiceModelUpdateInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  language?: Prisma.LanguageUpdateOneRequiredWithoutVoiceModelsNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutVoiceModelsNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutVoiceModelNestedInput
   requestCaches?: Prisma.RequestCacheUpdateManyWithoutVoiceModelNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutVoiceModelNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutVoiceModelsNestedInput
+  language?: Prisma.LanguageUpdateOneRequiredWithoutVoiceModelsNestedInput
 }
 
 export type VoiceModelUncheckedUpdateInput = {
@@ -663,8 +663,8 @@ export type VoiceModelUncheckedUpdateInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutVoiceModelNestedInput
   requestCaches?: Prisma.RequestCacheUncheckedUpdateManyWithoutVoiceModelNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutVoiceModelNestedInput
 }
 
 export type VoiceModelCreateManyInput = {
@@ -1037,9 +1037,9 @@ export type VoiceModelCreateWithoutElSpeechModelInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  language: Prisma.LanguageCreateNestedOneWithoutVoiceModelsInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutVoiceModelInput
   requestCaches?: Prisma.RequestCacheCreateNestedManyWithoutVoiceModelInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutVoiceModelInput
+  language: Prisma.LanguageCreateNestedOneWithoutVoiceModelsInput
 }
 
 export type VoiceModelUncheckedCreateWithoutElSpeechModelInput = {
@@ -1070,8 +1070,8 @@ export type VoiceModelUncheckedCreateWithoutElSpeechModelInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutVoiceModelInput
   requestCaches?: Prisma.RequestCacheUncheckedCreateNestedManyWithoutVoiceModelInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutVoiceModelInput
 }
 
 export type VoiceModelCreateOrConnectWithoutElSpeechModelInput = {
@@ -1161,9 +1161,9 @@ export type VoiceModelCreateWithoutLanguageInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutVoiceModelsInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutVoiceModelInput
   requestCaches?: Prisma.RequestCacheCreateNestedManyWithoutVoiceModelInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutVoiceModelInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutVoiceModelsInput
 }
 
 export type VoiceModelUncheckedCreateWithoutLanguageInput = {
@@ -1194,8 +1194,8 @@ export type VoiceModelUncheckedCreateWithoutLanguageInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutVoiceModelInput
   requestCaches?: Prisma.RequestCacheUncheckedCreateNestedManyWithoutVoiceModelInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutVoiceModelInput
 }
 
 export type VoiceModelCreateOrConnectWithoutLanguageInput = {
@@ -1251,9 +1251,9 @@ export type VoiceModelCreateWithoutTtsRequestsInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  language: Prisma.LanguageCreateNestedOneWithoutVoiceModelsInput
-  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutVoiceModelsInput
   requestCaches?: Prisma.RequestCacheCreateNestedManyWithoutVoiceModelInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutVoiceModelsInput
+  language: Prisma.LanguageCreateNestedOneWithoutVoiceModelsInput
 }
 
 export type VoiceModelUncheckedCreateWithoutTtsRequestsInput = {
@@ -1331,9 +1331,9 @@ export type VoiceModelUpdateWithoutTtsRequestsInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  language?: Prisma.LanguageUpdateOneRequiredWithoutVoiceModelsNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutVoiceModelsNestedInput
   requestCaches?: Prisma.RequestCacheUpdateManyWithoutVoiceModelNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutVoiceModelsNestedInput
+  language?: Prisma.LanguageUpdateOneRequiredWithoutVoiceModelsNestedInput
 }
 
 export type VoiceModelUncheckedUpdateWithoutTtsRequestsInput = {
@@ -1395,9 +1395,9 @@ export type VoiceModelCreateWithoutRequestCachesInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  language: Prisma.LanguageCreateNestedOneWithoutVoiceModelsInput
-  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutVoiceModelsInput
   ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutVoiceModelInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutVoiceModelsInput
+  language: Prisma.LanguageCreateNestedOneWithoutVoiceModelsInput
 }
 
 export type VoiceModelUncheckedCreateWithoutRequestCachesInput = {
@@ -1475,9 +1475,9 @@ export type VoiceModelUpdateWithoutRequestCachesInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  language?: Prisma.LanguageUpdateOneRequiredWithoutVoiceModelsNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutVoiceModelsNestedInput
   ttsRequests?: Prisma.TtsRequestUpdateManyWithoutVoiceModelNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutVoiceModelsNestedInput
+  language?: Prisma.LanguageUpdateOneRequiredWithoutVoiceModelsNestedInput
 }
 
 export type VoiceModelUncheckedUpdateWithoutRequestCachesInput = {
@@ -1569,9 +1569,9 @@ export type VoiceModelUpdateWithoutElSpeechModelInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  language?: Prisma.LanguageUpdateOneRequiredWithoutVoiceModelsNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutVoiceModelNestedInput
   requestCaches?: Prisma.RequestCacheUpdateManyWithoutVoiceModelNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutVoiceModelNestedInput
+  language?: Prisma.LanguageUpdateOneRequiredWithoutVoiceModelsNestedInput
 }
 
 export type VoiceModelUncheckedUpdateWithoutElSpeechModelInput = {
@@ -1602,8 +1602,8 @@ export type VoiceModelUncheckedUpdateWithoutElSpeechModelInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutVoiceModelNestedInput
   requestCaches?: Prisma.RequestCacheUncheckedUpdateManyWithoutVoiceModelNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutVoiceModelNestedInput
 }
 
 export type VoiceModelUncheckedUpdateManyWithoutElSpeechModelInput = {
@@ -1693,9 +1693,9 @@ export type VoiceModelUpdateWithoutLanguageInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutVoiceModelsNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutVoiceModelNestedInput
   requestCaches?: Prisma.RequestCacheUpdateManyWithoutVoiceModelNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutVoiceModelNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutVoiceModelsNestedInput
 }
 
 export type VoiceModelUncheckedUpdateWithoutLanguageInput = {
@@ -1726,8 +1726,8 @@ export type VoiceModelUncheckedUpdateWithoutLanguageInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutVoiceModelNestedInput
   requestCaches?: Prisma.RequestCacheUncheckedUpdateManyWithoutVoiceModelNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutVoiceModelNestedInput
 }
 
 export type VoiceModelUncheckedUpdateManyWithoutLanguageInput = {
@@ -1766,13 +1766,13 @@ export type VoiceModelUncheckedUpdateManyWithoutLanguageInput = {
  */
 
 export type VoiceModelCountOutputType = {
-  ttsRequests: number
   requestCaches: number
+  ttsRequests: number
 }
 
 export type VoiceModelCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  ttsRequests?: boolean | VoiceModelCountOutputTypeCountTtsRequestsArgs
   requestCaches?: boolean | VoiceModelCountOutputTypeCountRequestCachesArgs
+  ttsRequests?: boolean | VoiceModelCountOutputTypeCountTtsRequestsArgs
 }
 
 /**
@@ -1788,15 +1788,15 @@ export type VoiceModelCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.E
 /**
  * VoiceModelCountOutputType without action
  */
-export type VoiceModelCountOutputTypeCountTtsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TtsRequestWhereInput
+export type VoiceModelCountOutputTypeCountRequestCachesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RequestCacheWhereInput
 }
 
 /**
  * VoiceModelCountOutputType without action
  */
-export type VoiceModelCountOutputTypeCountRequestCachesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RequestCacheWhereInput
+export type VoiceModelCountOutputTypeCountTtsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TtsRequestWhereInput
 }
 
 
@@ -1829,10 +1829,10 @@ export type VoiceModelSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
-  elSpeechModel?: boolean | Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>
-  ttsRequests?: boolean | Prisma.VoiceModel$ttsRequestsArgs<ExtArgs>
   requestCaches?: boolean | Prisma.VoiceModel$requestCachesArgs<ExtArgs>
+  ttsRequests?: boolean | Prisma.VoiceModel$ttsRequestsArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>
+  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VoiceModelCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["voiceModel"]>
 
@@ -1865,8 +1865,8 @@ export type VoiceModelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
   elSpeechModel?: boolean | Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>
+  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["voiceModel"]>
 
 export type VoiceModelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1898,8 +1898,8 @@ export type VoiceModelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
   elSpeechModel?: boolean | Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>
+  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["voiceModel"]>
 
 export type VoiceModelSelectScalar = {
@@ -1935,28 +1935,28 @@ export type VoiceModelSelectScalar = {
 
 export type VoiceModelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "languageId" | "name" | "slug" | "provider" | "providerVoiceId" | "gender" | "accent" | "styleTags" | "sampleAudioUrl" | "isPremium" | "isActive" | "sortOrder" | "elVoiceId" | "elCategory" | "elLabels" | "elDescription" | "elPreviewUrl" | "elAvailableForTiers" | "elVerifiedLanguages" | "elHighQualityModelIds" | "elFineTuningStatus" | "elSafetyControl" | "elSharingEnabled" | "elSpeechModelId" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["voiceModel"]>
 export type VoiceModelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
-  elSpeechModel?: boolean | Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>
-  ttsRequests?: boolean | Prisma.VoiceModel$ttsRequestsArgs<ExtArgs>
   requestCaches?: boolean | Prisma.VoiceModel$requestCachesArgs<ExtArgs>
+  ttsRequests?: boolean | Prisma.VoiceModel$ttsRequestsArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>
+  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VoiceModelCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VoiceModelIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
   elSpeechModel?: boolean | Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>
+  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
 }
 export type VoiceModelIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
   elSpeechModel?: boolean | Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>
+  language?: boolean | Prisma.LanguageDefaultArgs<ExtArgs>
 }
 
 export type $VoiceModelPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "VoiceModel"
   objects: {
-    language: Prisma.$LanguagePayload<ExtArgs>
-    elSpeechModel: Prisma.$ElSpeechModelPayload<ExtArgs> | null
-    ttsRequests: Prisma.$TtsRequestPayload<ExtArgs>[]
     requestCaches: Prisma.$RequestCachePayload<ExtArgs>[]
+    ttsRequests: Prisma.$TtsRequestPayload<ExtArgs>[]
+    elSpeechModel: Prisma.$ElSpeechModelPayload<ExtArgs> | null
+    language: Prisma.$LanguagePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2420,10 +2420,10 @@ readonly fields: VoiceModelFieldRefs;
  */
 export interface Prisma__VoiceModelClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  language<T extends Prisma.LanguageDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LanguageDefaultArgs<ExtArgs>>): Prisma.Prisma__LanguageClient<runtime.Types.Result.GetResult<Prisma.$LanguagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  elSpeechModel<T extends Prisma.VoiceModel$elSpeechModelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>>): Prisma.Prisma__ElSpeechModelClient<runtime.Types.Result.GetResult<Prisma.$ElSpeechModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  ttsRequests<T extends Prisma.VoiceModel$ttsRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VoiceModel$ttsRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TtsRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   requestCaches<T extends Prisma.VoiceModel$requestCachesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VoiceModel$requestCachesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequestCachePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ttsRequests<T extends Prisma.VoiceModel$ttsRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VoiceModel$ttsRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TtsRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  elSpeechModel<T extends Prisma.VoiceModel$elSpeechModelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VoiceModel$elSpeechModelArgs<ExtArgs>>): Prisma.Prisma__ElSpeechModelClient<runtime.Types.Result.GetResult<Prisma.$ElSpeechModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  language<T extends Prisma.LanguageDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LanguageDefaultArgs<ExtArgs>>): Prisma.Prisma__LanguageClient<runtime.Types.Result.GetResult<Prisma.$LanguagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2877,22 +2877,27 @@ export type VoiceModelDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * VoiceModel.elSpeechModel
+ * VoiceModel.requestCaches
  */
-export type VoiceModel$elSpeechModelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type VoiceModel$requestCachesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ElSpeechModel
+   * Select specific fields to fetch from the RequestCache
    */
-  select?: Prisma.ElSpeechModelSelect<ExtArgs> | null
+  select?: Prisma.RequestCacheSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ElSpeechModel
+   * Omit specific fields from the RequestCache
    */
-  omit?: Prisma.ElSpeechModelOmit<ExtArgs> | null
+  omit?: Prisma.RequestCacheOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ElSpeechModelInclude<ExtArgs> | null
-  where?: Prisma.ElSpeechModelWhereInput
+  include?: Prisma.RequestCacheInclude<ExtArgs> | null
+  where?: Prisma.RequestCacheWhereInput
+  orderBy?: Prisma.RequestCacheOrderByWithRelationInput | Prisma.RequestCacheOrderByWithRelationInput[]
+  cursor?: Prisma.RequestCacheWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RequestCacheScalarFieldEnum | Prisma.RequestCacheScalarFieldEnum[]
 }
 
 /**
@@ -2920,27 +2925,22 @@ export type VoiceModel$ttsRequestsArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * VoiceModel.requestCaches
+ * VoiceModel.elSpeechModel
  */
-export type VoiceModel$requestCachesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type VoiceModel$elSpeechModelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the RequestCache
+   * Select specific fields to fetch from the ElSpeechModel
    */
-  select?: Prisma.RequestCacheSelect<ExtArgs> | null
+  select?: Prisma.ElSpeechModelSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the RequestCache
+   * Omit specific fields from the ElSpeechModel
    */
-  omit?: Prisma.RequestCacheOmit<ExtArgs> | null
+  omit?: Prisma.ElSpeechModelOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.RequestCacheInclude<ExtArgs> | null
-  where?: Prisma.RequestCacheWhereInput
-  orderBy?: Prisma.RequestCacheOrderByWithRelationInput | Prisma.RequestCacheOrderByWithRelationInput[]
-  cursor?: Prisma.RequestCacheWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.RequestCacheScalarFieldEnum | Prisma.RequestCacheScalarFieldEnum[]
+  include?: Prisma.ElSpeechModelInclude<ExtArgs> | null
+  where?: Prisma.ElSpeechModelWhereInput
 }
 
 /**

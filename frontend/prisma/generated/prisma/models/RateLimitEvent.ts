@@ -266,8 +266,8 @@ export type RateLimitEventWhereInput = {
   blockedAt?: Prisma.DateTimeNullableFilter<"RateLimitEvent"> | Date | string | null
   ipAddress?: Prisma.StringNullableFilter<"RateLimitEvent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"RateLimitEvent"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   rule?: Prisma.XOR<Prisma.RateLimitRuleScalarRelationFilter, Prisma.RateLimitRuleWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type RateLimitEventOrderByWithRelationInput = {
@@ -281,8 +281,8 @@ export type RateLimitEventOrderByWithRelationInput = {
   blockedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   rule?: Prisma.RateLimitRuleOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type RateLimitEventWhereUniqueInput = Prisma.AtLeast<{
@@ -299,8 +299,8 @@ export type RateLimitEventWhereUniqueInput = Prisma.AtLeast<{
   blockedAt?: Prisma.DateTimeNullableFilter<"RateLimitEvent"> | Date | string | null
   ipAddress?: Prisma.StringNullableFilter<"RateLimitEvent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"RateLimitEvent"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   rule?: Prisma.XOR<Prisma.RateLimitRuleScalarRelationFilter, Prisma.RateLimitRuleWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type RateLimitEventOrderByWithAggregationInput = {
@@ -346,8 +346,8 @@ export type RateLimitEventCreateInput = {
   blockedAt?: Date | string | null
   ipAddress?: string | null
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutRateLimitEventsInput
   rule: Prisma.RateLimitRuleCreateNestedOneWithoutRateLimitEventsInput
+  user: Prisma.UserCreateNestedOneWithoutRateLimitEventsInput
 }
 
 export type RateLimitEventUncheckedCreateInput = {
@@ -372,8 +372,8 @@ export type RateLimitEventUpdateInput = {
   blockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutRateLimitEventsNestedInput
   rule?: Prisma.RateLimitRuleUpdateOneRequiredWithoutRateLimitEventsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutRateLimitEventsNestedInput
 }
 
 export type RateLimitEventUncheckedUpdateInput = {
@@ -796,8 +796,8 @@ export type RateLimitEventSelect<ExtArgs extends runtime.Types.Extensions.Intern
   blockedAt?: boolean
   ipAddress?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.RateLimitRuleDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rateLimitEvent"]>
 
 export type RateLimitEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -811,8 +811,8 @@ export type RateLimitEventSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   blockedAt?: boolean
   ipAddress?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.RateLimitRuleDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rateLimitEvent"]>
 
 export type RateLimitEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -826,8 +826,8 @@ export type RateLimitEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   blockedAt?: boolean
   ipAddress?: boolean
   createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.RateLimitRuleDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rateLimitEvent"]>
 
 export type RateLimitEventSelectScalar = {
@@ -845,23 +845,23 @@ export type RateLimitEventSelectScalar = {
 
 export type RateLimitEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "ruleId" | "resource" | "requestCount" | "windowStart" | "windowEnd" | "blockedAt" | "ipAddress" | "createdAt", ExtArgs["result"]["rateLimitEvent"]>
 export type RateLimitEventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.RateLimitRuleDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type RateLimitEventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.RateLimitRuleDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type RateLimitEventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.RateLimitRuleDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $RateLimitEventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RateLimitEvent"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     rule: Prisma.$RateLimitRulePayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: bigint
@@ -1271,8 +1271,8 @@ readonly fields: RateLimitEventFieldRefs;
  */
 export interface Prisma__RateLimitEventClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   rule<T extends Prisma.RateLimitRuleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RateLimitRuleDefaultArgs<ExtArgs>>): Prisma.Prisma__RateLimitRuleClient<runtime.Types.Result.GetResult<Prisma.$RateLimitRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

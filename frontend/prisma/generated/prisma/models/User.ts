@@ -32,6 +32,7 @@ export type UserMinAggregateOutputType = {
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
   role: string | null
   banned: boolean | null
   banReason: string | null
@@ -46,6 +47,7 @@ export type UserMaxAggregateOutputType = {
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
   role: string | null
   banned: boolean | null
   banReason: string | null
@@ -60,6 +62,7 @@ export type UserCountAggregateOutputType = {
   image: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   role: number
   banned: number
   banReason: number
@@ -76,6 +79,7 @@ export type UserMinAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   role?: true
   banned?: true
   banReason?: true
@@ -90,6 +94,7 @@ export type UserMaxAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   role?: true
   banned?: true
   banReason?: true
@@ -104,6 +109,7 @@ export type UserCountAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   role?: true
   banned?: true
   banReason?: true
@@ -191,6 +197,7 @@ export type UserGroupByOutputType = {
   image: string | null
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date | null
   role: string | null
   banned: boolean | null
   banReason: string | null
@@ -226,19 +233,20 @@ export type UserWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.StringNullableFilter<"User"> | string | null
   banned?: Prisma.BoolNullableFilter<"User"> | boolean | null
   banReason?: Prisma.StringNullableFilter<"User"> | string | null
   banExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
-  ttsRequests?: Prisma.TtsRequestListRelationFilter
   audioFiles?: Prisma.AudioFileListRelationFilter
-  subscriptions?: Prisma.SubscriptionListRelationFilter
   invoices?: Prisma.InvoiceListRelationFilter
-  usageAnalytics?: Prisma.UsageAnalyticsListRelationFilter
-  rateLimitEvents?: Prisma.RateLimitEventListRelationFilter
   jobs?: Prisma.JobListRelationFilter
+  rateLimitEvents?: Prisma.RateLimitEventListRelationFilter
+  sessions?: Prisma.SessionListRelationFilter
+  subscriptions?: Prisma.SubscriptionListRelationFilter
+  ttsRequests?: Prisma.TtsRequestListRelationFilter
+  usageAnalytics?: Prisma.UsageAnalyticsListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -249,19 +257,20 @@ export type UserOrderByWithRelationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   banned?: Prisma.SortOrderInput | Prisma.SortOrder
   banReason?: Prisma.SortOrderInput | Prisma.SortOrder
   banExpires?: Prisma.SortOrderInput | Prisma.SortOrder
-  sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
-  ttsRequests?: Prisma.TtsRequestOrderByRelationAggregateInput
   audioFiles?: Prisma.AudioFileOrderByRelationAggregateInput
-  subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
   invoices?: Prisma.InvoiceOrderByRelationAggregateInput
-  usageAnalytics?: Prisma.UsageAnalyticsOrderByRelationAggregateInput
-  rateLimitEvents?: Prisma.RateLimitEventOrderByRelationAggregateInput
   jobs?: Prisma.JobOrderByRelationAggregateInput
+  rateLimitEvents?: Prisma.RateLimitEventOrderByRelationAggregateInput
+  sessions?: Prisma.SessionOrderByRelationAggregateInput
+  subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
+  ttsRequests?: Prisma.TtsRequestOrderByRelationAggregateInput
+  usageAnalytics?: Prisma.UsageAnalyticsOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -275,19 +284,20 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.StringNullableFilter<"User"> | string | null
   banned?: Prisma.BoolNullableFilter<"User"> | boolean | null
   banReason?: Prisma.StringNullableFilter<"User"> | string | null
   banExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
-  ttsRequests?: Prisma.TtsRequestListRelationFilter
   audioFiles?: Prisma.AudioFileListRelationFilter
-  subscriptions?: Prisma.SubscriptionListRelationFilter
   invoices?: Prisma.InvoiceListRelationFilter
-  usageAnalytics?: Prisma.UsageAnalyticsListRelationFilter
-  rateLimitEvents?: Prisma.RateLimitEventListRelationFilter
   jobs?: Prisma.JobListRelationFilter
+  rateLimitEvents?: Prisma.RateLimitEventListRelationFilter
+  sessions?: Prisma.SessionListRelationFilter
+  subscriptions?: Prisma.SubscriptionListRelationFilter
+  ttsRequests?: Prisma.TtsRequestListRelationFilter
+  usageAnalytics?: Prisma.UsageAnalyticsListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -298,6 +308,7 @@ export type UserOrderByWithAggregationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrderInput | Prisma.SortOrder
   banned?: Prisma.SortOrderInput | Prisma.SortOrder
   banReason?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -318,6 +329,7 @@ export type UserScalarWhereWithAggregatesInput = {
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   role?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   banned?: Prisma.BoolNullableWithAggregatesFilter<"User"> | boolean | null
   banReason?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -332,19 +344,20 @@ export type UserCreateInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -355,19 +368,20 @@ export type UserUncheckedCreateInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -378,19 +392,20 @@ export type UserUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -401,19 +416,20 @@ export type UserUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -424,6 +440,7 @@ export type UserCreateManyInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
@@ -438,6 +455,7 @@ export type UserUpdateManyMutationInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -452,6 +470,7 @@ export type UserUncheckedUpdateManyInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -466,6 +485,7 @@ export type UserCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   banned?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
@@ -480,6 +500,7 @@ export type UserMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   banned?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
@@ -494,6 +515,7 @@ export type UserMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   banned?: Prisma.SortOrder
   banReason?: Prisma.SortOrder
@@ -526,12 +548,12 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
 }
 
 export type UserCreateNestedOneWithoutSessionsInput = {
@@ -670,18 +692,19 @@ export type UserCreateWithoutSessionsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -692,18 +715,19 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -730,18 +754,19 @@ export type UserUpdateWithoutSessionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -752,18 +777,19 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -774,18 +800,19 @@ export type UserCreateWithoutAccountsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -796,18 +823,19 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -834,18 +862,19 @@ export type UserUpdateWithoutAccountsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -856,18 +885,19 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTtsRequestsInput = {
@@ -878,18 +908,19 @@ export type UserCreateWithoutTtsRequestsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTtsRequestsInput = {
@@ -900,18 +931,19 @@ export type UserUncheckedCreateWithoutTtsRequestsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTtsRequestsInput = {
@@ -938,18 +970,19 @@ export type UserUpdateWithoutTtsRequestsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTtsRequestsInput = {
@@ -960,18 +993,19 @@ export type UserUncheckedUpdateWithoutTtsRequestsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAudioFilesInput = {
@@ -982,18 +1016,19 @@ export type UserCreateWithoutAudioFilesInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAudioFilesInput = {
@@ -1004,18 +1039,19 @@ export type UserUncheckedCreateWithoutAudioFilesInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAudioFilesInput = {
@@ -1042,18 +1078,19 @@ export type UserUpdateWithoutAudioFilesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAudioFilesInput = {
@@ -1064,18 +1101,19 @@ export type UserUncheckedUpdateWithoutAudioFilesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutJobsInput = {
@@ -1086,18 +1124,19 @@ export type UserCreateWithoutJobsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
   rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutJobsInput = {
@@ -1108,18 +1147,19 @@ export type UserUncheckedCreateWithoutJobsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
   rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutJobsInput = {
@@ -1146,18 +1186,19 @@ export type UserUpdateWithoutJobsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
   rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJobsInput = {
@@ -1168,18 +1209,19 @@ export type UserUncheckedUpdateWithoutJobsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
   rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRateLimitEventsInput = {
@@ -1190,18 +1232,19 @@ export type UserCreateWithoutRateLimitEventsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRateLimitEventsInput = {
@@ -1212,18 +1255,19 @@ export type UserUncheckedCreateWithoutRateLimitEventsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRateLimitEventsInput = {
@@ -1250,18 +1294,19 @@ export type UserUpdateWithoutRateLimitEventsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRateLimitEventsInput = {
@@ -1272,18 +1317,19 @@ export type UserUncheckedUpdateWithoutRateLimitEventsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -1294,18 +1340,19 @@ export type UserCreateWithoutSubscriptionsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -1316,18 +1363,19 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -1354,18 +1402,19 @@ export type UserUpdateWithoutSubscriptionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1376,18 +1425,19 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutInvoicesInput = {
@@ -1398,18 +1448,19 @@ export type UserCreateWithoutInvoicesInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutInvoicesInput = {
@@ -1420,18 +1471,19 @@ export type UserUncheckedCreateWithoutInvoicesInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutInvoicesInput = {
@@ -1458,18 +1510,19 @@ export type UserUpdateWithoutInvoicesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInvoicesInput = {
@@ -1480,18 +1533,19 @@ export type UserUncheckedUpdateWithoutInvoicesInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
-  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
+  usageAnalytics?: Prisma.UsageAnalyticsUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageAnalyticsInput = {
@@ -1502,18 +1556,19 @@ export type UserCreateWithoutUsageAnalyticsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageAnalyticsInput = {
@@ -1524,18 +1579,19 @@ export type UserUncheckedCreateWithoutUsageAnalyticsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   role?: string | null
   banned?: boolean | null
   banReason?: string | null
   banExpires?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
   audioFiles?: Prisma.AudioFileUncheckedCreateNestedManyWithoutUserInput
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutUserInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
   jobs?: Prisma.JobUncheckedCreateNestedManyWithoutUserInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageAnalyticsInput = {
@@ -1562,18 +1618,19 @@ export type UserUpdateWithoutUsageAnalyticsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageAnalyticsInput = {
@@ -1584,18 +1641,19 @@ export type UserUncheckedUpdateWithoutUsageAnalyticsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
   audioFiles?: Prisma.AudioFileUncheckedUpdateManyWithoutUserNestedInput
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutUserNestedInput
-  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
   jobs?: Prisma.JobUncheckedUpdateManyWithoutUserNestedInput
+  rateLimitEvents?: Prisma.RateLimitEventUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1604,27 +1662,27 @@ export type UserUncheckedUpdateWithoutUsageAnalyticsInput = {
  */
 
 export type UserCountOutputType = {
-  sessions: number
   accounts: number
-  ttsRequests: number
   audioFiles: number
-  subscriptions: number
   invoices: number
-  usageAnalytics: number
-  rateLimitEvents: number
   jobs: number
+  rateLimitEvents: number
+  sessions: number
+  subscriptions: number
+  ttsRequests: number
+  usageAnalytics: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-  ttsRequests?: boolean | UserCountOutputTypeCountTtsRequestsArgs
   audioFiles?: boolean | UserCountOutputTypeCountAudioFilesArgs
-  subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   invoices?: boolean | UserCountOutputTypeCountInvoicesArgs
-  usageAnalytics?: boolean | UserCountOutputTypeCountUsageAnalyticsArgs
-  rateLimitEvents?: boolean | UserCountOutputTypeCountRateLimitEventsArgs
   jobs?: boolean | UserCountOutputTypeCountJobsArgs
+  rateLimitEvents?: boolean | UserCountOutputTypeCountRateLimitEventsArgs
+  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
+  ttsRequests?: boolean | UserCountOutputTypeCountTtsRequestsArgs
+  usageAnalytics?: boolean | UserCountOutputTypeCountUsageAnalyticsArgs
 }
 
 /**
@@ -1640,22 +1698,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SessionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AccountWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountTtsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TtsRequestWhereInput
 }
 
 /**
@@ -1668,13 +1712,6 @@ export type UserCountOutputTypeCountAudioFilesArgs<ExtArgs extends runtime.Types
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubscriptionWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountInvoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.InvoiceWhereInput
 }
@@ -1682,8 +1719,8 @@ export type UserCountOutputTypeCountInvoicesArgs<ExtArgs extends runtime.Types.E
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountUsageAnalyticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UsageAnalyticsWhereInput
+export type UserCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.JobWhereInput
 }
 
 /**
@@ -1696,8 +1733,29 @@ export type UserCountOutputTypeCountRateLimitEventsArgs<ExtArgs extends runtime.
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.JobWhereInput
+export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubscriptionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTtsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TtsRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUsageAnalyticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UsageAnalyticsWhereInput
 }
 
 
@@ -1709,19 +1767,20 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   role?: boolean
   banned?: boolean
   banReason?: boolean
   banExpires?: boolean
-  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  ttsRequests?: boolean | Prisma.User$ttsRequestsArgs<ExtArgs>
   audioFiles?: boolean | Prisma.User$audioFilesArgs<ExtArgs>
-  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   invoices?: boolean | Prisma.User$invoicesArgs<ExtArgs>
-  usageAnalytics?: boolean | Prisma.User$usageAnalyticsArgs<ExtArgs>
-  rateLimitEvents?: boolean | Prisma.User$rateLimitEventsArgs<ExtArgs>
   jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
+  rateLimitEvents?: boolean | Prisma.User$rateLimitEventsArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
+  ttsRequests?: boolean | Prisma.User$ttsRequestsArgs<ExtArgs>
+  usageAnalytics?: boolean | Prisma.User$usageAnalyticsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1733,6 +1792,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   role?: boolean
   banned?: boolean
   banReason?: boolean
@@ -1747,6 +1807,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   role?: boolean
   banned?: boolean
   banReason?: boolean
@@ -1761,23 +1822,24 @@ export type UserSelectScalar = {
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   role?: boolean
   banned?: boolean
   banReason?: boolean
   banExpires?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role" | "banned" | "banReason" | "banExpires", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "deletedAt" | "role" | "banned" | "banReason" | "banExpires", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
-  ttsRequests?: boolean | Prisma.User$ttsRequestsArgs<ExtArgs>
   audioFiles?: boolean | Prisma.User$audioFilesArgs<ExtArgs>
-  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   invoices?: boolean | Prisma.User$invoicesArgs<ExtArgs>
-  usageAnalytics?: boolean | Prisma.User$usageAnalyticsArgs<ExtArgs>
-  rateLimitEvents?: boolean | Prisma.User$rateLimitEventsArgs<ExtArgs>
   jobs?: boolean | Prisma.User$jobsArgs<ExtArgs>
+  rateLimitEvents?: boolean | Prisma.User$rateLimitEventsArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
+  ttsRequests?: boolean | Prisma.User$ttsRequestsArgs<ExtArgs>
+  usageAnalytics?: boolean | Prisma.User$usageAnalyticsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1786,15 +1848,15 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
-    ttsRequests: Prisma.$TtsRequestPayload<ExtArgs>[]
     audioFiles: Prisma.$AudioFilePayload<ExtArgs>[]
-    subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
     invoices: Prisma.$InvoicePayload<ExtArgs>[]
-    usageAnalytics: Prisma.$UsageAnalyticsPayload<ExtArgs>[]
-    rateLimitEvents: Prisma.$RateLimitEventPayload<ExtArgs>[]
     jobs: Prisma.$JobPayload<ExtArgs>[]
+    rateLimitEvents: Prisma.$RateLimitEventPayload<ExtArgs>[]
+    sessions: Prisma.$SessionPayload<ExtArgs>[]
+    subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
+    ttsRequests: Prisma.$TtsRequestPayload<ExtArgs>[]
+    usageAnalytics: Prisma.$UsageAnalyticsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1804,6 +1866,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     image: string | null
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
     role: string | null
     banned: boolean | null
     banReason: string | null
@@ -2202,15 +2265,15 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  ttsRequests<T extends Prisma.User$ttsRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ttsRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TtsRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   audioFiles<T extends Prisma.User$audioFilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$audioFilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AudioFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invoices<T extends Prisma.User$invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  usageAnalytics<T extends Prisma.User$usageAnalyticsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$usageAnalyticsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UsageAnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  rateLimitEvents<T extends Prisma.User$rateLimitEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rateLimitEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RateLimitEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   jobs<T extends Prisma.User$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  rateLimitEvents<T extends Prisma.User$rateLimitEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$rateLimitEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RateLimitEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ttsRequests<T extends Prisma.User$ttsRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ttsRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TtsRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  usageAnalytics<T extends Prisma.User$usageAnalyticsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$usageAnalyticsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UsageAnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2247,6 +2310,7 @@ export interface UserFieldRefs {
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly role: Prisma.FieldRef<"User", 'String'>
   readonly banned: Prisma.FieldRef<"User", 'Boolean'>
   readonly banReason: Prisma.FieldRef<"User", 'String'>
@@ -2639,30 +2703,6 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.sessions
- */
-export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Session
-   */
-  select?: Prisma.SessionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Session
-   */
-  omit?: Prisma.SessionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SessionInclude<ExtArgs> | null
-  where?: Prisma.SessionWhereInput
-  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
-  cursor?: Prisma.SessionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
-}
-
-/**
  * User.accounts
  */
 export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2684,30 +2724,6 @@ export type User$accountsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.AccountScalarFieldEnum | Prisma.AccountScalarFieldEnum[]
-}
-
-/**
- * User.ttsRequests
- */
-export type User$ttsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TtsRequest
-   */
-  select?: Prisma.TtsRequestSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TtsRequest
-   */
-  omit?: Prisma.TtsRequestOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TtsRequestInclude<ExtArgs> | null
-  where?: Prisma.TtsRequestWhereInput
-  orderBy?: Prisma.TtsRequestOrderByWithRelationInput | Prisma.TtsRequestOrderByWithRelationInput[]
-  cursor?: Prisma.TtsRequestWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TtsRequestScalarFieldEnum | Prisma.TtsRequestScalarFieldEnum[]
 }
 
 /**
@@ -2735,30 +2751,6 @@ export type User$audioFilesArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * User.subscriptions
- */
-export type User$subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Subscription
-   */
-  select?: Prisma.SubscriptionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Subscription
-   */
-  omit?: Prisma.SubscriptionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubscriptionInclude<ExtArgs> | null
-  where?: Prisma.SubscriptionWhereInput
-  orderBy?: Prisma.SubscriptionOrderByWithRelationInput | Prisma.SubscriptionOrderByWithRelationInput[]
-  cursor?: Prisma.SubscriptionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubscriptionScalarFieldEnum | Prisma.SubscriptionScalarFieldEnum[]
-}
-
-/**
  * User.invoices
  */
 export type User$invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2783,27 +2775,27 @@ export type User$invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * User.usageAnalytics
+ * User.jobs
  */
-export type User$usageAnalyticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the UsageAnalytics
+   * Select specific fields to fetch from the Job
    */
-  select?: Prisma.UsageAnalyticsSelect<ExtArgs> | null
+  select?: Prisma.JobSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the UsageAnalytics
+   * Omit specific fields from the Job
    */
-  omit?: Prisma.UsageAnalyticsOmit<ExtArgs> | null
+  omit?: Prisma.JobOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UsageAnalyticsInclude<ExtArgs> | null
-  where?: Prisma.UsageAnalyticsWhereInput
-  orderBy?: Prisma.UsageAnalyticsOrderByWithRelationInput | Prisma.UsageAnalyticsOrderByWithRelationInput[]
-  cursor?: Prisma.UsageAnalyticsWhereUniqueInput
+  include?: Prisma.JobInclude<ExtArgs> | null
+  where?: Prisma.JobWhereInput
+  orderBy?: Prisma.JobOrderByWithRelationInput | Prisma.JobOrderByWithRelationInput[]
+  cursor?: Prisma.JobWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.UsageAnalyticsScalarFieldEnum | Prisma.UsageAnalyticsScalarFieldEnum[]
+  distinct?: Prisma.JobScalarFieldEnum | Prisma.JobScalarFieldEnum[]
 }
 
 /**
@@ -2831,27 +2823,99 @@ export type User$rateLimitEventsArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * User.jobs
+ * User.sessions
  */
-export type User$jobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Job
+   * Select specific fields to fetch from the Session
    */
-  select?: Prisma.JobSelect<ExtArgs> | null
+  select?: Prisma.SessionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Job
+   * Omit specific fields from the Session
    */
-  omit?: Prisma.JobOmit<ExtArgs> | null
+  omit?: Prisma.SessionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.JobInclude<ExtArgs> | null
-  where?: Prisma.JobWhereInput
-  orderBy?: Prisma.JobOrderByWithRelationInput | Prisma.JobOrderByWithRelationInput[]
-  cursor?: Prisma.JobWhereUniqueInput
+  include?: Prisma.SessionInclude<ExtArgs> | null
+  where?: Prisma.SessionWhereInput
+  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
+  cursor?: Prisma.SessionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.JobScalarFieldEnum | Prisma.JobScalarFieldEnum[]
+  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+}
+
+/**
+ * User.subscriptions
+ */
+export type User$subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Subscription
+   */
+  select?: Prisma.SubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Subscription
+   */
+  omit?: Prisma.SubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubscriptionInclude<ExtArgs> | null
+  where?: Prisma.SubscriptionWhereInput
+  orderBy?: Prisma.SubscriptionOrderByWithRelationInput | Prisma.SubscriptionOrderByWithRelationInput[]
+  cursor?: Prisma.SubscriptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubscriptionScalarFieldEnum | Prisma.SubscriptionScalarFieldEnum[]
+}
+
+/**
+ * User.ttsRequests
+ */
+export type User$ttsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TtsRequest
+   */
+  select?: Prisma.TtsRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TtsRequest
+   */
+  omit?: Prisma.TtsRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TtsRequestInclude<ExtArgs> | null
+  where?: Prisma.TtsRequestWhereInput
+  orderBy?: Prisma.TtsRequestOrderByWithRelationInput | Prisma.TtsRequestOrderByWithRelationInput[]
+  cursor?: Prisma.TtsRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TtsRequestScalarFieldEnum | Prisma.TtsRequestScalarFieldEnum[]
+}
+
+/**
+ * User.usageAnalytics
+ */
+export type User$usageAnalyticsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UsageAnalytics
+   */
+  select?: Prisma.UsageAnalyticsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UsageAnalytics
+   */
+  omit?: Prisma.UsageAnalyticsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UsageAnalyticsInclude<ExtArgs> | null
+  where?: Prisma.UsageAnalyticsWhereInput
+  orderBy?: Prisma.UsageAnalyticsOrderByWithRelationInput | Prisma.UsageAnalyticsOrderByWithRelationInput[]
+  cursor?: Prisma.UsageAnalyticsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UsageAnalyticsScalarFieldEnum | Prisma.UsageAnalyticsScalarFieldEnum[]
 }
 
 /**

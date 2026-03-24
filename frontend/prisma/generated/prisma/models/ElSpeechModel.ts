@@ -289,8 +289,8 @@ export type ElSpeechModelWhereInput = {
   lastSyncedAt?: Prisma.DateTimeFilter<"ElSpeechModel"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"ElSpeechModel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ElSpeechModel"> | Date | string
-  voiceModels?: Prisma.VoiceModelListRelationFilter
   ttsRequests?: Prisma.TtsRequestListRelationFilter
+  voiceModels?: Prisma.VoiceModelListRelationFilter
 }
 
 export type ElSpeechModelOrderByWithRelationInput = {
@@ -308,8 +308,8 @@ export type ElSpeechModelOrderByWithRelationInput = {
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  voiceModels?: Prisma.VoiceModelOrderByRelationAggregateInput
   ttsRequests?: Prisma.TtsRequestOrderByRelationAggregateInput
+  voiceModels?: Prisma.VoiceModelOrderByRelationAggregateInput
 }
 
 export type ElSpeechModelWhereUniqueInput = Prisma.AtLeast<{
@@ -330,8 +330,8 @@ export type ElSpeechModelWhereUniqueInput = Prisma.AtLeast<{
   lastSyncedAt?: Prisma.DateTimeFilter<"ElSpeechModel"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"ElSpeechModel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ElSpeechModel"> | Date | string
-  voiceModels?: Prisma.VoiceModelListRelationFilter
   ttsRequests?: Prisma.TtsRequestListRelationFilter
+  voiceModels?: Prisma.VoiceModelListRelationFilter
 }, "id" | "elModelId">
 
 export type ElSpeechModelOrderByWithAggregationInput = {
@@ -391,8 +391,8 @@ export type ElSpeechModelCreateInput = {
   lastSyncedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  voiceModels?: Prisma.VoiceModelCreateNestedManyWithoutElSpeechModelInput
   ttsRequests?: Prisma.TtsRequestCreateNestedManyWithoutElSpeechModelInput
+  voiceModels?: Prisma.VoiceModelCreateNestedManyWithoutElSpeechModelInput
 }
 
 export type ElSpeechModelUncheckedCreateInput = {
@@ -410,8 +410,8 @@ export type ElSpeechModelUncheckedCreateInput = {
   lastSyncedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  voiceModels?: Prisma.VoiceModelUncheckedCreateNestedManyWithoutElSpeechModelInput
   ttsRequests?: Prisma.TtsRequestUncheckedCreateNestedManyWithoutElSpeechModelInput
+  voiceModels?: Prisma.VoiceModelUncheckedCreateNestedManyWithoutElSpeechModelInput
 }
 
 export type ElSpeechModelUpdateInput = {
@@ -429,8 +429,8 @@ export type ElSpeechModelUpdateInput = {
   lastSyncedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  voiceModels?: Prisma.VoiceModelUpdateManyWithoutElSpeechModelNestedInput
   ttsRequests?: Prisma.TtsRequestUpdateManyWithoutElSpeechModelNestedInput
+  voiceModels?: Prisma.VoiceModelUpdateManyWithoutElSpeechModelNestedInput
 }
 
 export type ElSpeechModelUncheckedUpdateInput = {
@@ -448,8 +448,8 @@ export type ElSpeechModelUncheckedUpdateInput = {
   lastSyncedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  voiceModels?: Prisma.VoiceModelUncheckedUpdateManyWithoutElSpeechModelNestedInput
   ttsRequests?: Prisma.TtsRequestUncheckedUpdateManyWithoutElSpeechModelNestedInput
+  voiceModels?: Prisma.VoiceModelUncheckedUpdateManyWithoutElSpeechModelNestedInput
 }
 
 export type ElSpeechModelCreateManyInput = {
@@ -817,13 +817,13 @@ export type ElSpeechModelUncheckedUpdateWithoutTtsRequestsInput = {
  */
 
 export type ElSpeechModelCountOutputType = {
-  voiceModels: number
   ttsRequests: number
+  voiceModels: number
 }
 
 export type ElSpeechModelCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  voiceModels?: boolean | ElSpeechModelCountOutputTypeCountVoiceModelsArgs
   ttsRequests?: boolean | ElSpeechModelCountOutputTypeCountTtsRequestsArgs
+  voiceModels?: boolean | ElSpeechModelCountOutputTypeCountVoiceModelsArgs
 }
 
 /**
@@ -839,15 +839,15 @@ export type ElSpeechModelCountOutputTypeDefaultArgs<ExtArgs extends runtime.Type
 /**
  * ElSpeechModelCountOutputType without action
  */
-export type ElSpeechModelCountOutputTypeCountVoiceModelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.VoiceModelWhereInput
+export type ElSpeechModelCountOutputTypeCountTtsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TtsRequestWhereInput
 }
 
 /**
  * ElSpeechModelCountOutputType without action
  */
-export type ElSpeechModelCountOutputTypeCountTtsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TtsRequestWhereInput
+export type ElSpeechModelCountOutputTypeCountVoiceModelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VoiceModelWhereInput
 }
 
 
@@ -866,8 +866,8 @@ export type ElSpeechModelSelect<ExtArgs extends runtime.Types.Extensions.Interna
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  voiceModels?: boolean | Prisma.ElSpeechModel$voiceModelsArgs<ExtArgs>
   ttsRequests?: boolean | Prisma.ElSpeechModel$ttsRequestsArgs<ExtArgs>
+  voiceModels?: boolean | Prisma.ElSpeechModel$voiceModelsArgs<ExtArgs>
   _count?: boolean | Prisma.ElSpeechModelCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["elSpeechModel"]>
 
@@ -924,8 +924,8 @@ export type ElSpeechModelSelectScalar = {
 
 export type ElSpeechModelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "elModelId" | "name" | "description" | "canDoTts" | "supportedLanguages" | "maxCharactersPerRequest" | "isFlash" | "isDeprecated" | "isActive" | "tokenCostFactor" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["elSpeechModel"]>
 export type ElSpeechModelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  voiceModels?: boolean | Prisma.ElSpeechModel$voiceModelsArgs<ExtArgs>
   ttsRequests?: boolean | Prisma.ElSpeechModel$ttsRequestsArgs<ExtArgs>
+  voiceModels?: boolean | Prisma.ElSpeechModel$voiceModelsArgs<ExtArgs>
   _count?: boolean | Prisma.ElSpeechModelCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ElSpeechModelIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -934,8 +934,8 @@ export type ElSpeechModelIncludeUpdateManyAndReturn<ExtArgs extends runtime.Type
 export type $ElSpeechModelPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ElSpeechModel"
   objects: {
-    voiceModels: Prisma.$VoiceModelPayload<ExtArgs>[]
     ttsRequests: Prisma.$TtsRequestPayload<ExtArgs>[]
+    voiceModels: Prisma.$VoiceModelPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1364,8 +1364,8 @@ readonly fields: ElSpeechModelFieldRefs;
  */
 export interface Prisma__ElSpeechModelClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  voiceModels<T extends Prisma.ElSpeechModel$voiceModelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ElSpeechModel$voiceModelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VoiceModelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ttsRequests<T extends Prisma.ElSpeechModel$ttsRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ElSpeechModel$ttsRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TtsRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  voiceModels<T extends Prisma.ElSpeechModel$voiceModelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ElSpeechModel$voiceModelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VoiceModelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1797,30 +1797,6 @@ export type ElSpeechModelDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * ElSpeechModel.voiceModels
- */
-export type ElSpeechModel$voiceModelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the VoiceModel
-   */
-  select?: Prisma.VoiceModelSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the VoiceModel
-   */
-  omit?: Prisma.VoiceModelOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.VoiceModelInclude<ExtArgs> | null
-  where?: Prisma.VoiceModelWhereInput
-  orderBy?: Prisma.VoiceModelOrderByWithRelationInput | Prisma.VoiceModelOrderByWithRelationInput[]
-  cursor?: Prisma.VoiceModelWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.VoiceModelScalarFieldEnum | Prisma.VoiceModelScalarFieldEnum[]
-}
-
-/**
  * ElSpeechModel.ttsRequests
  */
 export type ElSpeechModel$ttsRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1842,6 +1818,30 @@ export type ElSpeechModel$ttsRequestsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.TtsRequestScalarFieldEnum | Prisma.TtsRequestScalarFieldEnum[]
+}
+
+/**
+ * ElSpeechModel.voiceModels
+ */
+export type ElSpeechModel$voiceModelsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VoiceModel
+   */
+  select?: Prisma.VoiceModelSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VoiceModel
+   */
+  omit?: Prisma.VoiceModelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VoiceModelInclude<ExtArgs> | null
+  where?: Prisma.VoiceModelWhereInput
+  orderBy?: Prisma.VoiceModelOrderByWithRelationInput | Prisma.VoiceModelOrderByWithRelationInput[]
+  cursor?: Prisma.VoiceModelWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VoiceModelScalarFieldEnum | Prisma.VoiceModelScalarFieldEnum[]
 }
 
 /**

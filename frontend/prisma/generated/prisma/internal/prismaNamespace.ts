@@ -1950,6 +1950,7 @@ export const UserScalarFieldEnum = {
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   role: 'role',
   banned: 'banned',
   banReason: 'banReason',
