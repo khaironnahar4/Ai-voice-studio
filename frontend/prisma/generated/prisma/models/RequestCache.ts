@@ -47,6 +47,7 @@ export type RequestCacheMinAggregateOutputType = {
   charCount: number | null
   hitCount: number | null
   lastHitAt: Date | null
+  isPinned: boolean | null
   expiresAt: Date | null
   createdAt: Date | null
 }
@@ -60,6 +61,7 @@ export type RequestCacheMaxAggregateOutputType = {
   charCount: number | null
   hitCount: number | null
   lastHitAt: Date | null
+  isPinned: boolean | null
   expiresAt: Date | null
   createdAt: Date | null
 }
@@ -73,6 +75,7 @@ export type RequestCacheCountAggregateOutputType = {
   charCount: number
   hitCount: number
   lastHitAt: number
+  isPinned: number
   expiresAt: number
   createdAt: number
   _all: number
@@ -98,6 +101,7 @@ export type RequestCacheMinAggregateInputType = {
   charCount?: true
   hitCount?: true
   lastHitAt?: true
+  isPinned?: true
   expiresAt?: true
   createdAt?: true
 }
@@ -111,6 +115,7 @@ export type RequestCacheMaxAggregateInputType = {
   charCount?: true
   hitCount?: true
   lastHitAt?: true
+  isPinned?: true
   expiresAt?: true
   createdAt?: true
 }
@@ -124,6 +129,7 @@ export type RequestCacheCountAggregateInputType = {
   charCount?: true
   hitCount?: true
   lastHitAt?: true
+  isPinned?: true
   expiresAt?: true
   createdAt?: true
   _all?: true
@@ -224,6 +230,7 @@ export type RequestCacheGroupByOutputType = {
   charCount: number
   hitCount: number
   lastHitAt: Date | null
+  isPinned: boolean
   expiresAt: Date | null
   createdAt: Date
   _count: RequestCacheCountAggregateOutputType | null
@@ -260,6 +267,7 @@ export type RequestCacheWhereInput = {
   charCount?: Prisma.IntFilter<"RequestCache"> | number
   hitCount?: Prisma.IntFilter<"RequestCache"> | number
   lastHitAt?: Prisma.DateTimeNullableFilter<"RequestCache"> | Date | string | null
+  isPinned?: Prisma.BoolFilter<"RequestCache"> | boolean
   expiresAt?: Prisma.DateTimeNullableFilter<"RequestCache"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"RequestCache"> | Date | string
   audioFile?: Prisma.XOR<Prisma.AudioFileScalarRelationFilter, Prisma.AudioFileWhereInput>
@@ -275,6 +283,7 @@ export type RequestCacheOrderByWithRelationInput = {
   charCount?: Prisma.SortOrder
   hitCount?: Prisma.SortOrder
   lastHitAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   audioFile?: Prisma.AudioFileOrderByWithRelationInput
@@ -293,6 +302,7 @@ export type RequestCacheWhereUniqueInput = Prisma.AtLeast<{
   charCount?: Prisma.IntFilter<"RequestCache"> | number
   hitCount?: Prisma.IntFilter<"RequestCache"> | number
   lastHitAt?: Prisma.DateTimeNullableFilter<"RequestCache"> | Date | string | null
+  isPinned?: Prisma.BoolFilter<"RequestCache"> | boolean
   expiresAt?: Prisma.DateTimeNullableFilter<"RequestCache"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"RequestCache"> | Date | string
   audioFile?: Prisma.XOR<Prisma.AudioFileScalarRelationFilter, Prisma.AudioFileWhereInput>
@@ -308,6 +318,7 @@ export type RequestCacheOrderByWithAggregationInput = {
   charCount?: Prisma.SortOrder
   hitCount?: Prisma.SortOrder
   lastHitAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.RequestCacheCountOrderByAggregateInput
@@ -329,6 +340,7 @@ export type RequestCacheScalarWhereWithAggregatesInput = {
   charCount?: Prisma.IntWithAggregatesFilter<"RequestCache"> | number
   hitCount?: Prisma.IntWithAggregatesFilter<"RequestCache"> | number
   lastHitAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RequestCache"> | Date | string | null
+  isPinned?: Prisma.BoolWithAggregatesFilter<"RequestCache"> | boolean
   expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RequestCache"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"RequestCache"> | Date | string
 }
@@ -340,6 +352,7 @@ export type RequestCacheCreateInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
   audioFile: Prisma.AudioFileCreateNestedOneWithoutRequestCachesInput
@@ -355,6 +368,7 @@ export type RequestCacheUncheckedCreateInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -366,6 +380,7 @@ export type RequestCacheUpdateInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneRequiredWithoutRequestCachesNestedInput
@@ -381,6 +396,7 @@ export type RequestCacheUncheckedUpdateInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -394,6 +410,7 @@ export type RequestCacheCreateManyInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -405,6 +422,7 @@ export type RequestCacheUpdateManyMutationInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -418,6 +436,7 @@ export type RequestCacheUncheckedUpdateManyInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -441,6 +460,7 @@ export type RequestCacheCountOrderByAggregateInput = {
   charCount?: Prisma.SortOrder
   hitCount?: Prisma.SortOrder
   lastHitAt?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -459,6 +479,7 @@ export type RequestCacheMaxOrderByAggregateInput = {
   charCount?: Prisma.SortOrder
   hitCount?: Prisma.SortOrder
   lastHitAt?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -472,6 +493,7 @@ export type RequestCacheMinOrderByAggregateInput = {
   charCount?: Prisma.SortOrder
   hitCount?: Prisma.SortOrder
   lastHitAt?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -572,6 +594,7 @@ export type RequestCacheCreateWithoutVoiceModelInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
   audioFile: Prisma.AudioFileCreateNestedOneWithoutRequestCachesInput
@@ -585,6 +608,7 @@ export type RequestCacheUncheckedCreateWithoutVoiceModelInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -627,6 +651,7 @@ export type RequestCacheScalarWhereInput = {
   charCount?: Prisma.IntFilter<"RequestCache"> | number
   hitCount?: Prisma.IntFilter<"RequestCache"> | number
   lastHitAt?: Prisma.DateTimeNullableFilter<"RequestCache"> | Date | string | null
+  isPinned?: Prisma.BoolFilter<"RequestCache"> | boolean
   expiresAt?: Prisma.DateTimeNullableFilter<"RequestCache"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"RequestCache"> | Date | string
 }
@@ -638,6 +663,7 @@ export type RequestCacheCreateWithoutAudioFileInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutRequestCachesInput
@@ -651,6 +677,7 @@ export type RequestCacheUncheckedCreateWithoutAudioFileInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -689,6 +716,7 @@ export type RequestCacheCreateManyVoiceModelInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -700,6 +728,7 @@ export type RequestCacheUpdateWithoutVoiceModelInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneRequiredWithoutRequestCachesNestedInput
@@ -713,6 +742,7 @@ export type RequestCacheUncheckedUpdateWithoutVoiceModelInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -725,6 +755,7 @@ export type RequestCacheUncheckedUpdateManyWithoutVoiceModelInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -737,6 +768,7 @@ export type RequestCacheCreateManyAudioFileInput = {
   charCount: number
   hitCount?: number
   lastHitAt?: Date | string | null
+  isPinned?: boolean
   expiresAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -748,6 +780,7 @@ export type RequestCacheUpdateWithoutAudioFileInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutRequestCachesNestedInput
@@ -761,6 +794,7 @@ export type RequestCacheUncheckedUpdateWithoutAudioFileInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -773,6 +807,7 @@ export type RequestCacheUncheckedUpdateManyWithoutAudioFileInput = {
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
   hitCount?: Prisma.IntFieldUpdateOperationsInput | number
   lastHitAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -788,6 +823,7 @@ export type RequestCacheSelect<ExtArgs extends runtime.Types.Extensions.Internal
   charCount?: boolean
   hitCount?: boolean
   lastHitAt?: boolean
+  isPinned?: boolean
   expiresAt?: boolean
   createdAt?: boolean
   audioFile?: boolean | Prisma.AudioFileDefaultArgs<ExtArgs>
@@ -803,6 +839,7 @@ export type RequestCacheSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   charCount?: boolean
   hitCount?: boolean
   lastHitAt?: boolean
+  isPinned?: boolean
   expiresAt?: boolean
   createdAt?: boolean
   audioFile?: boolean | Prisma.AudioFileDefaultArgs<ExtArgs>
@@ -818,6 +855,7 @@ export type RequestCacheSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   charCount?: boolean
   hitCount?: boolean
   lastHitAt?: boolean
+  isPinned?: boolean
   expiresAt?: boolean
   createdAt?: boolean
   audioFile?: boolean | Prisma.AudioFileDefaultArgs<ExtArgs>
@@ -833,11 +871,12 @@ export type RequestCacheSelectScalar = {
   charCount?: boolean
   hitCount?: boolean
   lastHitAt?: boolean
+  isPinned?: boolean
   expiresAt?: boolean
   createdAt?: boolean
 }
 
-export type RequestCacheOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cacheKey" | "audioFileId" | "voiceModelId" | "outputFormat" | "charCount" | "hitCount" | "lastHitAt" | "expiresAt" | "createdAt", ExtArgs["result"]["requestCache"]>
+export type RequestCacheOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cacheKey" | "audioFileId" | "voiceModelId" | "outputFormat" | "charCount" | "hitCount" | "lastHitAt" | "isPinned" | "expiresAt" | "createdAt", ExtArgs["result"]["requestCache"]>
 export type RequestCacheInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   audioFile?: boolean | Prisma.AudioFileDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
@@ -881,6 +920,7 @@ export type $RequestCachePayload<ExtArgs extends runtime.Types.Extensions.Intern
     /**
      * NULL = never expires; set for volatile content
      */
+    isPinned: boolean
     expiresAt: Date | null
     createdAt: Date
   }, ExtArgs["result"]["requestCache"]>
@@ -1316,6 +1356,7 @@ export interface RequestCacheFieldRefs {
   readonly charCount: Prisma.FieldRef<"RequestCache", 'Int'>
   readonly hitCount: Prisma.FieldRef<"RequestCache", 'Int'>
   readonly lastHitAt: Prisma.FieldRef<"RequestCache", 'DateTime'>
+  readonly isPinned: Prisma.FieldRef<"RequestCache", 'Boolean'>
   readonly expiresAt: Prisma.FieldRef<"RequestCache", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"RequestCache", 'DateTime'>
 }

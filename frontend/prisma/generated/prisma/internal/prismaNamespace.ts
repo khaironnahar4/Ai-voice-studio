@@ -2330,6 +2330,7 @@ export const RequestCacheScalarFieldEnum = {
   charCount: 'charCount',
   hitCount: 'hitCount',
   lastHitAt: 'lastHitAt',
+  isPinned: 'isPinned',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt'
 } as const

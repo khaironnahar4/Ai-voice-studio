@@ -51,14 +51,14 @@ model Session {
 
 model Account {
   id                    String    @id @default(uuid()) @db.Uuid
-  accountId             String @map("account_id")
-  providerId            String @map("provider_id")
+  accountId             String    @map("account_id")
+  providerId            String    @map("provider_id")
   userId                String    @map("user_id") @db.Uuid
-  accessToken           String?  @map("access_token")
-  refreshToken          String?  @map("refresh_token")
-  idToken               String?  @map("id_token")
-  accessTokenExpiresAt  DateTime?  @map("access_token_expires_at")
-  refreshTokenExpiresAt DateTime?  @map("refresh_token_expires_at")
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  idToken               String?   @map("id_token")
+  accessTokenExpiresAt  DateTime? @map("access_token_expires_at")
+  refreshTokenExpiresAt DateTime? @map("refresh_token_expires_at")
   scope                 String?
   password              String?
   createdAt             DateTime  @default(now()) @map("created_at")
@@ -592,6 +592,7 @@ model RequestCache {
   hitCount     Int        @default(0) @map("hit_count")
   lastHitAt    DateTime?  @map("last_hit_at") @db.Timestamptz(6)
   /// NULL = never expires; set for volatile content
+  isPinned     Boolean    @default(false) @map("is_pinned")
   expiresAt    DateTime?  @map("expires_at") @db.Timestamptz(6)
   createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
   audioFile    AudioFile  @relation(fields: [audioFileId], references: [id])
