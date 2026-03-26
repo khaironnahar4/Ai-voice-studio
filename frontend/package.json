@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "worker:dev": "tsx watch workers/tts-worker.ts",
+    "worker": "tsx workers/tts-worker.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
