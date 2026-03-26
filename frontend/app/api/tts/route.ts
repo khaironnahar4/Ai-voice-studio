@@ -5,7 +5,7 @@ import { buildCacheKey, lookupCache } from "@/lib/tts/cache";
 import { ttsQueue }        from "@/lib/queue";
 import type { TtsJobPayload } from "@/lib/queue";
 import prisma from "@/lib/auth/prisma";
-import { authIsRequired } from "@/lib/auth/auth-utils";
+import { getSession } from "@/lib/auth/session";
 
 // ── Request validation ────────────────────────────────────────
 const TtsRequestSchema = z.object({
@@ -26,7 +26,7 @@ const TtsRequestSchema = z.object({
 
 export async function POST(req: Request) {
   // ── Auth ────────────────────────────────────────────────────
-  const session = await authIsRequired();
+  const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthenticated." }, { status: 401 });
   }

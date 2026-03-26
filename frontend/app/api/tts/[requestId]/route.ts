@@ -1,13 +1,13 @@
 import { NextResponse }  from "next/server";
 import { generateSignedUrl } from "@/lib/storage/r2";
 import prisma from "@/lib/auth/prisma";
-import { authIsRequired } from "@/lib/auth/auth-utils";
+import { getSession } from "@/lib/auth/session";
 
 export async function GET(
   _req: Request,
   { params }: { params: { requestId: string } }
 ) {
-  const session = await authIsRequired();
+  const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthenticated." }, { status: 401 });
   }
