@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/auth/prisma";
 
 // Maps EL language_id (e.g. "en") to your languages.id (SmallInt)
 export async function getLanguageMap(): Promise<Map<string, number>> {

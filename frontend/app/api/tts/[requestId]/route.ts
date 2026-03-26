@@ -1,7 +1,7 @@
 import { NextResponse }  from "next/server";
 import { generateSignedUrl } from "@/lib/storage/r2";
-import prisma from "@/lib/prisma";
-import { authIsRequired } from "@/lib/auth-utils";
+import prisma from "@/lib/auth/prisma";
+import { authIsRequired } from "@/lib/auth/auth-utils";
 
 export async function GET(
   _req: Request,

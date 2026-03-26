@@ -7,7 +7,7 @@ import {
 } from "@/lib/storage/r2";
 import { writeCache } from "@/lib/tts/cache";
 import type { TtsJobPayload } from "@/lib/queue";
-import prisma from "../prisma";
+import prisma from "../auth/prisma";
 
 const EL_BASE = process.env.EL_BASE ;
 

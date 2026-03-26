@@ -4,8 +4,8 @@ import { checkUserQuota }  from "@/lib/tts/quota";
 import { buildCacheKey, lookupCache } from "@/lib/tts/cache";
 import { ttsQueue }        from "@/lib/queue";
 import type { TtsJobPayload } from "@/lib/queue";
-import prisma from "@/lib/prisma";
-import { authIsRequired } from "@/lib/auth-utils";
+import prisma from "@/lib/auth/prisma";
+import { authIsRequired } from "@/lib/auth/auth-utils";
 
 // ── Request validation ────────────────────────────────────────
 const TtsRequestSchema = z.object({

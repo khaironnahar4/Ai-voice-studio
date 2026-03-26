@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { changePassword } from "@/lib/auth-client";
+import { changePassword } from "@/lib/auth/auth-client";
 import { Spinner } from "../ui/spinner";
 
 const formSchema = z

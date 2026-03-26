@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { toast } from "sonner";
-import { signUp } from "@/lib/auth-client";
+import { signUp } from "@/lib/auth/auth-client";
 import { Spinner } from "../ui/spinner";
 import { Separator } from "../ui/separator";
 import { useRouter } from "next/navigation";

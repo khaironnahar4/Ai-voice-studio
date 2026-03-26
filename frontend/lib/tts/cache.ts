@@ -2,7 +2,7 @@
 
 import { createHash } from "crypto";
 import { generateSignedUrl } from "@/lib/storage/r2";
-import prisma from "../prisma";
+import prisma from "../auth/prisma";
 
 // ── Config ────────────────────────────────────────────────────
 const MAX_CACHE_ENTRIES = 500;                        // LRU limit

@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/auth/prisma";
 import { createTtsWorker } from "@/lib/queue";
 import { processTtsJob }   from "@/lib/tts/worker";
 

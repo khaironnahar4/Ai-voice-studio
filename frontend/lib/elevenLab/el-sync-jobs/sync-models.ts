@@ -1,6 +1,6 @@
 // el speech model sync
 
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/auth/prisma";
 import { elApiClient } from "./client";
 
 export async function syncElModels(): Promise<{

@@ -6,7 +6,7 @@ import { Loader, Trash } from "lucide-react";
 import { useDropzone } from "@uploadthing/react";
 import { generateClientDropzoneAccept } from "uploadthing/client";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
-import { useUploadThing } from "@/lib/uploadthing";
+import { useUploadThing } from "@/lib/auth/uploadthing";
 
 interface ImageUploadProps {
   defaultUrl?: string | null;

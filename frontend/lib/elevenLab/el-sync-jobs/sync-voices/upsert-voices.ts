@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/auth/prisma";
 import { ElVoice } from "../el-api-types";
 
 export default async function upsertVoice(

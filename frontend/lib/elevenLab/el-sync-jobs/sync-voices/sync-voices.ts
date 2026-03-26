@@ -1,6 +1,6 @@
 // voice models sync with eleven lab api
 
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/auth/prisma";
 import upsertVoice from "./upsert-voices";
 import { getLanguageMap, getSpeechModelMap } from "./voice-map";
 import { elApiClient } from "../client";

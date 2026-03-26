@@ -1,5 +1,5 @@
 import { userProfile } from '@/app/action/user';
-import { authIsRequired } from '@/lib/auth-utils'
+import { authIsRequired } from '@/lib/auth/auth-utils'
 import { redirect } from 'next/navigation';
 import { UpdateProfile as UpdateProfileForm } from '@/components/auth/UpdateProfileForm';
 import { ChangePasswordForm } from '@/components/auth/ChangePassword';

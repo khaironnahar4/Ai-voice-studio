@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/auth/prisma";
 
 // dotenv.config();
  

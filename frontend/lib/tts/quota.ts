@@ -1,4 +1,4 @@
-import prisma from "../prisma";
+import prisma from "../auth/prisma";
 
 export type QuotaCheckResult =
   | { allowed: true }

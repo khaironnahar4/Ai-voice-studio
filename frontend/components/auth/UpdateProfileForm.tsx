@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { updateUser } from "@/lib/auth-client";
+import { updateUser } from "@/lib/auth/auth-client";
 import { Spinner } from "../ui/spinner";
 import ImageUpload from "./ImageUpload";
 

@@ -1,6 +1,6 @@
 // el usage sync 
 
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/auth/prisma";
 import { elApiClient } from "./client";
     
 
