@@ -1,7 +1,8 @@
-// lib/queue/index.ts
-
 import { Queue, Worker, type Processor } from "bullmq";
 import { Redis }  from "ioredis";
+import dotenv from "dotenv"
+dotenv.config();
+
 
 // Shared Redis connection — reused across Queue + Worker
 export const redis = new Redis(process.env.UPSTASH_REDIS_URL!, {
