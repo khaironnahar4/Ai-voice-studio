@@ -1,0 +1,8 @@
+How to run the frontend project in terminal
+
+# Terminal 1
+npm run dev
+
+# Terminal 2
+npm run worker:dev
+

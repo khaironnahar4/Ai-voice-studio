@@ -30,7 +30,7 @@ export const auth = betterAuth({
       },
     },
 
-    requireEmailVerification: true,
+    requireEmailVerification: false, // Set to true in production for security
 
     // async sendVerificationEmail({ user, url }) {
     //   // Wire to your email provider (Resend, Postmark, etc.)
@@ -57,7 +57,7 @@ export const auth = betterAuth({
   // ── Session Config ────────────────────────────────────────────
   session: {
     // Rolling session — extends on each request
-    strategy: "jwt",
+    // strategy: "jwt",
     expiresIn: 60 * 60 * 24 * 7,        // 7 days active lifetime
     updateAge: 60 * 60 * 24,             // refresh token if >1 day old
     cookieCache: {

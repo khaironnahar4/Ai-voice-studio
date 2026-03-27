@@ -12,6 +12,7 @@ import UseCases from '@/components/homepage/sections/UseCases'
 import Voices from '@/components/homepage/sections/Voices'
 
 
+
 function HomePage() {
   return (
     <main className="relative">

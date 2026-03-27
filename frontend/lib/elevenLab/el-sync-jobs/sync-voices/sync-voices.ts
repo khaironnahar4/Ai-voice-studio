@@ -1,9 +1,89 @@
 // voice models sync with eleven lab api
 
 import prisma from "@/lib/auth/prisma";
-import upsertVoice from "./upsert-voices";
-import { getLanguageMap, getSpeechModelMap } from "./voice-map";
 import { elApiClient } from "../client";
+import { ElVoice } from "../el-api-types";
+
+// Maps EL language_id (e.g. "en") to your languages.id (SmallInt)
+export async function getLanguageMap(): Promise<Map<string, number>> {
+  const langs = await prisma.language.findMany({
+    where: { isActive: true },
+    select: { id: true, code: true },
+  });
+  return new Map(langs.map((l) => [l.code, l.id]));
+}
+
+// Preload ALL elSpeechModels into a Map to avoid DB queries inside the voice loop
+export async function getSpeechModelMap(): Promise<Map<string, string>> {
+  const models = await prisma.elSpeechModel.findMany({
+    select: { id: true, elModelId: true },
+  });
+  return new Map(models.map((m) => [m.elModelId, m.id]));
+}
+
+export default async function upsertVoice(
+  voice: ElVoice,
+  languageMap: Map<string, number>,
+  speechModelMap: Map<string, string> // preloaded — no DB call
+): Promise<"added" | "updated" | "skipped"> {
+  const langCode =
+    voice.verified_languages?.[0]?.language_id ??
+    voice.labels?.language ??
+    "en";
+
+  const languageId = languageMap.get(langCode) ?? languageMap.get("en");
+  if (!languageId) return "skipped";
+
+  // O(1) Map lookup instead of a DB query per voice
+  const elSpeechModelId = voice.high_quality_base_model_ids?.[0]
+    ? (speechModelMap.get(voice.high_quality_base_model_ids[0]) ?? null)
+    : null;
+
+  const slug = voice.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+  const data = {
+    languageId,
+    name: voice.name,
+    slug,
+    provider: "elevenlabs",
+    providerVoiceId: voice.voice_id,
+    gender: voice.labels?.gender ?? null,
+    accent: voice.labels?.accent ?? null,
+    styleTags: voice.labels?.use_case ? [voice.labels.use_case] : [],
+    sampleAudioUrl: null,
+    isPremium: !voice.available_for_tiers?.includes("free"),
+    isActive: true,
+    elVoiceId: voice.voice_id,
+    elCategory: voice.category,
+    elLabels: voice.labels ?? {},
+    elDescription: voice.description ?? null,
+    elPreviewUrl: voice.preview_url ?? null,
+    elAvailableForTiers: voice.available_for_tiers ?? [],
+    elVerifiedLanguages: voice.verified_languages ?? [],
+    elHighQualityModelIds: voice.high_quality_base_model_ids ?? [],
+    elFineTuningStatus: voice.fine_tuning?.finetuning_state ?? null,
+    elSafetyControl: voice.safety_control ?? null,
+    elSharingEnabled: voice.sharing?.enabled_in_library ?? false,
+    elSpeechModelId,
+    lastSyncedAt: new Date(),
+  };
+
+  const result = await prisma.voiceModel.upsert({
+    where: { elVoiceId: voice.voice_id },
+    create: data,
+    update: data,
+    select: { id: true, createdAt: true, updatedAt: true },
+  });
+
+  // createdAt === updatedAt means it was just created
+  const isNew =
+    result.createdAt.getTime() === result.updatedAt.getTime();
+
+  return isNew ? "added" : "updated";
+}
 
 
 const BATCH_SIZE = 50;
