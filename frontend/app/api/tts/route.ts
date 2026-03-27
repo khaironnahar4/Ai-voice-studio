@@ -80,13 +80,13 @@ export async function POST(req: Request) {
   }
 
   // ── Quota check ─────────────────────────────────────────────
-  const quota = await checkUserQuota(userId, charCount);
-  if (!quota.allowed) {
-    return NextResponse.json(
-      { error: quota.reason, code: quota.code },
-      { status: 402 }
-    );
-  }
+  // const quota = await checkUserQuota(userId, charCount);
+  // if (!quota.allowed) {
+  //   return NextResponse.json(
+  //     { error: quota.reason, code: quota.code },
+  //     { status: 402 }
+  //   );
+  // }
 
   // ── Cache lookup ─────────────────────────────────────────────
   const cacheKey = buildCacheKey({

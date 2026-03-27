@@ -21,10 +21,22 @@ export async function getSpeechModelMap(): Promise<Map<string, string>> {
   return new Map(models.map((m) => [m.elModelId, m.id]));
 }
 
+const EL_FREE_VOICE_IDS = new Set([
+  "21m00Tcm4TlvDq8ikWAM", // Rachel
+  "AZnzlk1XvdvUeBnXmlld", // Domi
+  "EXAVITQu4vr4xnSDxMaL", // Bella
+  "ErXwobaYiN019PkySvjV", // Antoni
+  "MF3mGyEYCl7XYWbV9V6O", // Elli
+  "TxGEqnHWrfWFTfGW9XjX", // Josh
+  "VR6AewLTigWG4xSOukaG", // Arnold
+  "pNInz6obpgDQGcFmaJgB", // Adam
+  "yoZ06aMxZJJ28mfd3POQ", // Sam
+]);
+
 export default async function upsertVoice(
   voice: ElVoice,
   languageMap: Map<string, number>,
-  speechModelMap: Map<string, string> // preloaded — no DB call
+  speechModelMap: Map<string, string>, // preloaded — no DB call
 ): Promise<"added" | "updated" | "skipped"> {
   const langCode =
     voice.verified_languages?.[0]?.language_id ??
@@ -44,6 +56,10 @@ export default async function upsertVoice(
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+  const isFreeByApi = voice.available_for_tiers?.includes("free") ?? false;
+  const isFreeById = EL_FREE_VOICE_IDS.has(voice.voice_id);
+  const isPremium = !(isFreeByApi || isFreeById);
+
   const data = {
     languageId,
     name: voice.name,
@@ -54,7 +70,7 @@ export default async function upsertVoice(
     accent: voice.labels?.accent ?? null,
     styleTags: voice.labels?.use_case ? [voice.labels.use_case] : [],
     sampleAudioUrl: null,
-    isPremium: !voice.available_for_tiers?.includes("free"),
+    isPremium,
     isActive: true,
     elVoiceId: voice.voice_id,
     elCategory: voice.category,
@@ -79,12 +95,10 @@ export default async function upsertVoice(
   });
 
   // createdAt === updatedAt means it was just created
-  const isNew =
-    result.createdAt.getTime() === result.updatedAt.getTime();
+  const isNew = result.createdAt.getTime() === result.updatedAt.getTime();
 
   return isNew ? "added" : "updated";
 }
-
 
 const BATCH_SIZE = 50;
 
@@ -97,7 +111,7 @@ function chunk<T>(arr: T[], size: number): T[][] {
 }
 
 export async function syncElVoices(
-  syncType: "full" | "incremental" = "full"
+  syncType: "full" | "incremental" = "full",
 ): Promise<void> {
   const startedAt = new Date();
   let status = "running";
@@ -129,7 +143,7 @@ export async function syncElVoices(
 
     for (const batch of batches) {
       const results = await Promise.all(
-        batch.map((voice) => upsertVoice(voice, languageMap, speechModelMap))
+        batch.map((voice) => upsertVoice(voice, languageMap, speechModelMap)),
       );
 
       for (const result of results) {
@@ -153,7 +167,7 @@ export async function syncElVoices(
 
     status = "completed";
     console.log(
-      `[sync-voices] Done — added: ${voicesAdded}, updated: ${voicesUpdated}, deactivated: ${voicesDeactivated}`
+      `[sync-voices] Done — added: ${voicesAdded}, updated: ${voicesUpdated}, deactivated: ${voicesDeactivated}`,
     );
   } catch (err) {
     status = "failed";
