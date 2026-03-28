@@ -6,3 +6,9 @@ npm run dev
 # Terminal 2
 npm run worker:dev
 
+# stripe CLI run 
+1. open the terminal in c>stripe
+2. run the command
+    ./stripe listen --forward-to localhost:3000/api/webhooks/stripe
+
+
