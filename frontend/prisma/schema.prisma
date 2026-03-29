@@ -81,219 +81,266 @@ model Verification {
   @@map("verification")
 }
 
-/// Mirrors ElevenLabs model catalog.
-/// Synced daily via GET /v1/models.
-model ElSpeechModel {
-  id                      String       @id @default(uuid()) @db.Uuid
-  /// ElevenLabs model string: eleven_v3, eleven_flash_v2_5, eleven_multilingual_v2
-  elModelId               String       @unique @map("el_model_id") @db.VarChar(100)
-  name                    String       @db.VarChar(150)
-  description             String?
-  canDoTts                Boolean      @default(true) @map("can_do_tts")
-  /// ISO 639-1 language codes this model supports
-  supportedLanguages      String[]     @map("supported_languages")
-  /// Character limit per single request: 5000 (v3), 10000 (v2), 40000 (flash)
-  maxCharactersPerRequest Int          @map("max_characters_per_request")
-  /// True for Flash models (~75ms latency)
-  isFlash                 Boolean      @default(false) @map("is_flash")
-  /// True for deprecated models (monolingual_v1, turbo_v2)
-  isDeprecated            Boolean      @default(false) @map("is_deprecated")
-  isActive                Boolean      @default(true) @map("is_active")
-  /// Relative cost factor from EL pricing
-  tokenCostFactor         Decimal?     @map("token_cost_factor") @db.Decimal(5, 4)
-  lastSyncedAt            DateTime     @default(now()) @map("last_synced_at") @db.Timestamptz(6)
-  createdAt               DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt               DateTime     @updatedAt @map("updated_at") @db.Timestamptz(6)
-  ttsRequests             TtsRequest[]
-  voiceModels             VoiceModel[]
+// ═══════════════════════════════════════════════════════════════════════════════
+// VOICE CATALOG
+// Microsoft Edge TTS voice library
+// Synced via edge-tts list_voices() — 400+ voices available
+// ═══════════════════════════════════════════════════════════════════════════════
 
-  @@index([elModelId], map: "idx_el_speech_models_el_model_id")
-  @@index([isActive], map: "idx_el_speech_models_is_active")
-  @@map("el_speech_models")
+/// Supported speech synthesis languages (BCP-47 codes).
+/// Seeded at migration. Updated when new languages are added to Edge TTS.
+model Language {
+  id         Int          @id @default(autoincrement()) @db.SmallInt
+  code       String       @unique @db.VarChar(10)   // "en-US", "bn-BD", "fr-FR"
+  name       String       @db.VarChar(100)           // "English (United States)"
+  nativeName String?      @map("native_name") @db.VarChar(100)
+  isActive   Boolean      @default(true) @map("is_active")
+  createdAt  DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  voiceModels VoiceModel[]
+
+  @@index([code])
+  @@index([isActive])
+  @@map("languages")
 }
 
-/// Periodic snapshots of ElevenLabs character usage.
-/// Synced hourly via GET /v1/user/subscription.
-/// Append-only — no updates, all rows kept for trend analysis.
-model ElUsageSync {
-  id                        BigInt    @id @default(autoincrement())
-  charactersUsed            BigInt    @map("characters_used")
-  characterLimit            BigInt    @map("character_limit")
-  /// character_limit - characters_used (computed before insert)
-  charactersRemaining       BigInt    @map("characters_remaining")
-  voiceLimit                Int?      @map("voice_limit")
-  professionalVoiceLimit    Int?      @map("professional_voice_limit")
-  canExtendCharacterLimit   Boolean   @default(false) @map("can_extend_character_limit")
-  canUseInstantVoiceCloning Boolean   @default(false) @map("can_use_instant_voice_cloning")
-  /// EL plan tier name: free, starter, creator, pro, enterprise
-  elPlanTier                String?   @map("el_plan_tier") @db.VarChar(50)
-  nextCharacterResetAt      DateTime? @map("next_character_reset_at") @db.Timestamptz(6)
-  /// Full raw EL API response for debugging
-  rawResponse               Json?     @map("raw_response")
-  syncedAt                  DateTime  @default(now()) @map("synced_at") @db.Timestamptz(6)
+/// Microsoft Edge TTS voice catalog.
+/// Synced from edge-tts list_voices() via /api/admin/sync-voices.
+/// Each row = one Edge TTS Neural voice.
+model VoiceModel {
+  id             String   @id @default(uuid()) @db.Uuid
+  languageId     Int      @map("language_id") @db.SmallInt
 
-  @@index([syncedAt], map: "idx_el_usage_sync_synced_at")
-  @@map("el_usage_sync")
+  /// Display name shown in UI: "Ava", "Andrew", "Sonia"
+  name           String   @db.VarChar(100)
+
+  /// URL-safe unique identifier: "en-us-avaneural"
+  slug           String   @unique @db.VarChar(120)
+
+  /// Always "edge-tts" — kept for future multi-provider support
+  provider       String   @default("edge-tts") @db.VarChar(50)
+
+  /// Full Edge TTS short name used in API calls: "en-US-AvaNeural"
+  providerVoiceId String  @unique @map("provider_voice_id") @db.VarChar(200)
+
+  /// "Female" | "Male"
+  gender         String?  @db.VarChar(20)
+
+  /// Accent extracted from locale: "american", "british", "australian"
+  accent         String?  @db.VarChar(50)
+
+  /// BCP-47 locale string: "en-US", "bn-BD", "fr-FR"
+  locale         String   @db.VarChar(20)
+
+  /// e.g. ["conversational", "newscast", "customerservice", "narration"]
+  styleTags      String[] @map("style_tags")
+
+  /// Microsoft full voice name: "Microsoft Server Speech Text to Speech Voice (en-US, AvaNeural)"
+  fullName       String?  @map("full_name")
+
+  /// Codec suggested by Edge TTS: "audio-24khz-48kbitrate-mono-mp3"
+  suggestedCodec String?  @map("suggested_codec") @db.VarChar(100)
+
+  /// Human-friendly name from Edge TTS: "Microsoft Ava Online (Natural) - English (United States)"
+  friendlyName   String?  @map("friendly_name")
+
+  /// "GA" | "Preview" — GA voices are stable
+  voiceStatus    String   @default("GA") @map("voice_status") @db.VarChar(20)
+
+  /// Hosted preview audio URL (optional — for UI preview playback)
+  previewUrl     String?  @map("preview_url")
+
+  /// Restricted to paid plans only
+  isPremium      Boolean  @default(false) @map("is_premium")
+
+  isActive       Boolean  @default(true) @map("is_active")
+  sortOrder      Int      @default(0) @map("sort_order") @db.SmallInt
+  lastSyncedAt   DateTime? @map("last_synced_at") @db.Timestamptz(6)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  language       Language       @relation(fields: [languageId], references: [id])
+  ttsRequests    TtsRequest[]
+  requestCaches  RequestCache[]
+
+  @@index([languageId])
+  @@index([isActive])
+  @@index([locale])
+  @@index([gender])
+  @@index([providerVoiceId])
+  @@map("voice_models")
 }
 
-/// Audit log for every voice library sync operation.
-model ElVoiceSyncLog {
+
+/// Audit log for every voice sync operation.
+/// Triggered by admin sync job or cron.
+model VoiceSyncLog {
   id                String    @id @default(uuid()) @db.Uuid
-  /// full | incremental | single_voice
+
+  /// "full" | "incremental"
   syncType          String    @map("sync_type") @db.VarChar(30)
-  /// running | completed | failed | partial
+
+  /// "running" | "completed" | "failed"
   status            String    @db.VarChar(20)
+
   voicesFetched     Int       @default(0) @map("voices_fetched")
   voicesAdded       Int       @default(0) @map("voices_added")
   voicesUpdated     Int       @default(0) @map("voices_updated")
   voicesDeactivated Int       @default(0) @map("voices_deactivated")
-  pagesFetched      Int       @default(0) @map("pages_fetched") @db.SmallInt
   durationMs        Int?      @map("duration_ms")
   errorMessage      String?   @map("error_message")
   startedAt         DateTime  @default(now()) @map("started_at") @db.Timestamptz(6)
   completedAt       DateTime? @map("completed_at") @db.Timestamptz(6)
 
-  @@index([startedAt], map: "idx_el_voice_sync_log_started_at")
-  @@index([status], map: "idx_el_voice_sync_log_status")
-  @@map("el_voice_sync_log")
+  @@index([startedAt])
+  @@index([status])
+  @@map("voice_sync_log")
 }
 
 /// Supported speech synthesis languages (BCP-47 codes).
 /// Seeded at migration; updated when new languages are added to EL.
-model Language {
-  id          Int          @id @default(autoincrement()) @db.SmallInt
-  code        String       @unique @db.VarChar(10)
-  name        String       @db.VarChar(100)
-  nativeName  String?      @map("native_name") @db.VarChar(100)
-  isActive    Boolean      @default(true) @map("is_active")
-  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
-  voiceModels VoiceModel[]
+// model Language {
+//   id          Int          @id @default(autoincrement()) @db.SmallInt
+//   code        String       @unique @db.VarChar(10)
+//   name        String       @db.VarChar(100)
+//   nativeName  String?      @map("native_name") @db.VarChar(100)
+//   isActive    Boolean      @default(true) @map("is_active")
+//   createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+//   voiceModels VoiceModel[]
 
-  @@index([code], map: "idx_languages_code")
-  @@index([isActive], map: "idx_languages_is_active")
-  @@map("languages")
-}
+//   @@index([code], map: "idx_languages_code")
+//   @@index([isActive], map: "idx_languages_is_active")
+//   @@map("languages")
+// }
 
 /// Voice personas available for TTS synthesis.
 /// Synced daily from ElevenLabs GET /v1/voices.
-model VoiceModel {
-  id                    String         @id @default(uuid()) @db.Uuid
-  languageId            Int            @map("language_id") @db.SmallInt
-  name                  String         @db.VarChar(100)
-  slug                  String         @unique @db.VarChar(100)
-  /// Always "elevenlabs" for EL-synced voices
-  provider              String         @db.VarChar(50)
-  providerVoiceId       String         @map("provider_voice_id") @db.VarChar(255)
-  gender                String?        @db.VarChar(20)
-  accent                String?        @db.VarChar(50)
-  /// e.g. ["conversational", "news", "storytelling"]
-  styleTags             String[]       @map("style_tags")
-  sampleAudioUrl        String?        @map("sample_audio_url")
-  /// Restricted to paid plans
-  isPremium             Boolean        @default(false) @map("is_premium")
-  isActive              Boolean        @default(true) @map("is_active")
-  sortOrder             Int            @default(0) @map("sort_order") @db.SmallInt
-  /// EL voice_id — used in all API calls
-  elVoiceId             String         @unique @map("el_voice_id") @db.VarChar(255)
-  /// premade | cloned | generated | professional | community
-  elCategory            String         @map("el_category") @db.VarChar(30)
-  /// { "accent": "american", "description": "...", "age": "young", "gender": "female", "use_case": "narration" }
-  elLabels              Json?          @default("{}") @map("el_labels")
-  elDescription         String?        @map("el_description")
-  /// EL-hosted voice preview audio URL (embed directly — free)
-  elPreviewUrl          String?        @map("el_preview_url")
-  /// EL plan tiers this voice is available on: ["free", "starter", "creator", "pro"]
-  elAvailableForTiers   String[]       @map("el_available_for_tiers")
-  /// [{ "language_id": "en", "model_id": "eleven_v3" }, ...]
-  elVerifiedLanguages   Json?          @default("[]") @map("el_verified_languages")
-  /// EL base model IDs this voice supports at high quality
-  elHighQualityModelIds String[]       @map("el_high_quality_model_ids")
-  /// draft | not_started | fine_tuning | fine_tuned | failed
-  elFineTuningStatus    String?        @map("el_fine_tuning_status") @db.VarChar(30)
-  /// NONE | BAN | CAPTCHA | ENTERPRISE_BAN
-  elSafetyControl       String?        @map("el_safety_control") @db.VarChar(30)
-  elSharingEnabled      Boolean        @default(false) @map("el_sharing_enabled")
-  /// FK to primary EL speech model for this voice
-  elSpeechModelId       String?        @map("el_speech_model_id") @db.Uuid
-  lastSyncedAt          DateTime?      @map("last_synced_at") @db.Timestamptz(6)
-  createdAt             DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt             DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
-  requestCaches         RequestCache[]
-  ttsRequests           TtsRequest[]
-  elSpeechModel         ElSpeechModel? @relation(fields: [elSpeechModelId], references: [id])
-  language              Language       @relation(fields: [languageId], references: [id])
+// model VoiceModel {
+//   id                    String         @id @default(uuid()) @db.Uuid
+//   languageId            Int            @map("language_id") @db.SmallInt
+//   name                  String         @db.VarChar(100)
+//   slug                  String         @unique @db.VarChar(100)
+//   /// Always "elevenlabs" for EL-synced voices
+//   provider              String         @db.VarChar(50)
+//   providerVoiceId       String         @map("provider_voice_id") @db.VarChar(255)
+//   gender                String?        @db.VarChar(20)
+//   accent                String?        @db.VarChar(50)
+//   /// e.g. ["conversational", "news", "storytelling"]
+//   styleTags             String[]       @map("style_tags")
+//   sampleAudioUrl        String?        @map("sample_audio_url")
+//   /// Restricted to paid plans
+//   isPremium             Boolean        @default(false) @map("is_premium")
+//   isActive              Boolean        @default(true) @map("is_active")
+//   sortOrder             Int            @default(0) @map("sort_order") @db.SmallInt
+//   /// EL voice_id — used in all API calls
+//   elVoiceId             String         @unique @map("el_voice_id") @db.VarChar(255)
+//   /// premade | cloned | generated | professional | community
+//   elCategory            String         @map("el_category") @db.VarChar(30)
+//   /// { "accent": "american", "description": "...", "age": "young", "gender": "female", "use_case": "narration" }
+//   elLabels              Json?          @default("{}") @map("el_labels")
+//   elDescription         String?        @map("el_description")
+//   /// EL-hosted voice preview audio URL (embed directly — free)
+//   elPreviewUrl          String?        @map("el_preview_url")
+//   /// EL plan tiers this voice is available on: ["free", "starter", "creator", "pro"]
+//   elAvailableForTiers   String[]       @map("el_available_for_tiers")
+//   /// [{ "language_id": "en", "model_id": "eleven_v3" }, ...]
+//   elVerifiedLanguages   Json?          @default("[]") @map("el_verified_languages")
+//   /// EL base model IDs this voice supports at high quality
+//   elHighQualityModelIds String[]       @map("el_high_quality_model_ids")
+//   /// draft | not_started | fine_tuning | fine_tuned | failed
+//   elFineTuningStatus    String?        @map("el_fine_tuning_status") @db.VarChar(30)
+//   /// NONE | BAN | CAPTCHA | ENTERPRISE_BAN
+//   elSafetyControl       String?        @map("el_safety_control") @db.VarChar(30)
+//   elSharingEnabled      Boolean        @default(false) @map("el_sharing_enabled")
+//   /// FK to primary EL speech model for this voice
+//   elSpeechModelId       String?        @map("el_speech_model_id") @db.Uuid
+//   lastSyncedAt          DateTime?      @map("last_synced_at") @db.Timestamptz(6)
+//   createdAt             DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+//   updatedAt             DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
+//   requestCaches         RequestCache[]
+//   ttsRequests           TtsRequest[]
+//   elSpeechModel         ElSpeechModel? @relation(fields: [elSpeechModelId], references: [id])
+//   language              Language       @relation(fields: [languageId], references: [id])
 
-  @@unique([provider, providerVoiceId], map: "uq_voice_models_provider_voice")
-  @@index([languageId], map: "idx_voice_models_language_id")
-  @@index([elVoiceId], map: "idx_voice_models_el_voice_id")
-  @@index([elCategory], map: "idx_voice_models_el_category")
-  @@index([isActive], map: "idx_voice_models_is_active")
-  @@index([elSpeechModelId], map: "idx_voice_models_el_speech_model_id")
-  @@map("voice_models")
-}
+//   @@unique([provider, providerVoiceId], map: "uq_voice_models_provider_voice")
+//   @@index([languageId], map: "idx_voice_models_language_id")
+//   @@index([elVoiceId], map: "idx_voice_models_el_voice_id")
+//   @@index([elCategory], map: "idx_voice_models_el_category")
+//   @@index([isActive], map: "idx_voice_models_is_active")
+//   @@index([elSpeechModelId], map: "idx_voice_models_el_speech_model_id")
+//   @@map("voice_models")
+// }
 
-/// Primary workload table. One row per user TTS submission.
-/// Should be range-partitioned by createdAt (monthly) at scale.
+// ═══════════════════════════════════════════════════════════════════════════════
+// TTS ENGINE
+// Core synthesis request pipeline
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/// One row per user TTS submission.
+/// Cache hit → servedFromCache = true, no job queued.
+/// Cache miss → job queued → worker synthesizes → audioFile created.
+///
 /// NOTE: Add CHECK constraints via raw SQL after migration:
-/// CHECK (stability BETWEEN 0 AND 1)
-/// CHECK (similarity_boost BETWEEN 0 AND 1)
-/// CHECK (style BETWEEN 0 AND 1)
-model TtsRequest {
-  id                     String        @id @default(uuid()) @db.Uuid
-  userId                 String        @map("user_id") @db.Uuid
-  voiceModelId           String        @map("voice_model_id") @db.Uuid
-  elSpeechModelId        String        @map("el_speech_model_id") @db.Uuid
-  /// The submitted text to convert to speech
-  inputText              String        @map("input_text")
-  /// SHA-256(inputText + elVoiceId + elModelId + languageCode + outputFormat)
-  /// Used for cache lookups
-  inputTextHash          String        @map("input_text_hash") @db.VarChar(64)
-  /// Character count for billing/quota enforcement
-  charCount              Int           @map("char_count")
-  wordCount              Int?          @map("word_count")
-  status                 RequestStatus @default(pending)
-  /// Higher = processed sooner. Default 0 = normal.
-  priority               Int           @default(0) @db.SmallInt
-  /// mp3 | wav | ogg | flac | mp3_44100_128 (EL format strings)
-  outputFormat           String        @default("mp3_44100_128") @map("output_format") @db.VarChar(30)
-  /// ISO 639-1 code: en, fr, de, bn — enforced by EL model
-  languageCode           String?       @map("language_code") @db.VarChar(5)
-  /// 0.0–1.0. Low = expressive; High = consistent
-  stability              Decimal       @default(0.500) @db.Decimal(4, 3)
-  /// 0.0–1.0. How closely to match original voice
-  similarityBoost        Decimal       @default(0.750) @map("similarity_boost") @db.Decimal(4, 3)
-  /// 0.0–1.0. Speaking style exaggeration
-  style                  Decimal       @default(0.000) @db.Decimal(4, 3)
-  /// Boosts speaker clarity (adds slight latency)
-  useSpeakerBoost        Boolean       @default(true) @map("use_speaker_boost")
-  /// For deterministic generation. NULL = random each time.
-  seed                   Int?
-  /// auto | on | off — EL text normalization mode
-  applyTextNormalization String        @default("auto") @map("apply_text_normalization") @db.VarChar(4)
-  /// TRUE if this request was served from request_cache
-  servedFromCache        Boolean       @default(false) @map("served_from_cache")
-  /// Provider-specific override options (JSONB)
-  options                Json?         @default("{}")
-  errorMessage           String?       @map("error_message")
-  retryCount             Int           @default(0) @map("retry_count") @db.SmallInt
-  completedAt            DateTime?     @map("completed_at") @db.Timestamptz(6)
-  createdAt              DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt              DateTime      @updatedAt @map("updated_at") @db.Timestamptz(6)
-  audioFile              AudioFile?
-  jobs                   Job[]
-  elSpeechModel          ElSpeechModel @relation(fields: [elSpeechModelId], references: [id])
-  user                   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  voiceModel             VoiceModel    @relation(fields: [voiceModelId], references: [id])
+/// CHECK (speed >= 0.25 AND speed <= 4.0)
 
-  @@index([userId, status], map: "idx_tts_requests_user_status")
-  @@index([inputTextHash], map: "idx_tts_requests_input_text_hash")
-  @@index([status, createdAt], map: "idx_tts_requests_status_created_at")
-  @@index([userId, createdAt], map: "idx_tts_requests_user_created_at")
+model TtsRequest {
+  id              String        @id @default(uuid()) @db.Uuid
+  userId          String        @map("user_id") @db.Uuid
+  voiceModelId    String        @map("voice_model_id") @db.Uuid
+
+  /// The submitted text
+  inputText       String        @map("input_text")
+
+  /// SHA-256(inputText + providerVoiceId + locale + outputFormat + speed)
+  /// Used for cache lookups in request_cache
+  inputTextHash   String        @map("input_text_hash") @db.VarChar(64)
+
+  /// Character count for quota enforcement
+  charCount       Int           @map("char_count")
+  wordCount       Int?          @map("word_count")
+
+  status          RequestStatus @default(pending)
+
+  /// Higher = processed sooner. Default 0 = normal.
+  priority        Int           @default(0) @db.SmallInt
+
+  /// "mp3" | "wav" | "opus" | "flac"
+  outputFormat    String        @default("mp3") @map("output_format") @db.VarChar(10)
+
+  /// BCP-47 locale from the selected voice: "en-US", "bn-BD"
+  locale          String?       @db.VarChar(20)
+
+  /// Playback speed: 0.25–4.0. Passed to edge-tts as rate (+25%, -10%)
+  speed           Decimal       @default(1.00) @db.Decimal(4, 2)
+
+  /// TRUE if this request was served from request_cache (no synthesis done)
+  servedFromCache Boolean       @default(false) @map("served_from_cache")
+
+  /// Provider-specific options (JSONB)
+  /// { "voice": "en-US-AvaNeural", "provider": "edge-tts" }
+  options         Json?         @default("{}")
+
+  errorMessage    String?       @map("error_message")
+  retryCount      Int           @default(0) @map("retry_count") @db.SmallInt
+  completedAt     DateTime?     @map("completed_at") @db.Timestamptz(6)
+  createdAt       DateTime      @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime      @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voiceModel      VoiceModel    @relation(fields: [voiceModelId], references: [id])
+  audioFile       AudioFile?
+  jobs            Job[]
+
+  @@index([userId, status])
+  @@index([inputTextHash])
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
   @@map("tts_requests")
 }
 
 /// Metadata about generated audio files.
-/// Binary files live in S3/Cloudflare R2; this table tracks the reference.
+/// Binary files live in Supabase Storage.
+/// storageKey pattern: audio/{userId}/{YYYY/MM}/{requestId}.mp3
 model AudioFile {
   id                 String         @id @default(uuid()) @db.Uuid
   /// One audio file per TTS request
@@ -317,15 +364,14 @@ model AudioFile {
   signedUrlExpiresAt DateTime?      @map("signed_url_expires_at") @db.Timestamptz(6)
   downloadCount      Int            @default(0) @map("download_count")
   isPublic           Boolean        @default(false) @map("is_public")
-  checksumMd5        String?        @map("checksum_md5") @db.VarChar(32)
-  /// xi-request-id header from EL response — critical for support tickets
-  elRequestId        String?        @map("el_request_id") @db.VarChar(100)
-  /// Actual characters billed by EL (may differ from tts_requests.charCount after normalization)
-  elCharacterCost    Int?           @map("el_character_cost")
-  /// Denormalized EL model string for audit queries without JOIN
-  elModelUsed        String?        @map("el_model_used") @db.VarChar(100)
-  /// Denormalized EL voice_id (protects history if voice_model row changes)
-  elVoiceIdUsed      String?        @map("el_voice_id_used") @db.VarChar(255)
+   checksumSha256   String?   @map("checksum_sha256") @db.VarChar(64)
+
+  /// Edge TTS voice used: "en-US-AvaNeural" — denormalized for audit
+  voiceUsed        String?   @map("voice_used") @db.VarChar(200)
+
+  /// Edge TTS locale used: "en-US" — denormalized for audit
+  localeUsed       String?   @map("locale_used") @db.VarChar(20)
+
   createdAt          DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
   /// Soft delete — S3 purge happens after 30 days via cleanup job
   deletedAt          DateTime?      @map("deleted_at") @db.Timestamptz(6)
@@ -336,13 +382,20 @@ model AudioFile {
   @@index([userId], map: "idx_audio_files_user_id")
   @@index([storageKey], map: "idx_audio_files_storage_key")
   @@index([signedUrlExpiresAt], map: "idx_audio_files_signed_url_expires_at")
-  @@index([elRequestId], map: "idx_audio_files_el_request_id")
   @@index([deletedAt], map: "idx_audio_files_deleted_at")
   @@map("audio_files")
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// JOB QUEUE
+// BullMQ audit trail — one DB row per background job
+// ═══════════════════════════════════════════════════════════════════════════════
+
 /// Background job tracking table.
-/// Complements pg-boss/BullMQ with a durable, queryable audit trail.
+/// Complements BullMQ with a durable, queryable audit trail.
+/// queueName: "tts.generate" | "tts.export" | "email.send" | "voice.sync"
+/// jobType:   "GENERATE_AUDIO" | "SEND_EMAIL" | "SYNC_VOICES" | "REFRESH_SIGNED_URLS"
+
 model Job {
   id           String      @id @default(uuid()) @db.Uuid
   /// Logical queue name: tts.generate | tts.export | email.send
@@ -380,6 +433,11 @@ model Job {
   @@index([status, createdAt], map: "idx_jobs_status_created_at")
   @@map("jobs")
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// RATE LIMITING
+// Redis handles hot-path; DB is the audit layer
+// ═══════════════════════════════════════════════════════════════════════════════
 
 /// Throttling policy definitions per role or plan.
 model RateLimitRule {
@@ -575,9 +633,14 @@ model UsageAnalytics {
   @@map("usage_analytics")
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// CACHE
+// SHA-256 deduplication — same input → same audio, no re-synthesis
+// ═══════════════════════════════════════════════════════════════════════════════
+
 /// TTS result deduplication cache.
-/// cache_key = SHA-256(inputText + elVoiceId + elModelId + languageCode + outputFormat)
-/// Cache HIT = serve existing audio file, zero EL API cost.
+/// cache_key = SHA-256(inputText + providerVoiceId + locale + outputFormat + speed)
+/// Cache HIT → serve existing AudioFile, zero synthesis cost.
 model RequestCache {
   id           String     @id @default(uuid()) @db.Uuid
   /// SHA-256 of the canonical request parameters
