@@ -91,7 +91,7 @@ model Verification {
 /// Seeded at migration. Updated when new languages are added to Edge TTS.
 model Language {
   id         Int          @id @default(autoincrement()) @db.SmallInt
-  code       String       @unique @db.VarChar(10)   // "en-US", "bn-BD", "fr-FR"
+  code       String       @unique @db.VarChar(20)   // "en-US", "bn-BD", "fr-FR"
   name       String       @db.VarChar(100)           // "English (United States)"
   nativeName String?      @map("native_name") @db.VarChar(100)
   isActive   Boolean      @default(true) @map("is_active")
@@ -130,7 +130,7 @@ model VoiceModel {
   accent         String?  @db.VarChar(50)
 
   /// BCP-47 locale string: "en-US", "bn-BD", "fr-FR"
-  locale         String   @db.VarChar(20)
+  locale String @default("en-US") @db.VarChar(20)
 
   /// e.g. ["conversational", "newscast", "customerservice", "narration"]
   styleTags      String[] @map("style_tags")
