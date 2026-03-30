@@ -247,6 +247,10 @@ export const VoiceModelScalarFieldEnum = {
   elSafetyControl: 'elSafetyControl',
   elSharingEnabled: 'elSharingEnabled',
   elSpeechModelId: 'elSpeechModelId',
+  gcpVoiceName: 'gcpVoiceName',
+  gcpLanguageCode: 'gcpLanguageCode',
+  gcpSsmlGender: 'gcpSsmlGender',
+  gcpVoiceType: 'gcpVoiceType',
   lastSyncedAt: 'lastSyncedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -272,6 +276,9 @@ export const TtsRequestScalarFieldEnum = {
   similarityBoost: 'similarityBoost',
   style: 'style',
   useSpeakerBoost: 'useSpeakerBoost',
+  speakingRate: 'speakingRate',
+  pitch: 'pitch',
+  volumeGainDb: 'volumeGainDb',
   seed: 'seed',
   applyTextNormalization: 'applyTextNormalization',
   servedFromCache: 'servedFromCache',
@@ -308,6 +315,10 @@ export const AudioFileScalarFieldEnum = {
   elCharacterCost: 'elCharacterCost',
   elModelUsed: 'elModelUsed',
   elVoiceIdUsed: 'elVoiceIdUsed',
+  providerRequestId: 'providerRequestId',
+  providerCost: 'providerCost',
+  providerModelUsed: 'providerModelUsed',
+  providerVoiceUsed: 'providerVoiceUsed',
   createdAt: 'createdAt',
   deletedAt: 'deletedAt'
 } as const
