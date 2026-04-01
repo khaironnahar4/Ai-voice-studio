@@ -1,17 +1,20 @@
 // provider factory and registry for managing different providers
 
-// import { GoogleTtsProvider }    from "./google"
+import { EdgeTtsProvider } from "./edge"
 import { ElevenLabsProvider }   from "./elevenlabs"
 import type { TtsProvider }     from "./types"
 
-const SUPPORTED_PROVIDERS = ["google", "elevenlabs"] as const
+const SUPPORTED_PROVIDERS = ["google", "elevenlabs", "edge"] as const
 export type ProviderName = (typeof SUPPORTED_PROVIDERS)[number]
 
 export function getProvider(providerName: string): TtsProvider {
   switch (providerName) {
-
+    // case "google":      
+    //   return new GoogleTtsProvider()
     case "elevenlabs":
       return new ElevenLabsProvider()
+    case "edge":       
+      return new EdgeTtsProvider() 
 
     default:
       throw new Error(
