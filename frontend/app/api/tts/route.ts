@@ -210,6 +210,9 @@ export async function POST(req: Request) {
     speakingRate: input.speakingRate,
     pitch: input.pitch,
     volumeGainDb: input.volumeGainDb,
+
+    // Edge TTS
+    edgeSpeed: input.edgeSpeed,
   };
 
   // Push to BullMQ — job id matches DB job row id for traceability
