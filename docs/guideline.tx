@@ -16,9 +16,9 @@ npm run worker:dev
 I am making a provider engine that will select which providr model the user is requested for. 
 
 the steps:
-1. write the types.ts
-2. write registry.ts 
-3. update worker.ts 
+1. write the types.ts Done
+2. write registry.ts Done
+3. update worker.ts  Done
 4. update job payload. queue/index.ts 
 5. update api route, api/tts/route.ts 
 
