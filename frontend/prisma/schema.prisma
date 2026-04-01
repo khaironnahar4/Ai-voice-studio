@@ -214,6 +214,12 @@ model VoiceModel {
   gcpSsmlGender   String? @map("gcp_ssml_gender") @db.VarChar(10)
   gcpVoiceType    String? @map("gcp_voice_type") @db.VarChar(30)
 
+  // ── Edge TTS specific ──────────────────────────
+  edgeVoiceName    String? @map("edge_voice_name") @db.VarChar(100)
+  edgeLocale       String? @map("edge_locale") @db.VarChar(10)
+  edgeGender       String? @map("edge_gender") @db.VarChar(10)
+  edgeFriendlyName String? @map("edge_friendly_name") @db.VarChar(255)
+
   lastSyncedAt  DateTime?      @map("last_synced_at") @db.Timestamptz(6)
   createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
