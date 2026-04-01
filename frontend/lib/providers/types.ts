@@ -5,12 +5,16 @@ export interface VoiceModelRow {
   id:               string
   provider:         string
   providerVoiceId:  string
-  elVoiceId:        string
-  elSpeechModelId:  string | null
-  gcpVoiceName:     string | null
-  gcpLanguageCode:  string | null
-  gcpSsmlGender:    string | null
-  gcpVoiceType:     string | null
+  elVoiceId?:        string
+  elSpeechModelId?:  string | null
+  gcpVoiceName?:     string | null
+  gcpLanguageCode?:  string | null
+  gcpSsmlGender?:    string | null
+  gcpVoiceType?:     string | null
+  edgeVoiceName?:    string | null
+  edgeLocale?:       string | null
+  edgeGender?:       string | null
+  edgeFriendlyName?: string | null
 }
 
 export interface SynthesisParams {
@@ -34,6 +38,9 @@ export interface SynthesisParams {
   speakingRate?: number
   pitch?:        number
   volumeGainDb?: number
+
+  // Edge TTS specific (optional)
+  edgeSpeed?: number   // 0.25 to 4.0, default 1.0
 }
 
 export interface SynthesisResult {
