@@ -1,6 +1,6 @@
 import { NextResponse }    from "next/server";
 import { z }               from "zod";
-import { checkUserQuota }  from "@/lib/tts/quota";
+// import { checkUserQuota }  from "@/lib/tts/quota";
 import { buildCacheKey, lookupCache } from "@/lib/tts/cache";
 import { ttsQueue }        from "@/lib/queue";
 import type { TtsJobPayload } from "@/lib/queue";
@@ -9,19 +9,23 @@ import { getSession } from "@/lib/auth/session";
 
 // ── Request validation ────────────────────────────────────────
 const TtsRequestSchema = z.object({
-  text: z
-    .string()
-    .min(1,     "Text is required.")
-    .max(10000, "Text exceeds maximum length."),
-  voiceModelId:  z.string().uuid("Invalid voice model ID."),
-  outputFormat:  z.string().default("mp3_44100_128"),
-  languageCode:  z.string().max(5).default("en"),
-  stability:     z.number().min(0).max(1).default(0.5),
-  similarityBoost: z.number().min(0).max(1).default(0.75),
-  style:         z.number().min(0).max(1).default(0),
-  useSpeakerBoost: z.boolean().default(true),
-  seed:          z.number().int().nullable().default(null),
-  applyTextNormalization: z.enum(["auto", "on", "off"]).default("auto"),
+   text:         z.string().min(1).max(10_000),
+  voiceModelId: z.string().uuid(),
+  outputFormat: z.string().default("mp3_44100_128"),
+  languageCode: z.string().max(10).default("en-US"),
+
+  // ElevenLabs settings
+  stability:        z.number().min(0).max(1).optional(),
+  similarityBoost:  z.number().min(0).max(1).optional(),
+  style:            z.number().min(0).max(1).optional(),
+  useSpeakerBoost:  z.boolean().optional(),
+  seed:             z.number().int().nullable().optional(),
+  applyTextNormalization: z.enum(["auto", "on", "off"]).optional(),
+
+  // Google Cloud TTS settings
+  speakingRate: z.number().min(0.25).max(4.0).optional(),
+  pitch:        z.number().min(-20).max(20).optional(),
+  volumeGainDb: z.number().min(-96).max(16).optional(),
 });
 
 export async function POST(req: Request) {

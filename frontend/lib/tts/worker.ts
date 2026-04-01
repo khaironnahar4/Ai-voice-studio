@@ -50,9 +50,9 @@ async function buildSynthesisParams(
     applyTextNormalization: payload.applyTextNormalization,
 
     // GCP-specific — provider class নিজে ignore করবে যদি EL হয়
-    // speakingRate: payload.speakingRate,
-    // pitch:        payload.pitch,
-    // volumeGainDb: payload.volumeGainDb,
+    speakingRate: payload.speakingRate,
+    pitch:        payload.pitch,
+    volumeGainDb: payload.volumeGainDb,
   }
 }
 
