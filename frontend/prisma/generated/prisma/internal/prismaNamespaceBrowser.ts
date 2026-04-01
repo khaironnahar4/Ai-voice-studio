@@ -251,6 +251,10 @@ export const VoiceModelScalarFieldEnum = {
   gcpLanguageCode: 'gcpLanguageCode',
   gcpSsmlGender: 'gcpSsmlGender',
   gcpVoiceType: 'gcpVoiceType',
+  edgeVoiceName: 'edgeVoiceName',
+  edgeLocale: 'edgeLocale',
+  edgeGender: 'edgeGender',
+  edgeFriendlyName: 'edgeFriendlyName',
   lastSyncedAt: 'lastSyncedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -276,6 +280,7 @@ export const TtsRequestScalarFieldEnum = {
   similarityBoost: 'similarityBoost',
   style: 'style',
   useSpeakerBoost: 'useSpeakerBoost',
+  edgeSpeed: 'edgeSpeed',
   speakingRate: 'speakingRate',
   pitch: 'pitch',
   volumeGainDb: 'volumeGainDb',
