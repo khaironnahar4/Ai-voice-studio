@@ -272,6 +272,9 @@ model TtsRequest {
   /// Boosts speaker clarity (adds slight latency)
   useSpeakerBoost Boolean       @default(true) @map("use_speaker_boost")
 
+  // Edge TTS specific
+  edgeSpeed Decimal? @map("edge_speed") @db.Decimal(4, 2)
+
   // Provider-agnostic voice settings (replaces EL-specific ones)
   speakingRate Decimal? @map("speaking_rate") @db.Decimal(4, 2)
   pitch        Decimal? @default(0) @db.Decimal(5, 1)
