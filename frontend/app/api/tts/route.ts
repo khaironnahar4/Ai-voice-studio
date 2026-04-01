@@ -26,6 +26,9 @@ const TtsRequestSchema = z.object({
   speakingRate: z.number().min(0.25).max(4.0).optional(),
   pitch: z.number().min(-20).max(20).optional(),
   volumeGainDb: z.number().min(-96).max(16).optional(),
+
+  // Edge TTS
+  edgeSpeed: z.number().min(0.25).max(4.0).optional(),
 });
 
 export async function POST(req: Request) {
