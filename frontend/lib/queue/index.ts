@@ -40,6 +40,9 @@ export interface TtsJobPayload {
   speakingRate?: number;
   pitch?: number;
   volumeGainDb?: number;
+
+  // Edge TTS specific
+  edgeSpeed?: number;
 }
 
 // ── Queue instance (used to add jobs from the API route) ──────
