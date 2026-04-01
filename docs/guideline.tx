@@ -12,3 +12,13 @@ npm run worker:dev
     ./stripe listen --forward-to localhost:3000/api/webhooks/stripe
 
 
+
+I am making a provider engine that will select which providr model the user is requested for. 
+
+the steps:
+1. write the types.ts
+2. write registry.ts 
+3. update worker.ts 
+4. update job payload. queue/index.ts 
+5. update api route, api/tts/route.ts 
+
