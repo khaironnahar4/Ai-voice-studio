@@ -1,4 +1,6 @@
 import prisma from "../auth/prisma"
+import dotenv from "dotenv"
+dotenv.config()
 
 
 // ── fetch voice list from HF Space ───────────────────────────────────
@@ -48,6 +50,7 @@ async function resolveLanguageId(
   langMap: Map<string, number>
 ): Promise<number | null> {
   // Exact: "en-US"
+//   console.log(langMap)
   if (langMap.has(locale)) return langMap.get(locale)!
   // Short: "en"
   const short = locale.split("-")[0]
@@ -87,6 +90,7 @@ export async function syncEdgeVoices(): Promise<{
   const voices = await fetchEdgeVoices()
   if (voices.length === 0) throw new Error("Edge TTS returned empty voice list")
 
+    // console.log(voices)
   // ── Language map ──────────────────────────────────────────────────────
   const langs = await prisma.language.findMany({
     where:  { isActive: true },
