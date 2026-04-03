@@ -151,6 +151,7 @@ export async function syncEdgeVoices(): Promise<{
       gcpSsmlGender:   null,
       gcpVoiceType:    null,
 
+        elSpeechModelId: null,
       lastSyncedAt: new Date(),
     }
 

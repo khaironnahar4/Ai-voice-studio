@@ -247,7 +247,7 @@ model TtsRequest {
   id              String        @id @default(uuid()) @db.Uuid
   userId          String        @map("user_id") @db.Uuid
   voiceModelId    String        @map("voice_model_id") @db.Uuid
-  elSpeechModelId String        @map("el_speech_model_id") @db.Uuid
+  elSpeechModelId String?        @map("el_speech_model_id") @db.Uuid
   /// The submitted text to convert to speech
   inputText       String        @map("input_text")
   /// SHA-256(inputText + elVoiceId + elModelId + languageCode + outputFormat)
@@ -295,7 +295,7 @@ model TtsRequest {
   updatedAt              DateTime      @updatedAt @map("updated_at") @db.Timestamptz(6)
   audioFile              AudioFile?
   jobs                   Job[]
-  elSpeechModel          ElSpeechModel @relation(fields: [elSpeechModelId], references: [id])
+  elSpeechModel          ElSpeechModel? @relation(fields: [elSpeechModelId], references: [id])
   user                   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   voiceModel             VoiceModel    @relation(fields: [voiceModelId], references: [id])
 

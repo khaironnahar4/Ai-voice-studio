@@ -372,7 +372,7 @@ export type TtsRequestGroupByOutputType = {
   id: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -427,7 +427,7 @@ export type TtsRequestWhereInput = {
   id?: Prisma.UuidFilter<"TtsRequest"> | string
   userId?: Prisma.UuidFilter<"TtsRequest"> | string
   voiceModelId?: Prisma.UuidFilter<"TtsRequest"> | string
-  elSpeechModelId?: Prisma.UuidFilter<"TtsRequest"> | string
+  elSpeechModelId?: Prisma.UuidNullableFilter<"TtsRequest"> | string | null
   inputText?: Prisma.StringFilter<"TtsRequest"> | string
   inputTextHash?: Prisma.StringFilter<"TtsRequest"> | string
   charCount?: Prisma.IntFilter<"TtsRequest"> | number
@@ -455,7 +455,7 @@ export type TtsRequestWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TtsRequest"> | Date | string
   audioFile?: Prisma.XOR<Prisma.AudioFileNullableScalarRelationFilter, Prisma.AudioFileWhereInput> | null
   jobs?: Prisma.JobListRelationFilter
-  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelScalarRelationFilter, Prisma.ElSpeechModelWhereInput>
+  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelNullableScalarRelationFilter, Prisma.ElSpeechModelWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voiceModel?: Prisma.XOR<Prisma.VoiceModelScalarRelationFilter, Prisma.VoiceModelWhereInput>
 }
@@ -464,7 +464,7 @@ export type TtsRequestOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   voiceModelId?: Prisma.SortOrder
-  elSpeechModelId?: Prisma.SortOrder
+  elSpeechModelId?: Prisma.SortOrderInput | Prisma.SortOrder
   inputText?: Prisma.SortOrder
   inputTextHash?: Prisma.SortOrder
   charCount?: Prisma.SortOrder
@@ -504,7 +504,7 @@ export type TtsRequestWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TtsRequestWhereInput | Prisma.TtsRequestWhereInput[]
   userId?: Prisma.UuidFilter<"TtsRequest"> | string
   voiceModelId?: Prisma.UuidFilter<"TtsRequest"> | string
-  elSpeechModelId?: Prisma.UuidFilter<"TtsRequest"> | string
+  elSpeechModelId?: Prisma.UuidNullableFilter<"TtsRequest"> | string | null
   inputText?: Prisma.StringFilter<"TtsRequest"> | string
   inputTextHash?: Prisma.StringFilter<"TtsRequest"> | string
   charCount?: Prisma.IntFilter<"TtsRequest"> | number
@@ -532,7 +532,7 @@ export type TtsRequestWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"TtsRequest"> | Date | string
   audioFile?: Prisma.XOR<Prisma.AudioFileNullableScalarRelationFilter, Prisma.AudioFileWhereInput> | null
   jobs?: Prisma.JobListRelationFilter
-  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelScalarRelationFilter, Prisma.ElSpeechModelWhereInput>
+  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelNullableScalarRelationFilter, Prisma.ElSpeechModelWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voiceModel?: Prisma.XOR<Prisma.VoiceModelScalarRelationFilter, Prisma.VoiceModelWhereInput>
 }, "id">
@@ -541,7 +541,7 @@ export type TtsRequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   voiceModelId?: Prisma.SortOrder
-  elSpeechModelId?: Prisma.SortOrder
+  elSpeechModelId?: Prisma.SortOrderInput | Prisma.SortOrder
   inputText?: Prisma.SortOrder
   inputTextHash?: Prisma.SortOrder
   charCount?: Prisma.SortOrder
@@ -581,7 +581,7 @@ export type TtsRequestScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"TtsRequest"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"TtsRequest"> | string
   voiceModelId?: Prisma.UuidWithAggregatesFilter<"TtsRequest"> | string
-  elSpeechModelId?: Prisma.UuidWithAggregatesFilter<"TtsRequest"> | string
+  elSpeechModelId?: Prisma.UuidNullableWithAggregatesFilter<"TtsRequest"> | string | null
   inputText?: Prisma.StringWithAggregatesFilter<"TtsRequest"> | string
   inputTextHash?: Prisma.StringWithAggregatesFilter<"TtsRequest"> | string
   charCount?: Prisma.IntWithAggregatesFilter<"TtsRequest"> | number
@@ -638,7 +638,7 @@ export type TtsRequestCreateInput = {
   updatedAt?: Date | string
   audioFile?: Prisma.AudioFileCreateNestedOneWithoutRequestInput
   jobs?: Prisma.JobCreateNestedManyWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   user: Prisma.UserCreateNestedOneWithoutTtsRequestsInput
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutTtsRequestsInput
 }
@@ -647,7 +647,7 @@ export type TtsRequestUncheckedCreateInput = {
   id?: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -706,7 +706,7 @@ export type TtsRequestUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneWithoutRequestNestedInput
   jobs?: Prisma.JobUpdateManyWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTtsRequestsNestedInput
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
@@ -715,7 +715,7 @@ export type TtsRequestUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -749,7 +749,7 @@ export type TtsRequestCreateManyInput = {
   id?: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -810,7 +810,7 @@ export type TtsRequestUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1179,14 +1179,14 @@ export type TtsRequestCreateWithoutUserInput = {
   updatedAt?: Date | string
   audioFile?: Prisma.AudioFileCreateNestedOneWithoutRequestInput
   jobs?: Prisma.JobCreateNestedManyWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutTtsRequestsInput
 }
 
 export type TtsRequestUncheckedCreateWithoutUserInput = {
   id?: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1249,7 +1249,7 @@ export type TtsRequestScalarWhereInput = {
   id?: Prisma.UuidFilter<"TtsRequest"> | string
   userId?: Prisma.UuidFilter<"TtsRequest"> | string
   voiceModelId?: Prisma.UuidFilter<"TtsRequest"> | string
-  elSpeechModelId?: Prisma.UuidFilter<"TtsRequest"> | string
+  elSpeechModelId?: Prisma.UuidNullableFilter<"TtsRequest"> | string | null
   inputText?: Prisma.StringFilter<"TtsRequest"> | string
   inputTextHash?: Prisma.StringFilter<"TtsRequest"> | string
   charCount?: Prisma.IntFilter<"TtsRequest"> | number
@@ -1398,14 +1398,14 @@ export type TtsRequestCreateWithoutVoiceModelInput = {
   updatedAt?: Date | string
   audioFile?: Prisma.AudioFileCreateNestedOneWithoutRequestInput
   jobs?: Prisma.JobCreateNestedManyWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   user: Prisma.UserCreateNestedOneWithoutTtsRequestsInput
 }
 
 export type TtsRequestUncheckedCreateWithoutVoiceModelInput = {
   id?: string
   userId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1489,7 +1489,7 @@ export type TtsRequestCreateWithoutAudioFileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   jobs?: Prisma.JobCreateNestedManyWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   user: Prisma.UserCreateNestedOneWithoutTtsRequestsInput
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutTtsRequestsInput
 }
@@ -1498,7 +1498,7 @@ export type TtsRequestUncheckedCreateWithoutAudioFileInput = {
   id?: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1571,7 +1571,7 @@ export type TtsRequestUpdateWithoutAudioFileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   jobs?: Prisma.JobUpdateManyWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTtsRequestsNestedInput
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
@@ -1580,7 +1580,7 @@ export type TtsRequestUncheckedUpdateWithoutAudioFileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1637,7 +1637,7 @@ export type TtsRequestCreateWithoutJobsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   audioFile?: Prisma.AudioFileCreateNestedOneWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   user: Prisma.UserCreateNestedOneWithoutTtsRequestsInput
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutTtsRequestsInput
 }
@@ -1646,7 +1646,7 @@ export type TtsRequestUncheckedCreateWithoutJobsInput = {
   id?: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1719,7 +1719,7 @@ export type TtsRequestUpdateWithoutJobsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTtsRequestsNestedInput
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
@@ -1728,7 +1728,7 @@ export type TtsRequestUncheckedUpdateWithoutJobsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1760,7 +1760,7 @@ export type TtsRequestUncheckedUpdateWithoutJobsInput = {
 export type TtsRequestCreateManyUserInput = {
   id?: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1817,14 +1817,14 @@ export type TtsRequestUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneWithoutRequestNestedInput
   jobs?: Prisma.JobUpdateManyWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
 
 export type TtsRequestUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1857,7 +1857,7 @@ export type TtsRequestUncheckedUpdateWithoutUserInput = {
 export type TtsRequestUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2016,7 +2016,7 @@ export type TtsRequestUncheckedUpdateManyWithoutElSpeechModelInput = {
 export type TtsRequestCreateManyVoiceModelInput = {
   id?: string
   userId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -2073,14 +2073,14 @@ export type TtsRequestUpdateWithoutVoiceModelInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneWithoutRequestNestedInput
   jobs?: Prisma.JobUpdateManyWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
 
 export type TtsRequestUncheckedUpdateWithoutVoiceModelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2113,7 +2113,7 @@ export type TtsRequestUncheckedUpdateWithoutVoiceModelInput = {
 export type TtsRequestUncheckedUpdateManyWithoutVoiceModelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2204,7 +2204,7 @@ export type TtsRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   audioFile?: boolean | Prisma.TtsRequest$audioFileArgs<ExtArgs>
   jobs?: boolean | Prisma.TtsRequest$jobsArgs<ExtArgs>
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TtsRequestCountOutputTypeDefaultArgs<ExtArgs>
@@ -2240,7 +2240,7 @@ export type TtsRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ttsRequest"]>
@@ -2275,7 +2275,7 @@ export type TtsRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ttsRequest"]>
@@ -2316,18 +2316,18 @@ export type TtsRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type TtsRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   audioFile?: boolean | Prisma.TtsRequest$audioFileArgs<ExtArgs>
   jobs?: boolean | Prisma.TtsRequest$jobsArgs<ExtArgs>
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TtsRequestCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TtsRequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
 }
 export type TtsRequestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
 }
@@ -2337,7 +2337,7 @@ export type $TtsRequestPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     audioFile: Prisma.$AudioFilePayload<ExtArgs> | null
     jobs: Prisma.$JobPayload<ExtArgs>[]
-    elSpeechModel: Prisma.$ElSpeechModelPayload<ExtArgs>
+    elSpeechModel: Prisma.$ElSpeechModelPayload<ExtArgs> | null
     user: Prisma.$UserPayload<ExtArgs>
     voiceModel: Prisma.$VoiceModelPayload<ExtArgs>
   }
@@ -2345,7 +2345,7 @@ export type $TtsRequestPayload<ExtArgs extends runtime.Types.Extensions.Internal
     id: string
     userId: string
     voiceModelId: string
-    elSpeechModelId: string
+    elSpeechModelId: string | null
     /**
      * The submitted text to convert to speech
      */
@@ -2810,7 +2810,7 @@ export interface Prisma__TtsRequestClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   audioFile<T extends Prisma.TtsRequest$audioFileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TtsRequest$audioFileArgs<ExtArgs>>): Prisma.Prisma__AudioFileClient<runtime.Types.Result.GetResult<Prisma.$AudioFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   jobs<T extends Prisma.TtsRequest$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TtsRequest$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  elSpeechModel<T extends Prisma.ElSpeechModelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ElSpeechModelDefaultArgs<ExtArgs>>): Prisma.Prisma__ElSpeechModelClient<runtime.Types.Result.GetResult<Prisma.$ElSpeechModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  elSpeechModel<T extends Prisma.TtsRequest$elSpeechModelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>>): Prisma.Prisma__ElSpeechModelClient<runtime.Types.Result.GetResult<Prisma.$ElSpeechModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   voiceModel<T extends Prisma.VoiceModelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VoiceModelDefaultArgs<ExtArgs>>): Prisma.Prisma__VoiceModelClient<runtime.Types.Result.GetResult<Prisma.$VoiceModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -3307,6 +3307,25 @@ export type TtsRequest$jobsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.JobScalarFieldEnum | Prisma.JobScalarFieldEnum[]
+}
+
+/**
+ * TtsRequest.elSpeechModel
+ */
+export type TtsRequest$elSpeechModelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ElSpeechModel
+   */
+  select?: Prisma.ElSpeechModelSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ElSpeechModel
+   */
+  omit?: Prisma.ElSpeechModelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ElSpeechModelInclude<ExtArgs> | null
+  where?: Prisma.ElSpeechModelWhereInput
 }
 
 /**

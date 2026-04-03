@@ -13,7 +13,7 @@ const TTL_DAYS          = 7;                          // 7 days TTL
 export function buildCacheKey(params: {
   inputText:    string;
   elVoiceId:    string;
-  elModelId:    string;
+  elModelId?:    string;
   languageCode: string;
   outputFormat: string;
 }): string {

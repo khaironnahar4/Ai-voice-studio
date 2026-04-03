@@ -71,7 +71,9 @@ export async function POST(req: Request) {
       { status: 404 },
     );
   }
-  if (!voiceModel.elSpeechModel) {
+
+  // if ElevenLabs provider then check speech model
+  if (voiceModel.provider === "elevenlabs" && !voiceModel.elSpeechModel) {
     return NextResponse.json(
       { error: "No speech model linked to this voice." },
       { status: 422 },
@@ -105,7 +107,7 @@ export async function POST(req: Request) {
   const cacheKey = buildCacheKey({
     inputText: input.text,
     elVoiceId: voiceModel.elVoiceId,
-    elModelId: voiceModel.elSpeechModel.elModelId,
+    // elModelId: voiceModel?.elSpeechModel?.elModelId,
     languageCode: input.languageCode,
     outputFormat: input.outputFormat,
   });
@@ -119,7 +121,7 @@ export async function POST(req: Request) {
       data: {
         userId,
         voiceModelId: input.voiceModelId,
-        elSpeechModelId: voiceModel.elSpeechModel.id,
+        elSpeechModelId:voiceModel.elSpeechModel?.id ?? null, 
         inputText: input.text,
         inputTextHash: cacheKey,
         charCount,
@@ -153,7 +155,7 @@ export async function POST(req: Request) {
     data: {
       userId,
       voiceModelId: input.voiceModelId,
-      elSpeechModelId: voiceModel.elSpeechModel.id,
+      elSpeechModelId: voiceModel.elSpeechModel?.id ?? null,
       inputText: input.text,
       inputTextHash: cacheKey,
       charCount,
@@ -198,7 +200,7 @@ export async function POST(req: Request) {
     cacheKey,
 
     // EL settings (voice.provider === "elevenlabs" হলে worker use করবে)
-    elModelId: voiceModel.elSpeechModel?.elModelId,
+    elModelId: voiceModel.elVoiceId,
     stability: input.stability,
     similarityBoost: input.similarityBoost,
     style: input.style,
