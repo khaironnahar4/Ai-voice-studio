@@ -109,9 +109,9 @@ export async function processTtsJob(job: Job<TtsJobPayload>): Promise<void> {
   }
 
   // ── Upload to R2 ─────────────────────────────────────────────────────
-  const storageKey = buildStorageKey(p.userId, p.requestId, p.outputFormat);
-  const contentType = contentTypeForFormat(p.outputFormat);
-  const fileFormat = p.outputFormat.split("_")[0];
+  const fileFormat = p.outputFormat.split("_")[0]; // "mp3"
+  const storageKey = buildStorageKey(p.userId, p.requestId, fileFormat);
+  const contentType = contentTypeForFormat(fileFormat);
   const fileSizeBytes = BigInt(result.buffer.byteLength);
 
   try {
@@ -133,11 +133,12 @@ export async function processTtsJob(job: Job<TtsJobPayload>): Promise<void> {
 
   // ── Write audio_files ────────────────────────────────────────────────
   // নতুন generic columns + পুরনো EL columns (EL হলে populated, GCP হলে null)
-  const audioFile = await prisma.audioFile.create({
-    data: {
+  const audioFile = await prisma.audioFile.upsert({
+     where: { requestId: p.requestId },
+    create: {
       requestId: p.requestId,
       userId: p.userId,
-      storageBucket: process.env.R2_BUCKET_NAME!,
+      storageBucket: process.env.SUPABASE_STORAGE_BUCKET!,
       storageKey,
       fileName: `${p.requestId}.${fileFormat}`,
       fileFormat,
@@ -146,6 +147,7 @@ export async function processTtsJob(job: Job<TtsJobPayload>): Promise<void> {
       signedUrlExpiresAt,
       downloadCount: 0,
       isPublic: false,
+      // localeUsed: p.languageCode ?? null,
 
       // ── Generic provider fields (নতুন columns) ────────────────────
       providerRequestId: result.providerRequestId,
@@ -162,6 +164,10 @@ export async function processTtsJob(job: Job<TtsJobPayload>): Promise<void> {
       elVoiceIdUsed:
         providerName === "elevenlabs" ? result.providerVoice : null,
     },
+    update: {
+      signedUrl,
+      signedUrlExpiresAt
+    }
   });
 
   // ── Write request_cache ──────────────────────────────────────────────
@@ -169,7 +175,7 @@ export async function processTtsJob(job: Job<TtsJobPayload>): Promise<void> {
     cacheKey: p.cacheKey,
     audioFileId: audioFile.id,
     voiceModelId: p.voiceModelId,
-    outputFormat: p.outputFormat,
+    outputFormat: fileFormat,
     charCount: p.charCount,
   });
 

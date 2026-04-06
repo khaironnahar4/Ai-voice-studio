@@ -5,15 +5,17 @@ import { getSession } from "@/lib/auth/session";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { requestId: string } }
+  { params }: { params: Promise<{ requestId: string }> }
 ) {
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthenticated." }, { status: 401 });
   }
 
+  const {requestId} = await params;
+
   const request = await prisma.ttsRequest.findUnique({
-    where: { id: params.requestId },
+    where: { id: requestId },
     include: {
       audioFile: {
         select: {

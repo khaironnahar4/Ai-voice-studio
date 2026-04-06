@@ -342,7 +342,7 @@ model AudioFile {
   // Generic — provider agnostic fields for future-proofing against other TTS providers
   providerRequestId String? @map("provider_request_id") @db.VarChar(255)
   providerCost      Int?    @map("provider_cost")
-  providerModelUsed String? @map("provider_model_used") @db.VarChar(100)
+  providerModelUsed String? @map("provider_model_used") @db.VarChar(255)
   providerVoiceUsed String? @map("provider_voice_used") @db.VarChar(255)
 
   createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
