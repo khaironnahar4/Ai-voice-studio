@@ -6,182 +6,232 @@ import {
   contentTypeForFormat,
 } from "@/lib/storage/r2";
 import { writeCache } from "@/lib/tts/cache";
+import { getProvider } from "@/lib/providers/registry";
 import type { TtsJobPayload } from "@/lib/queue";
+import type { SynthesisParams } from "@/lib/providers/types";
 import prisma from "../auth/prisma";
 
-const EL_BASE = process.env.EL_BASE ;
-
-// ── Call ElevenLabs TTS API → returns raw audio Buffer ────────
-async function callElevenLabs(payload: TtsJobPayload): Promise<{
-  buffer:      Buffer;
-  elRequestId: string;
-  charCost:    number;
-}> {
-  const endpoint = `${EL_BASE}/v1/text-to-speech/${payload.elVoiceId}`;
-
-  const body = {
-    text:       payload.inputText,
-    model_id:   payload.elModelId,
-    language_code: payload.languageCode || undefined,
-    voice_settings: {
-      stability:        payload.stability,
-      similarity_boost: payload.similarityBoost,
-      style:            payload.style,
-      use_speaker_boost: payload.useSpeakerBoost,
+// ── Build provider-agnostic SynthesisParams from job payload ──────────────
+// Worker টা payload থেকে params বানায়, provider নিজেই decide করে কোনটা দরকার
+async function buildSynthesisParams(
+  payload: TtsJobPayload,
+): Promise<SynthesisParams> {
+  // Voice model লোড করো — provider-specific fields সহ
+  const voiceModel = await prisma.voiceModel.findUniqueOrThrow({
+    where: { id: payload.voiceModelId },
+    select: {
+      id: true,
+      provider: true,
+      providerVoiceId: true,
+      elVoiceId: true,
+      elSpeechModelId: true,
+      gcpVoiceName: true,
+      gcpLanguageCode: true,
+      gcpSsmlGender: true,
+      gcpVoiceType: true,
+      edgeVoiceName: true,
+      edgeLocale: true,
+      edgeGender: true,
+      edgeFriendlyName: true,
     },
-    seed:                      payload.seed ?? undefined,
-    apply_text_normalization:  payload.applyTextNormalization,
-    output_format:             payload.outputFormat,
-  };
-
-  const res = await fetch(endpoint, {
-    method:  "POST",
-    headers: {
-      "xi-api-key":   process.env.ELEVENLABS_API_KEY!,
-      "Content-Type": "application/json",
-      "Accept":       "audio/*",
-    },
-    body: JSON.stringify(body),
   });
 
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`ElevenLabs API error ${res.status}: ${errText}`);
-  }
+  return {
+    requestId: payload.requestId,
+    userId: payload.userId,
+    inputText: payload.inputText,
+    outputFormat: payload.outputFormat,
+    languageCode: payload.languageCode,
+    voiceModel,
 
-  const elRequestId = res.headers.get("xi-request-id") ?? "";
+    // EL-specific — provider class নিজে ignore করবে যদি GCP হয়
+    elModelId: payload.elModelId,
+    stability: payload.stability,
+    similarityBoost: payload.similarityBoost,
+    style: payload.style,
+    useSpeakerBoost: payload.useSpeakerBoost,
+    seed: payload.seed,
+    applyTextNormalization: payload.applyTextNormalization,
 
-  // EL returns "x-char-cost" in some plans — fall back to inputText.length
-  const charCostHeader = res.headers.get("character-cost");
-  const charCost = charCostHeader
-    ? parseInt(charCostHeader, 10)
-    : payload.charCount;
+    // GCP-specific — provider class নিজে ignore করবে যদি EL হয়
+    speakingRate: payload.speakingRate,
+    pitch: payload.pitch,
+    volumeGainDb: payload.volumeGainDb,
 
-  const arrayBuffer = await res.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-
-  return { buffer, elRequestId, charCost };
+    // Edge TTS
+    edgeSpeed: payload.edgeSpeed,
+  };
 }
 
-// ── Main job processor ────────────────────────────────────────
-export async function processTtsJob(
-  job: Job<TtsJobPayload>
-): Promise<void> {
+// ── Main job processor ────────────────────────────────────────────────────
+export async function processTtsJob(job: Job<TtsJobPayload>): Promise<void> {
   const p = job.data;
 
-  // ── Mark request as processing ───────────────────────────────
+  // ── Mark as processing ───────────────────────────────────────────────
   await prisma.ttsRequest.update({
     where: { id: p.requestId },
-    data:  { status: "processing" },
+    data: { status: "processing" },
   });
 
   await prisma.job.update({
     where: { id: job.id },
-    data:  {
-      status:    "active",
+    data: {
+      status: "active",
       startedAt: new Date(),
-      workerId:  `worker-${process.pid}`,
-      attempts:  job.attemptsMade + 1,
+      workerId: `worker-${process.pid}`,
+      attempts: job.attemptsMade + 1,
     },
   });
 
-  let buffer:      Buffer;
-  let elRequestId: string;
-  let charCost:    number;
-
-  // ── Call ElevenLabs ──────────────────────────────────────────
+  // ── Build params + select provider ──────────────────────────────────
+  let params: SynthesisParams;
   try {
-    ({ buffer, elRequestId, charCost } = await callElevenLabs(p));
+    params = await buildSynthesisParams(p);
   } catch (err) {
-    // Update status before BullMQ retries the job
-    await prisma.ttsRequest.update({
-      where: { id: p.requestId },
-      data:  {
-        status:       "failed",
-        errorMessage: err instanceof Error ? err.message : String(err),
-        retryCount:   job.attemptsMade + 1,
-      },
-    });
-    throw err; // BullMQ sees the throw and schedules a retry
-  }
-
-  // ── Upload to R2 ─────────────────────────────────────────────
-  const storageKey   = buildStorageKey(p.userId, p.requestId, p.outputFormat);
-  const contentType  = contentTypeForFormat(p.outputFormat);
-  const fileFormat   = p.outputFormat.split("_")[0]; // "mp3_44100_128" → "mp3"
-  const fileSizeBytes = BigInt(buffer.byteLength);
-
-  try {
-    await uploadAudio(storageKey, buffer, contentType);
-  } catch (err) {
-    await prisma.ttsRequest.update({
-      where: { id: p.requestId },
-      data:  {
-        status:       "failed",
-        errorMessage: `R2 upload failed: ${err instanceof Error ? err.message : String(err)}`,
-        retryCount:   job.attemptsMade + 1,
-      },
-    });
+    await markFailed(p.requestId, job, err);
     throw err;
   }
 
-  // ── Generate presigned URL ───────────────────────────────────
+  const providerName = params.voiceModel.provider; // "google" | "elevenlabs"
+  const provider = getProvider(providerName);
+
+  console.log(
+    `[worker] job ${job.id} → provider: ${providerName} | voice: ${params.voiceModel.providerVoiceId}`,
+  );
+
+  // ── Synthesize ───────────────────────────────────────────────────────
+  let result: Awaited<ReturnType<typeof provider.synthesize>>;
+  try {
+    result = await provider.synthesize(params);
+  } catch (err) {
+    await markFailed(p.requestId, job, err);
+    throw err;
+  }
+
+  // ── Upload to R2 ─────────────────────────────────────────────────────
+  const fileFormat = p.outputFormat.split("_")[0]; // "mp3"
+  const storageKey = buildStorageKey(p.userId, p.requestId, fileFormat);
+  const contentType = contentTypeForFormat(fileFormat);
+  const fileSizeBytes = BigInt(result.buffer.byteLength);
+
+  try {
+    await uploadAudio(storageKey, result.buffer, contentType);
+  } catch (err) {
+    await markFailed(
+      p.requestId,
+      job,
+      new Error(
+        `R2 upload failed: ${err instanceof Error ? err.message : err}`,
+      ),
+    );
+    throw err;
+  }
+
+  // ── Generate presigned URL ───────────────────────────────────────────
   const { url: signedUrl, expiresAt: signedUrlExpiresAt } =
     await generateSignedUrl(storageKey);
 
-  // ── Write audio_files row ────────────────────────────────────
-  const audioFile = await prisma.audioFile.create({
-    data: {
-      requestId:    p.requestId,
-      userId:       p.userId,
-      storageBucket: process.env.R2_BUCKET_NAME!,
+  // ── Write audio_files ────────────────────────────────────────────────
+  // নতুন generic columns + পুরনো EL columns (EL হলে populated, GCP হলে null)
+  const audioFile = await prisma.audioFile.upsert({
+     where: { requestId: p.requestId },
+    create: {
+      requestId: p.requestId,
+      userId: p.userId,
+      storageBucket: process.env.SUPABASE_STORAGE_BUCKET!,
       storageKey,
-      fileName:     `${p.requestId}.${fileFormat}`,
+      fileName: `${p.requestId}.${fileFormat}`,
       fileFormat,
       fileSizeBytes,
-      cdnUrl:       null,
       signedUrl,
       signedUrlExpiresAt,
       downloadCount: 0,
-      isPublic:     false,
-      elRequestId,
-      elCharacterCost: charCost,
-      elModelUsed:  p.elModelId,
-      elVoiceIdUsed: p.elVoiceId,
+      isPublic: false,
+      // localeUsed: p.languageCode ?? null,
+
+      // ── Generic provider fields (নতুন columns) ────────────────────
+      providerRequestId: result.providerRequestId,
+      providerCost: result.providerCost,
+      providerModelUsed: result.providerModel,
+      providerVoiceUsed: result.providerVoice,
+
+      // ── EL-specific (EL হলে populated, GCP হলে null) ─────────────
+      elRequestId:
+        providerName === "elevenlabs" ? result.providerRequestId : null,
+      elCharacterCost:
+        providerName === "elevenlabs" ? result.providerCost : null,
+      elModelUsed: providerName === "elevenlabs" ? result.providerModel : null,
+      elVoiceIdUsed:
+        providerName === "elevenlabs" ? result.providerVoice : null,
     },
+    update: {
+      signedUrl,
+      signedUrlExpiresAt
+    }
   });
 
-  // ── Write request_cache row ──────────────────────────────────
+  // ── Write request_cache ──────────────────────────────────────────────
   await writeCache({
-    cacheKey:    p.cacheKey,
+    cacheKey: p.cacheKey,
     audioFileId: audioFile.id,
     voiceModelId: p.voiceModelId,
-    outputFormat: p.outputFormat,
-    charCount:   p.charCount,
+    outputFormat: fileFormat,
+    charCount: p.charCount,
   });
 
-  // ── Mark request as completed ────────────────────────────────
+  // ── Mark completed ───────────────────────────────────────────────────
   await prisma.ttsRequest.update({
     where: { id: p.requestId },
-    data:  {
-      status:      "completed",
-      completedAt: new Date(),
-    },
+    data: { status: "completed", completedAt: new Date() },
   });
 
-  // ── Mark job as completed ────────────────────────────────────
   await prisma.job.update({
     where: { id: job.id },
-    data:  {
-      status:      "completed",
+    data: {
+      status: "completed",
       completedAt: new Date(),
       result: {
         audioFileId: audioFile.id,
         storageKey,
-        fileSizeBytes: buffer.byteLength,
-        elRequestId,
-        charCost,
+        fileSizeBytes: result.buffer.byteLength,
+        provider: providerName,
+        providerRequestId: result.providerRequestId,
+        providerCost: result.providerCost,
       },
     },
   });
+
+  console.log(
+    `[worker] ✓ job ${job.id} completed | ` +
+      `${providerName} | ${result.buffer.byteLength} bytes | ` +
+      `${result.providerCost} chars billed`,
+  );
+}
+
+// ── Helper: mark request + job as failed ─────────────────────────────────
+async function markFailed(
+  requestId: string,
+  job: Job<TtsJobPayload>,
+  err: unknown,
+): Promise<void> {
+  const message = err instanceof Error ? err.message : String(err);
+
+  await Promise.allSettled([
+    prisma.ttsRequest.update({
+      where: { id: requestId },
+      data: {
+        status: "failed",
+        errorMessage: message,
+        retryCount: job.attemptsMade + 1,
+      },
+    }),
+    prisma.job.update({
+      where: { id: job.id },
+      data: {
+        status: "failed",
+        completedAt: new Date(),
+        error: { message, stack: err instanceof Error ? err.stack : undefined },
+      },
+    }),
+  ]);
 }
