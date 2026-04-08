@@ -100,7 +100,7 @@ export function VoicePicker({ selectedId, onSelect }: VoicePickerProps) {
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-medium text-white/80">Voice</h3>
           {selected && (
-            <span className="text-[11px] text-[rgb(var(--accent-light,167,139,250))] font-medium truncate max-w-[140px]">
+            <span className="text-[11px] text-[rgb(var(--accent-light,167,139,250))] font-medium truncate max-w-35">
               {selected.voiceName?.replace(/Neural$/, "")}
             </span>
           )}
@@ -116,7 +116,7 @@ export function VoicePicker({ selectedId, onSelect }: VoicePickerProps) {
             type="text" value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search voices or language…"
-            className="w-full bg-[#0F0F1A] border border-[#282846] rounded-lg
+            className="w-full bg-vocera-bg border border-[#282846] rounded-lg
                        pl-9 pr-3 py-2 text-xs text-white placeholder:text-white/20
                        focus:outline-none focus:border-[rgba(120,62,246,0.5)]
                        transition-colors duration-150"
@@ -170,13 +170,13 @@ export function VoicePicker({ selectedId, onSelect }: VoicePickerProps) {
                          text-left transition-all duration-100 group
                          ${isSelected
                            ? "bg-[rgba(120,62,246,0.1)]"
-                           : "hover:bg-white/[0.03]"}`}>
+                           : "hover:bg-white/3"}`}>
               {/* Flag avatar */}
               <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center
                               text-sm border transition-all duration-150
                               ${isSelected
                                 ? "border-[rgba(120,62,246,0.4)] bg-[rgba(120,62,246,0.15)]"
-                                : "border-[#282846] bg-[#0F0F1A]"}`}>
+                                : "border-[#282846] bg-vocera-bg"}`}>
                 {flag}
               </div>
 
