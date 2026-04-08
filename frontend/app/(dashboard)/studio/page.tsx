@@ -104,6 +104,7 @@ export default function StudioPage() {
       const res  = await fetch("/api/tts", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body:    JSON.stringify(body),
       })
       const data = await res.json()
