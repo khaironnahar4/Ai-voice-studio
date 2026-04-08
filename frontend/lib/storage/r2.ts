@@ -53,6 +53,22 @@ export async function uploadAudio(
   );
 }
 
+// upload sample audio for TTS voice
+export async function uploadSampleAudio(
+  key: string,
+  body: Buffer,
+  contentType: string,
+): Promise<void> {
+  await r2.send(
+    new PutObjectCommand({
+      Bucket: process.env.SUPABASE_SAMPLE_AUDIO_BUCKET!,
+      Key: key,
+      Body: body,
+      ContentType: contentType,
+    }),
+  );
+}
+
 // ── Presigned download URL (15-min TTL) ───────────────────────
 export async function generateSignedUrl(
   key: string,
