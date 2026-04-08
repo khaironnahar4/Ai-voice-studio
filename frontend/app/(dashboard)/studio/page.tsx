@@ -269,7 +269,7 @@ export default function StudioPage() {
             {/* Progress fill */}
             {isGenerating && genProgress > 0 && (
               <div className="absolute inset-y-0 left-0 rounded-xl
-                              bg-gradient-to-r from-[rgb(120,62,246)] to-[rgb(99,42,200)]
+                              bg-linear-to-r from-[rgb(120,62,246)] to-[rgb(99,42,200)]
                               transition-all duration-300"
                    style={{ width: `${genProgress}%` }}/>
             )}
@@ -278,9 +278,9 @@ export default function StudioPage() {
               {isGenerating ? (
                 <>
                   {/* Inline waveform */}
-                  <span className="flex items-center gap-[3px]">
+                  <span className="flex items-center gap-0.75">
                     {[0,1,2,3,4].map(i => (
-                      <span key={i} className="w-[3px] rounded-full bg-white/80"
+                      <span key={i} className="w-0.75 rounded-full bg-white/80"
                             style={{
                               height: `${8 + (i % 3) * 4}px`,
                               animation: `wave ${0.6 + i * 0.1}s ease-in-out ${i * 0.08}s infinite`,
