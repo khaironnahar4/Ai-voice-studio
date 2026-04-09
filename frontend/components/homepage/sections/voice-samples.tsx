@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { useGSAP }                      from "@gsap/react"
 import gsap                             from "gsap"
 import { ScrollTrigger }                from "gsap/ScrollTrigger"
+import Link from "next/link"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -244,33 +245,34 @@ export default function VoiceSamples() {
       })
   }, [])
 
+  // console.log("Featured voices:", voices)   // Debug log
   // ── GSAP scroll reveal ──────────────────────────────────────────────
-  useGSAP(() => {
-    const mm = gsap.matchMedia()
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.from(".voices-heading", {
-        y:       40,
-        opacity: 0,
-        duration: 0.9,
-        ease:    "power3.out",
-        scrollTrigger: {
-          trigger: container.current,
-          start:   "top 80%",
-        },
-      })
-      gsap.from(".reveal-item", {
-        y:        30,
-        opacity:  0,
-        duration: 0.7,
-        stagger:  0.08,
-        ease:     "power3.out",
-        scrollTrigger: {
-          trigger: container.current,
-          start:   "top 70%",
-        },
-      })
-    })
-  }, { scope: container, dependencies: [voices] })
+  // useGSAP(() => {
+  //   const mm = gsap.matchMedia()
+  //   mm.add("(prefers-reduced-motion: no-preference)", () => {
+  //     gsap.from(".voices-heading", {
+  //       y:       40,
+  //       opacity: 0,
+  //       duration: 0.9,
+  //       ease:    "power3.out",
+  //       scrollTrigger: {
+  //         trigger: container.current,
+  //         start:   "top 80%",
+  //       },
+  //     })
+  //     gsap.from(".reveal-item", {
+  //       y:        30,
+  //       opacity:  0,
+  //       duration: 0.7,
+  //       stagger:  0.08,
+  //       ease:     "power3.out",
+  //       scrollTrigger: {
+  //         trigger: container.current,
+  //         start:   "top 70%",
+  //       },
+  //     })
+  //   })
+  // }, { scope: container, dependencies: [voices] })
 
   // ── Play / pause logic ──────────────────────────────────────────────
  async function handlePlay(voice: FeaturedVoice) {
@@ -300,22 +302,22 @@ export default function VoiceSamples() {
 
   // Fallback — sample নেই হলে live generate করো (edge case)
   setLoadingId(voice.id)
-  try {
-    const res = await fetch("/api/voices/preview", {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ voiceName: voice.voiceName }),
-    })
-    if (!res.ok) { setLoadingId(null); return }
-    const blob  = await res.blob()
-    const url   = URL.createObjectURL(blob)
-    const audio = new Audio(url)
-    audioRef.current = audio
-    audio.play()
-    setPlayingId(voice.id)
-    setLoadingId(null)
-    audio.onended = () => { setPlayingId(null); URL.revokeObjectURL(url) }
-  } catch { setLoadingId(null) }
+  // try {
+  //   const res = await fetch("/api/voices/preview", {
+  //     method:  "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body:    JSON.stringify({ voiceName: voice.voiceName }),
+  //   })
+  //   if (!res.ok) { setLoadingId(null); return }
+  //   const blob  = await res.blob()
+  //   const url   = URL.createObjectURL(blob)
+  //   const audio = new Audio(url)
+  //   audioRef.current = audio
+  //   audio.play()
+  //   setPlayingId(voice.id)
+  //   setLoadingId(null)
+  //   audio.onended = () => { setPlayingId(null); URL.revokeObjectURL(url) }
+  // } catch { setLoadingId(null) }
 }
 
 
@@ -410,7 +412,7 @@ export default function VoiceSamples() {
           <p className="text-sm text-white/30 mb-4">
             Want to use your own text? Sign up — it&apos;s free.
           </p>
-          <a
+          <Link
             href="/sign-up"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl
                        bg-[rgb(var(--accent))] hover:bg-[rgb(var(--accent)/0.9)]
@@ -422,7 +424,7 @@ export default function VoiceSamples() {
               <path d="M7 1L13 7L7 13M13 7H1" stroke="currentColor"
                     strokeWidth="1.5" fill="none" strokeLinecap="round"/>
             </svg>
-          </a>
+          </Link>
         </div>
           </div>
     </section>

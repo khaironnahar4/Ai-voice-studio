@@ -10,7 +10,7 @@ import Pricing from '@/components/homepage/sections/Pricing'
 import SocialProof from '@/components/homepage/sections/SocialProof'
 import UseCases from '@/components/homepage/sections/UseCases'
 import Voices from '@/components/homepage/sections/Voices'
-import dynamic from 'next/dist/shared/lib/dynamic'
+import dynamic from 'next/dynamic'
 
 
 

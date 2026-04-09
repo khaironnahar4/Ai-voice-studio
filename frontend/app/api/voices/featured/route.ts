@@ -23,7 +23,7 @@ export async function GET() {
         accent:         true,
         styleTags:      true,
         isPremium:      true,
-        sampleAudioUrl: true,   // ← এটাই key
+        sampleAudioUrl: true,   // ← this is the key
         edgeVoiceName:  true,
         edgeLocale:     true,
         edgeGender:     true,
