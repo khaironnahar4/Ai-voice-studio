@@ -1,68 +1,73 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { useGSAP }                      from "@gsap/react"
-import gsap                             from "gsap"
-import { ScrollTrigger }                from "gsap/ScrollTrigger"
-import Link from "next/link"
+import { useEffect, useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 // ── Types ─────────────────────────────────────────────────────────────────
 interface FeaturedVoice {
-  id:           string
-  voiceName:    string
-  friendlyName: string
-  locale:       string | null
-  gender:       string | null
-  styleTags:    string[]
-  isPremium:    boolean
-    sampleAudioUrl: string | null
+  id: string;
+  voiceName: string;
+  friendlyName: string;
+  locale: string | null;
+  gender: string | null;
+  styleTags: string[];
+  isPremium: boolean;
+  sampleAudioUrl: string | null;
   language: {
-    code:       string | null
-    name:       string | null
-    nativeName: string | null
-  }
+    code: string | null;
+    name: string | null;
+    nativeName: string | null;
+  };
 }
 
 // ── Language flag emoji (locale → flag) ───────────────────────────────────
 const LOCALE_FLAG: Record<string, string> = {
-  "en-US": "🇺🇸", "en-GB": "🇬🇧", "bn-BD": "🇧🇩",
-  "bn-IN": "🇮🇳", "hi-IN": "🇮🇳", "ar-SA": "🇸🇦",
-  "fr-FR": "🇫🇷", "es-ES": "🇪🇸", "de-DE": "🇩🇪",
-  "ja-JP": "🇯🇵", "zh-CN": "🇨🇳", "pt-BR": "🇧🇷",
-}
+  "en-US": "🇺🇸",
+  "en-GB": "🇬🇧",
+  "bn-BD": "🇧🇩",
+  "bn-IN": "🇮🇳",
+  "hi-IN": "🇮🇳",
+  "ar-SA": "🇸🇦",
+  "fr-FR": "🇫🇷",
+  "es-ES": "🇪🇸",
+  "de-DE": "🇩🇪",
+  "ja-JP": "🇯🇵",
+  "zh-CN": "🇨🇳",
+  "pt-BR": "🇧🇷",
+};
 
 function getFlag(locale: string | null): string {
-  if (!locale) return "🌐"
-  return LOCALE_FLAG[locale] ?? "🌐"
+  if (!locale) return "🌐";
+  return LOCALE_FLAG[locale] ?? "🌐";
 }
 
 // ── Animated waveform bars ─────────────────────────────────────────────────
 function WaveformBars({ playing }: { playing: boolean }) {
-  const bars = Array.from({ length: 5 })
+  const bars = Array.from({ length: 5 });
   return (
     <div className="flex items-center gap-0.75 h-4">
       {bars.map((_, i) => (
         <span
           key={i}
           className={`w-0.75 rounded-full transition-all duration-300
-            ${playing
-              ? "bg-[rgb(var(--accent))]"
-              : "bg-white/20"
-            }`}
+            ${playing ? "bg-[rgb(var(--accent))]" : "bg-white/20"}`}
           style={{
-            height:                  playing ? `${8 + (i % 3) * 4}px` : "4px",
-            animationName:           playing ? "wave" : "none",
-            animationDuration:       `${0.6 + i * 0.1}s`,
-            animationDelay:          `${i * 0.08}s`,
+            height: playing ? `${8 + (i % 3) * 4}px` : "4px",
+            animationName: playing ? "wave" : "none",
+            animationDuration: `${0.6 + i * 0.1}s`,
+            animationDelay: `${i * 0.08}s`,
             animationTimingFunction: "ease-in-out",
             animationIterationCount: "infinite",
           }}
         />
       ))}
     </div>
-  )
+  );
 }
 
 // ── Single voice card ──────────────────────────────────────────────────────
@@ -72,27 +77,29 @@ function VoiceCard({
   isLoading,
   onPlay,
 }: {
-  voice:     FeaturedVoice
-  isPlaying: boolean
-  isLoading: boolean
-  onPlay:    (voice: FeaturedVoice) => void
+  voice: FeaturedVoice;
+  isPlaying: boolean;
+  isLoading: boolean;
+  onPlay: (voice: FeaturedVoice) => void;
 }) {
-  const flag         = getFlag(voice.locale)
-  const genderLabel  = voice.gender === "Female" ? "F"
-                     : voice.gender === "Male"   ? "M" : "N"
-  const genderColor  = voice.gender === "Female"
-    ? "bg-pink-500/15 text-pink-300 border-pink-500/20"
-    : voice.gender === "Male"
-    ? "bg-blue-500/15 text-blue-300 border-blue-500/20"
-    : "bg-white/10 text-white/50 border-white/10"
+  const flag = getFlag(voice.locale);
+  const genderLabel =
+    voice.gender === "Female" ? "F" : voice.gender === "Male" ? "M" : "N";
+  const genderColor =
+    voice.gender === "Female"
+      ? "bg-pink-500/15 text-pink-300 border-pink-500/20"
+      : voice.gender === "Male"
+        ? "bg-blue-500/15 text-blue-300 border-blue-500/20"
+        : "bg-white/10 text-white/50 border-white/10";
 
   return (
     <div
       className={`reveal-item group relative rounded-xl border
         transition-all duration-200 cursor-pointer overflow-hidden
-        ${isPlaying
-          ? "border-[rgb(var(--accent)/0.5)] bg-[rgb(var(--surface-2))]"
-          : "border-[rgb(var(--border))] bg-[rgb(var(--surface-2))] hover:border-[rgb(var(--accent)/0.3)]"
+        ${
+          isPlaying
+            ? "border-[rgb(var(--accent)/0.5)] bg-[rgb(var(--surface-2))]"
+            : "border-[rgb(var(--border))] bg-[rgb(var(--surface-2))] hover:border-[rgb(var(--accent)/0.3)]"
         }`}
       onClick={() => onPlay(voice)}
     >
@@ -126,13 +133,17 @@ function VoiceCard({
           {/* Badges */}
           <div className="flex items-center gap-1.5 shrink-0">
             {voice.isPremium && (
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-bold
-                               bg-amber-500/15 text-amber-400 border border-amber-500/20">
+              <span
+                className="px-1.5 py-0.5 rounded text-[9px] font-bold
+                               bg-amber-500/15 text-amber-400 border border-amber-500/20"
+              >
                 PRO
               </span>
             )}
-            <span className={`w-5 h-5 rounded-full flex items-center justify-center
-                             text-[10px] font-bold border ${genderColor}`}>
+            <span
+              className={`w-5 h-5 rounded-full flex items-center justify-center
+                             text-[10px] font-bold border ${genderColor}`}
+            >
               {genderLabel}
             </span>
           </div>
@@ -157,13 +168,17 @@ function VoiceCard({
         {/* Play button row */}
         <div className="flex items-center justify-between">
           <button
-            onClick={(e) => { e.stopPropagation(); onPlay(voice) }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onPlay(voice);
+            }}
             disabled={isLoading}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg
               text-xs font-medium transition-all duration-150
-              ${isPlaying
-                ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent-light))]"
-                : "bg-white/8 text-white/50 hover:text-white hover:bg-white/12"
+              ${
+                isPlaying
+                  ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent-light))]"
+                  : "bg-white/8 text-white/50 hover:text-white hover:bg-white/12"
               }
               ${isLoading ? "opacity-50 cursor-wait" : ""}
             `}
@@ -171,8 +186,10 @@ function VoiceCard({
           >
             {isLoading ? (
               <>
-                <span className="w-3 h-3 border border-white/30 border-t-white/80
-                                 rounded-full animate-spin" />
+                <span
+                  className="w-3 h-3 border border-white/30 border-t-white/80
+                                 rounded-full animate-spin"
+                />
                 Loading…
               </>
             ) : isPlaying ? (
@@ -183,7 +200,12 @@ function VoiceCard({
             ) : (
               <>
                 {/* Play icon */}
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="currentColor"
+                >
                   <path d="M2 1.5L10 6L2 10.5V1.5Z" />
                 </svg>
                 Preview
@@ -195,14 +217,16 @@ function VoiceCard({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // ── Skeleton card ─────────────────────────────────────────────────────────
 function VoiceCardSkeleton() {
   return (
-    <div className="rounded-xl border border-[rgb(var(--border))]
-                    bg-[rgb(var(--surface-2))] p-4 md:p-5">
+    <div
+      className="rounded-xl border border-[rgb(var(--border))]
+                    bg-[rgb(var(--surface-2))] p-4 md:p-5"
+    >
       <div className="flex items-start gap-3 mb-3">
         <div className="w-7 h-7 rounded-full skeleton shrink-0" />
         <div className="flex-1 space-y-1.5">
@@ -216,34 +240,34 @@ function VoiceCardSkeleton() {
       </div>
       <div className="h-7 w-20 rounded-lg skeleton" />
     </div>
-  )
+  );
 }
 
 // ── Main section ──────────────────────────────────────────────────────────
 export default function VoiceSamples() {
-  const container  = useRef<HTMLDivElement>(null)
-  const audioRef   = useRef<HTMLAudioElement | null>(null)
+  const container = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const [voices,    setVoices]    = useState<FeaturedVoice[]>([])
-  const [loading,   setLoading]   = useState(true)
-  const [error,     setError]     = useState<string | null>(null)
-  const [playingId, setPlayingId] = useState<string | null>(null)
-  const [loadingId, setLoadingId] = useState<string | null>(null)
-  const [filter,    setFilter]    = useState<"all" | "female" | "male">("all")
+  const [voices, setVoices] = useState<FeaturedVoice[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<"all" | "female" | "male">("all");
 
   // ── Fetch featured voices ───────────────────────────────────────────
   useEffect(() => {
     fetch("/api/voices/featured")
       .then((r) => r.json())
       .then((data) => {
-        setVoices(data.voices ?? [])
-        setLoading(false)
+        setVoices(data.voices ?? []);
+        setLoading(false);
       })
       .catch(() => {
-        setError("Could not load voices.")
-        setLoading(false)
-      })
-  }, [])
+        setError("Could not load voices.");
+        setLoading(false);
+      });
+  }, []);
 
   // console.log("Featured voices:", voices)   // Debug log
   // ── GSAP scroll reveal ──────────────────────────────────────────────
@@ -275,106 +299,105 @@ export default function VoiceSamples() {
   // }, { scope: container, dependencies: [voices] })
 
   // ── Play / pause logic ──────────────────────────────────────────────
- async function handlePlay(voice: FeaturedVoice) {
-  // Already playing → pause
-  if (playingId === voice.id) {
-    audioRef.current?.pause()
-    setPlayingId(null)
-    return
+  async function handlePlay(voice: FeaturedVoice) {
+    // Already playing → pause
+    if (playingId === voice.id) {
+      audioRef.current?.pause();
+      setPlayingId(null);
+      return;
+    }
+
+    // Stop current
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    setPlayingId(null);
+
+    // sampleAudioUrl আছে? → সরাসরি play করো, কোনো API call নেই
+    if (voice.sampleAudioUrl) {
+      const audio = new Audio(voice.sampleAudioUrl);
+      audioRef.current = audio;
+      audio.play();
+      setPlayingId(voice.id);
+      audio.onended = () => setPlayingId(null);
+      return;
+    }
+
+    // Fallback — sample নেই হলে live generate করো (edge case)
+    setLoadingId(voice.id);
+    // try {
+    //   const res = await fetch("/api/voices/preview", {
+    //     method:  "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body:    JSON.stringify({ voiceName: voice.voiceName }),
+    //   })
+    //   if (!res.ok) { setLoadingId(null); return }
+    //   const blob  = await res.blob()
+    //   const url   = URL.createObjectURL(blob)
+    //   const audio = new Audio(url)
+    //   audioRef.current = audio
+    //   audio.play()
+    //   setPlayingId(voice.id)
+    //   setLoadingId(null)
+    //   audio.onended = () => { setPlayingId(null); URL.revokeObjectURL(url) }
+    // } catch { setLoadingId(null) }
   }
-
-  // Stop current
-  if (audioRef.current) {
-    audioRef.current.pause()
-    audioRef.current = null
-  }
-  setPlayingId(null)
-
-  // sampleAudioUrl আছে? → সরাসরি play করো, কোনো API call নেই
-  if (voice.sampleAudioUrl) {
-    const audio    = new Audio(voice.sampleAudioUrl)
-    audioRef.current = audio
-    audio.play()
-    setPlayingId(voice.id)
-    audio.onended = () => setPlayingId(null)
-    return
-  }
-
-  // Fallback — sample নেই হলে live generate করো (edge case)
-  setLoadingId(voice.id)
-  // try {
-  //   const res = await fetch("/api/voices/preview", {
-  //     method:  "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body:    JSON.stringify({ voiceName: voice.voiceName }),
-  //   })
-  //   if (!res.ok) { setLoadingId(null); return }
-  //   const blob  = await res.blob()
-  //   const url   = URL.createObjectURL(blob)
-  //   const audio = new Audio(url)
-  //   audioRef.current = audio
-  //   audio.play()
-  //   setPlayingId(voice.id)
-  //   setLoadingId(null)
-  //   audio.onended = () => { setPlayingId(null); URL.revokeObjectURL(url) }
-  // } catch { setLoadingId(null) }
-}
-
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      audioRef.current?.pause()
-    }
-  }, [])
+      audioRef.current?.pause();
+    };
+  }, []);
 
   // ── Filter ──────────────────────────────────────────────────────────
   const filtered = voices.filter((v) => {
-    if (filter === "all")    return true
-    if (filter === "female") return v.gender?.toLowerCase() === "female"
-    if (filter === "male")   return v.gender?.toLowerCase() === "male"
-    return true
-  })
+    if (filter === "all") return true;
+    if (filter === "female") return v.gender?.toLowerCase() === "female";
+    if (filter === "male") return v.gender?.toLowerCase() === "male";
+    return true;
+  });
 
   return (
     <section
       ref={container}
-      className="py-20 md:py-28 px-4"
+      className="relative py-12 lg:py-16"
+      aria-labelledby="voices-heading"
       id="voices"
     >
-      <div className="max-w-6xl mx-auto">
-
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
         <div className="voices-heading text-center mb-12 md:mb-16">
-          <p className="text-xs font-mono tracking-widest text-[rgb(var(--accent-light))]
-                        uppercase mb-4">
-            200+ voices · 30+ languages
-          </p>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight
-                         text-white leading-tight">
-            Every voice sounds
-            <span className="block bg-linear-to-r from-[rgb(var(--accent-light))]
-                             to-[rgb(var(--cyan))] bg-clip-text text-transparent">
-              completely human.
+          <div className="text-center mb-12">
+            <span className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out inline-block text-xs font-bold uppercase tracking-widest text-vocera-violet mb-4">
+              Voice Library
             </span>
-          </h2>
-          <p className="text-white/45 mt-4 max-w-xl mx-auto text-sm md:text-base
-                        leading-relaxed">
-            Click any voice to hear a live preview — generated in real time
-            using Edge TTS neural models.
-          </p>
+            <h2
+              id="voices-heading"
+              className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out font-display font-extrabold text-4xl sm:text-5xl text-white leading-tight"
+            >
+              200+ Voices. Endless{" "}
+              <span className="text-gradient">Possibilities.</span>
+            </h2>
+            <p className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out mt-4 text-vocera-muted text-lg max-w-xl mx-auto">
+              Preview any voice instantly. Find the perfect tone for your
+              project.
+            </p>
+          </div>
 
           {/* Filter pills */}
-          <div className="flex items-center justify-center gap-2 mt-6">
+          <div className="flex items-center justify-center gap-2 mt-16">
             {(["all", "female", "male"] as const).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`px-4 py-1.5 rounded-full text-xs font-medium
                   transition-all duration-150 capitalize border
-                  ${filter === f
-                    ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent-light))] border-[rgb(var(--accent)/0.3)]"
-                    : "text-white/40 border-transparent hover:text-white/60"
+                  ${
+                    filter === f
+                      ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent-light))] border-[rgb(var(--accent)/0.3)]"
+                      : "text-white/40 border-transparent hover:text-white/60"
                   }`}
               >
                 {f === "all" ? "All voices" : `${f} voices`}
@@ -389,8 +412,10 @@ export default function VoiceSamples() {
         )}
 
         {/* Voice grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
-                        gap-3 md:gap-4">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                        gap-3 md:gap-4"
+        >
           {loading
             ? Array.from({ length: 8 }).map((_, i) => (
                 <VoiceCardSkeleton key={i} />
@@ -403,30 +428,20 @@ export default function VoiceSamples() {
                   isLoading={loadingId === voice.id}
                   onPlay={handlePlay}
                 />
-              ))
-          }
+              ))}
         </div>
 
         {/* CTA under voices */}
-        <div className="text-center mt-12">
-          <p className="text-sm text-white/30 mb-4">
-            Want to use your own text? Sign up — it&apos;s free.
-          </p>
-          <Link
-            href="/sign-up"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl
-                       bg-[rgb(var(--accent))] hover:bg-[rgb(var(--accent)/0.9)]
-                       text-white text-sm font-medium
-                       transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+        <div className="reveala opacity-100 translate-y-8 transition-all duration-700 ease-out text-center mt-12">
+          <a
+            href="/voices"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-vocera-purple/30 text-vocera-violet font-semibold hover:bg-vocera-purple/10 hover:border-vocera-purple/60 transition-all duration-200 text-sm"
           >
-            Start for free
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-              <path d="M7 1L13 7L7 13M13 7H1" stroke="currentColor"
-                    strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-            </svg>
-          </Link>
+            Browse All 200+ Voices
+            <span className="text-vocera-subtle">→</span>
+          </a>
         </div>
-          </div>
+      </div>
     </section>
-  )
+  );
 }

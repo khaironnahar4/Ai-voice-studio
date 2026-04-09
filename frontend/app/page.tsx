@@ -26,7 +26,7 @@ function HomePage() {
       <Hero />
       <Features />
       <Playground />
-      <Voices />
+      {/* <Voices /> */}
       <VoiceSamples />
       <SocialProof />
       <Pricing />
