@@ -1,5 +1,3 @@
-// app/api/voices/featured/route.ts
-
 import { NextResponse } from "next/server"
 import prisma           from "@/lib/auth/prisma"
 
@@ -16,7 +14,6 @@ export async function GET() {
         provider:    "edge",
         isActive:    true,
         edgeLocale:  { in: FEATURED_LOCALES },
-        // sample নেই এমন voices filter করো — home page এ play করতে পারব না
         sampleAudioUrl: { not: null },
       },
       select: {

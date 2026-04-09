@@ -74,8 +74,6 @@ async function main() {
     where: {
       provider: "edge",
       isActive: true,
-      // sampleAudioUrl নেই এমন voices — already generated skip করো
-      sampleAudioUrl: null,
     },
     select: {
       id:           true,
