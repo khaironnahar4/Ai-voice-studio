@@ -186,12 +186,13 @@ export function AppSidebar({ user }: AppSidebarProps) {
                       }
                     `}
                   >
-                    <Link href={item.href}>
-                      {/* Active indicator bar */}
+                    <Link href={item.href} className="justify-between items-center">
+                     <span className="flex items-center gap-2">
+                       {/* Active indicator bar */}
                       {active && (
                         <span
                           className="absolute left-0 top-1/2 -translate-y-1/2
-                                     w-[3px] h-4 rounded-r-full
+                                     w-0.75 h-4 rounded-r-full
                                      bg-[rgb(120,62,246)]"
                         />
                       )}
@@ -207,6 +208,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
                       <span className="group-data-[collapsible=icon]:hidden">
                         {item.title}
                       </span>
+                     </span>
 
                       {item.badge && item.badgeVariant && (
                         <span className="group-data-[collapsible=icon]:hidden">
@@ -251,11 +253,12 @@ export function AppSidebar({ user }: AppSidebarProps) {
                       }
                     `}
                   >
-                    <Link href={item.href}>
-                      {active && (
+                    <Link href={item.href} className="justify-between items-center">
+                      <span className="flex items-center gap-2">
+                        {active && (
                         <span
                           className="absolute left-0 top-1/2 -translate-y-1/2
-                                     w-[3px] h-4 rounded-r-full
+                                     w-0.75 h-4 rounded-r-full
                                      bg-[rgb(120,62,246)]"
                         />
                       )}
@@ -270,6 +273,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
 
                       <span className="group-data-[collapsible=icon]:hidden">
                         {item.title}
+                      </span>
                       </span>
 
                       {/* Collapsed state — plan dot indicator */}

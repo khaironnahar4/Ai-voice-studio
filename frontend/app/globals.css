@@ -117,6 +117,9 @@
 
   /* Layout  */
   --container-8xl: 1280px;
+
+  
+
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -136,16 +139,16 @@
   /* ── Backgrounds & Surfaces ─────────────────── */
   --bg: 245 244 255; /* #F5F4FF — page background        */
   --bg-alt: 237 234 255; /* #EDEAFF — alternate section bg   */
-  --surface: 255 255 255; /* #FFFFFF — card, input, panel     */
-  --surface-2: 240 237 255; /* #F0EDFF — elevated card          */
-  --surface-3: 232 228 251; /* #E8E4FB — pressed/active state   */
+  /* --surface: 255 255 255; 
+  --surface-2: 240 237 255; 
+  --surface-3: 232 228 251;  */
   --surface-overlay: 255 255 255; /* modal/popover overlay bg         */
 
-  /* --cyan: 34 211 238;
+  --cyan: 34 211 238;
   --surface: 15 15 26;
   --surface-2: 20 20 36;
   --surface-3: 26 26 46;
-  --vborder: 40 40 70; */
+  --vborder: 40 40 70;
 
   /* ── Borders ────────────────────────────────── */
   --border: 216 210 248; /* #D8D2F8 — default border         */
