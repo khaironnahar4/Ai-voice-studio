@@ -128,7 +128,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
 
       {/* ── Header — Logo ────────────────────────────────────────────── */}
       <SidebarHeader className="border-b border-[rgb(var(--vborder))] h-14">
-        <SidebarMenu>
+        <SidebarMenu className="p-0">
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
@@ -168,7 +168,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
             Main
           </SidebarGroupLabel>
 
-          <SidebarMenu>
+          <SidebarMenu className="p-0">
             {NAV_MAIN.map(item => {
               const active = isActive(item.href)
               return (
@@ -233,7 +233,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
             Account
           </SidebarGroupLabel>
 
-          <SidebarMenu>
+          <SidebarMenu className="p-0">
             {NAV_ACCOUNT.map(item => {
               const active = isActive(item.href)
               return (
@@ -302,7 +302,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
       <SidebarFooter
         className="border-t border-[rgb(var(--vborder))] py-2"
       >
-        <SidebarMenu>
+        <SidebarMenu className="p-0">
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
