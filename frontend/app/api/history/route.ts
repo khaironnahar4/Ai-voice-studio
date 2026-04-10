@@ -2,6 +2,7 @@ import { NextResponse }    from "next/server"
 import { getSession }      from "@/lib/auth/session"
 import prisma              from "@/lib/auth/prisma"
 import { generateSignedUrl } from "@/lib/storage/r2"
+import { serialize } from "v8"
 
 export async function GET(req: Request) {
   const session = await getSession()
@@ -108,8 +109,13 @@ export async function GET(req: Request) {
     })
   )
 
+  const serializeData = JSON.parse(
+    JSON.stringify(refreshed, (_, value) => typeof value === "bigint" ? value.toString() : value)
+  )
+
+
   return NextResponse.json({
-    items:    refreshed,
+    items:    serializeData,
     total,
     page,
     pages:    Math.ceil(total / limit),
