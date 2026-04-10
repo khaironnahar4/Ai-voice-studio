@@ -15,22 +15,8 @@ npm run worker:dev
 
 I am making a provider engine that will select which providr model the user is requested for. 
 
-the steps:
-1. write the types.ts Done
-2. write registry.ts Done
-3. update worker.ts  Done
-4. update job payload. queue/index.ts 
-5. update api route, api/tts/route.ts 
+ 
 
-
-first voice post req er res: 
-{"requestId":"d5a8185a-a3c7-4ebf-beb8-45be96b87b4f","jobId":"0b736aa3-9718-4d7b-948f-692654d9a301","status":"queued"}
-{"requestId":"972a9a7d-1d1e-4eb4-a526-086185067393","jobId":"05ac8b85-57f3-4019-99f0-47dfb7bf5994","status":"queued"}
-{
-    "requestId": "af0f63ad-4f20-4d73-a520-8b0203affcbc",
-    "jobId": "368d2600-7b84-485a-b1fd-b1adf6bf2e2b",
-    "status": "queued"
-}
 
 
 guidelines for running edge model in local machine: 
@@ -40,3 +26,11 @@ guidelines for running edge model in local machine:
     pip install -r requirements.txt
 3. set environment: $env:EDGE_TTS_API_KEY="your_secret_key"
 4. run server: uvicorn app:app --reload --port 8000
+
+
+
+Frontend pages: 
+1. history pages
+2. dashboard
+3. setting
+4. billing
