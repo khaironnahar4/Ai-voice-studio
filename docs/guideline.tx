@@ -30,7 +30,9 @@ guidelines for running edge model in local machine:
 
 
 Frontend pages: 
-1. history pages
 2. dashboard
 3. setting
 4. billing
+5. sign-in , sign-up page
+6. 404 not found page
+7. loading skeleton

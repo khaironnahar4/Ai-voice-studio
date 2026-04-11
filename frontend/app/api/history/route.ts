@@ -109,13 +109,13 @@ export async function GET(req: Request) {
     })
   )
 
-  const serializeData = JSON.parse(
+  const safeData = JSON.parse(
     JSON.stringify(refreshed, (_, value) => typeof value === "bigint" ? value.toString() : value)
   )
 
 
   return NextResponse.json({
-    items:    serializeData,
+    items:    safeData,
     total,
     page,
     pages:    Math.ceil(total / limit),
