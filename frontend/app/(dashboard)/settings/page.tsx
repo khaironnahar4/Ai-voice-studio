@@ -1,6 +1,6 @@
 import { requireSession }         from "@/lib/auth/session"
 import prisma                     from "@/lib/auth/prisma"
-import { SettingsTabs }           from "@/components/settings/settings-tabs"
+import { SettingsTabs } from "@/components/settings/settings-tabs"
 
 async function getSettingsData(userId: string) {
   const [user, subscription] = await Promise.all([
