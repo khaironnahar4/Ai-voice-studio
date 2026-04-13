@@ -20,10 +20,13 @@ function HomePage() {
   { ssr: false }   // audio API browser-only
 )
 
+ const HeroScene = dynamic(() => import('@/components/homepage/sections/HeroScene'), { ssr: false })
+
   return (
     <main className="relative">
       <Navbar />
-      <Hero />
+      {/* <Hero /> */}
+      <HeroScene />
       <Features />
       <Playground />
       {/* <Voices /> */}
