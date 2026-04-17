@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import Link        from "next/link"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +14,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,46 +22,22 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { NAV_MAIN, NAV_ACCOUNT } from "@/lib/nav/nav"
-import { signOut } from "@/lib/auth/auth-client"
-import { useRouter } from "next/navigation"
-import {
-  ChevronsUpDown,
-  LogOut,
-  User,
-  Zap,
-} from "lucide-react"
-
-// ── Logo mark ─────────────────────────────────────────────────────────────
-function VoceraLogo() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
-      <path
-        d="M2 7C2 4 4 2 7 2C10 2 12 4 12 7"
-        stroke="rgb(var(--accent-light))"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M2 7C2 10 4 12 7 12"
-        stroke="rgb(var(--cyan))"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <circle cx="7" cy="7" r="1.5" fill="rgb(var(--accent))" />
-    </svg>
-  )
-}
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { NAV_MAIN, NAV_ACCOUNT } from "@/lib/nav/nav";
+import { signOut } from "@/lib/auth/auth-client";
+import { useRouter } from "next/navigation";
+import { ChevronsUpDown, LogOut, User, Zap } from "lucide-react";
+import VoceraLogo from "@/components/branding/Vocera-logo";
+import VoceraName from "@/components/branding/vocera-name";
 
 // ── Badge variants ─────────────────────────────────────────────────────────
 function NavBadge({
   text,
   variant,
 }: {
-  text:    string
-  variant: "new" | "plan"
+  text: string;
+  variant: "new" | "plan";
 }) {
   if (variant === "new") {
     return (
@@ -72,7 +48,7 @@ function NavBadge({
       >
         {text}
       </span>
-    )
+    );
   }
   return (
     <span
@@ -82,42 +58,42 @@ function NavBadge({
     >
       {text}
     </span>
-  )
+  );
 }
 
 // ── Sidebar props ──────────────────────────────────────────────────────────
 interface AppSidebarProps {
   user: {
-    name:  string
-    email: string
-    image?: string | null
-    plan?: string
-  }
+    name: string;
+    email: string;
+    image?: string | null;
+    plan?: string;
+  };
 }
 
 export function AppSidebar({ user }: AppSidebarProps) {
-  const pathname = usePathname()
-  const router   = useRouter()
-  const { state } = useSidebar()   // "expanded" | "collapsed"
+  const pathname = usePathname();
+  const router = useRouter();
+  const { state } = useSidebar(); // "expanded" | "collapsed"
 
-  const isCollapsed = state === "collapsed"
+  const isCollapsed = state === "collapsed";
 
   // Initials from name
   const initials = user.name
     .split(" ")
-    .map(n => n[0])
+    .map((n) => n[0])
     .join("")
     .toUpperCase()
-    .slice(0, 2)
+    .slice(0, 2);
 
   async function handleSignOut() {
-    await signOut()
-    router.push("/")
-    router.refresh()
+    await signOut();
+    router.push("/");
+    router.refresh();
   }
 
   function isActive(href: string) {
-    return pathname === href || pathname.startsWith(href + "/")
+    return pathname === href || pathname.startsWith(href + "/");
   }
 
   return (
@@ -125,7 +101,6 @@ export function AppSidebar({ user }: AppSidebarProps) {
       collapsible="icon"
       className="border-r border-[rgb(var(--vborder))] bg-[rgb(var(--surface-2))]"
     >
-
       {/* ── Header — Logo ────────────────────────────────────────────── */}
       <SidebarHeader className="border-b border-[rgb(var(--vborder))] h-14">
         <SidebarMenu className="p-0">
@@ -135,22 +110,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
               size="lg"
               className="hover:bg-transparent active:bg-transparent"
             >
-              <Link href="/dashboard" className="flex items-center gap-2.5">
-                {/* Icon */}
-                <div
-                  className="flex h-8 w-8 items-center justify-center
-                             rounded-lg bg-[rgba(120,62,246,0.2)] shrink-0"
-                >
-                  <VoceraLogo />
-                </div>
-                {/* Text — hidden when collapsed */}
-                <span
-                  className="font-semibold text-white text-sm
-                             group-data-[collapsible=icon]:hidden"
-                >
-                  Vocera AI
-                </span>
-              </Link>
+              <VoceraName />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -158,7 +118,6 @@ export function AppSidebar({ user }: AppSidebarProps) {
 
       {/* ── Content — Nav items ──────────────────────────────────────── */}
       <SidebarContent className="py-2">
-
         {/* Main group */}
         <SidebarGroup>
           <SidebarGroupLabel
@@ -169,8 +128,8 @@ export function AppSidebar({ user }: AppSidebarProps) {
           </SidebarGroupLabel>
 
           <SidebarMenu className="p-0">
-            {NAV_MAIN.map(item => {
-              const active = isActive(item.href)
+            {NAV_MAIN.map((item) => {
+              const active = isActive(item.href);
               return (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
@@ -180,35 +139,40 @@ export function AppSidebar({ user }: AppSidebarProps) {
                     className={`
                       relative h-9 rounded-lg transition-all duration-150
                       group-data-[collapsible=icon]:justify-center
-                      ${active
-                        ? "bg-[rgba(120,62,246,0.15)] text-[rgb(167,139,250)]"
-                        : "text-white/50 hover:text-white hover:bg-white/5"
+                      ${
+                        active
+                          ? "bg-[rgba(120,62,246,0.15)] text-[rgb(167,139,250)]"
+                          : "text-white/50 hover:text-white hover:bg-white/5"
                       }
                     `}
                   >
-                    <Link href={item.href} className="justify-between items-center">
-                     <span className="flex items-center gap-2">
-                       {/* Active indicator bar */}
-                      {active && (
-                        <span
-                          className="absolute left-0 top-1/2 -translate-y-1/2
+                    <Link
+                      href={item.href}
+                      className="justify-between items-center"
+                    >
+                      <span className="flex items-center gap-2">
+                        {/* Active indicator bar */}
+                        {active && (
+                          <span
+                            className="absolute left-0 top-1/2 -translate-y-1/2
                                      w-0.75 h-4 rounded-r-full
                                      bg-[rgb(120,62,246)]"
-                        />
-                      )}
+                          />
+                        )}
 
-                      <item.icon
-                        className={`h-4 w-4 shrink-0
-                          ${active
-                            ? "text-[rgb(120,62,246)]"
-                            : "text-white/40 group-hover:text-white/60"
+                        <item.icon
+                          className={`h-4 w-4 shrink-0
+                          ${
+                            active
+                              ? "text-[rgb(120,62,246)]"
+                              : "text-white/40 group-hover:text-white/60"
                           }`}
-                      />
+                        />
 
-                      <span className="group-data-[collapsible=icon]:hidden">
-                        {item.title}
+                        <span className="group-data-[collapsible=icon]:hidden">
+                          {item.title}
+                        </span>
                       </span>
-                     </span>
 
                       {item.badge && item.badgeVariant && (
                         <span className="group-data-[collapsible=icon]:hidden">
@@ -221,7 +185,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              )
+              );
             })}
           </SidebarMenu>
         </SidebarGroup>
@@ -236,8 +200,8 @@ export function AppSidebar({ user }: AppSidebarProps) {
           </SidebarGroupLabel>
 
           <SidebarMenu className="p-0">
-            {NAV_ACCOUNT.map(item => {
-              const active = isActive(item.href)
+            {NAV_ACCOUNT.map((item) => {
+              const active = isActive(item.href);
               return (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
@@ -247,33 +211,38 @@ export function AppSidebar({ user }: AppSidebarProps) {
                     className={`
                       relative h-9 rounded-lg transition-all duration-150
                       group-data-[collapsible=icon]:justify-center
-                      ${active
-                        ? "bg-[rgba(120,62,246,0.15)] text-[rgb(167,139,250)]"
-                        : "text-white/50 hover:text-white hover:bg-white/5"
+                      ${
+                        active
+                          ? "bg-[rgba(120,62,246,0.15)] text-[rgb(167,139,250)]"
+                          : "text-white/50 hover:text-white hover:bg-white/5"
                       }
                     `}
                   >
-                    <Link href={item.href} className="justify-between items-center">
+                    <Link
+                      href={item.href}
+                      className="justify-between items-center"
+                    >
                       <span className="flex items-center gap-2">
                         {active && (
-                        <span
-                          className="absolute left-0 top-1/2 -translate-y-1/2
+                          <span
+                            className="absolute left-0 top-1/2 -translate-y-1/2
                                      w-0.75 h-4 rounded-r-full
                                      bg-[rgb(120,62,246)]"
-                        />
-                      )}
+                          />
+                        )}
 
-                      <item.icon
-                        className={`h-4 w-4 shrink-0
-                          ${active
-                            ? "text-[rgb(120,62,246)]"
-                            : "text-white/40 group-hover:text-white/60"
+                        <item.icon
+                          className={`h-4 w-4 shrink-0
+                          ${
+                            active
+                              ? "text-[rgb(120,62,246)]"
+                              : "text-white/40 group-hover:text-white/60"
                           }`}
-                      />
+                        />
 
-                      <span className="group-data-[collapsible=icon]:hidden">
-                        {item.title}
-                      </span>
+                        <span className="group-data-[collapsible=icon]:hidden">
+                          {item.title}
+                        </span>
                       </span>
 
                       {/* Collapsed state — plan dot indicator */}
@@ -295,17 +264,14 @@ export function AppSidebar({ user }: AppSidebarProps) {
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              )
+              );
             })}
           </SidebarMenu>
         </SidebarGroup>
-
       </SidebarContent>
 
       {/* ── Footer — User dropdown ────────────────────────────────────── */}
-      <SidebarFooter
-        className="border-t border-[rgb(var(--vborder))] py-2"
-      >
+      <SidebarFooter className="border-t border-[rgb(var(--vborder))] py-2">
         <SidebarMenu className="p-0">
           <SidebarMenuItem>
             <DropdownMenu>
@@ -405,5 +371,5 @@ export function AppSidebar({ user }: AppSidebarProps) {
       {/* Rail — collapse toggle handle on the edge */}
       <SidebarRail className="hover:bg-[rgba(120,62,246,0.1)]" />
     </Sidebar>
-  )
+  );
 }

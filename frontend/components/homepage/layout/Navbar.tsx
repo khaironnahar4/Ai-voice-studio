@@ -13,6 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import VoceraLogo from "@/components/branding/Vocera-logo";
+import VoceraName from "@/components/branding/vocera-name";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
@@ -77,23 +79,19 @@ export default function Navbar() {
           aria-label="Main navigation"
         >
           {/* ── Logo ── */}
-          <Link
+          {/* <Link
             href="/"
-            className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vocera-purple rounded-lg"
+            className="flex items-center group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vocera-purple rounded-lg"
             aria-label="Vocera — Go to homepage"
           >
-            <div className="relative flex items-center justify-center w-8 h-8">
-              <Waves
-                className="w-7 h-7 text-vocera-purple group-hover:scale-110 transition-transform duration-300"
-                strokeWidth={2.5}
-                aria-hidden="true"
-              />
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-vocera-violet rounded-full glow-purple-sm" />
+            <div className="relative flex items-center justify-center w-10 h-10">
+              <VoceraLogo />
             </div>
             <span className="font-display font-bold text-xl tracking-tight text-white">
               Voce<span className="text-gradient">ra</span>
             </span>
-          </Link>
+          </Link> */}
+          <VoceraName />
 
           {/* ── Desktop Nav Links ── */}
           <ul className="hidden md:flex items-center gap-1" role="list">
