@@ -10,7 +10,6 @@ const Schema = z.object({
 
 export async function POST(req: Request) {
   const { user } = await requireSession()
-
   const parsed = Schema.safeParse(await req.json())
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request." }, { status: 422 })
