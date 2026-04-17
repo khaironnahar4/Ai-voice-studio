@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { Menu, X, Waves } from 'lucide-react'
+import { useAuth } from '@/lib/authStore/auth-store'
 
 const NAV_LINKS = [
   { label: 'Features', href: '#features' },
@@ -16,6 +17,7 @@ export default function Navbar() {
   const [scrolled,    setScrolled]    = useState(false)
   const [drawerOpen,  setDrawerOpen]  = useState(false)
   const [activeLink,  setActiveLink]  = useState('')
+  const { user, signOut, isAdmin } = useAuth()
 
   const handleScroll = useCallback(() => {
     setScrolled(window.scrollY > 80)
@@ -98,19 +100,43 @@ export default function Navbar() {
 
           {/* ── Desktop CTAs ── */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/sign-in"
-              className="text-sm font-medium text-vocera-muted hover:text-white transition-colors duration-150 px-3 py-2 rounded-lg hover:bg-white/5"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/sign-up"
-              className="relative inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-xl bg-vocera-purple hover:bg-vocera-violet transition-all duration-200 glow-purple-sm hover:glow-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vocera-violet"
-            >
-              Get Started Free
-            </Link>
-          </div>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-vocera-muted">
+                  Welcome, {user.name}!
+                </span>
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    className="text-sm font-medium text-vocera-muted hover:text-white transition-colors duration-150 px-3 py-2 rounded-lg hover:bg-white/5"
+                  >
+                    Admin Panel
+                  </Link>
+                )}
+                <button
+                  onClick={signOut}
+                  className="text-sm font-medium text-vocera-muted hover:text-white transition-colors duration-150 px-3 py-2 rounded-lg hover:bg-white/5"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/sign-in"
+                  className="text-sm font-medium text-vocera-muted hover:text-white transition-colors duration-150 px-3 py-2 rounded-lg hover:bg-white/5"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="relative inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-xl bg-vocera-purple hover:bg-vocera-violet transition-all duration-200 glow-purple-sm hover:glow-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vocera-violet"
+                >
+                  Get Started Free
+                </Link>
+              </div>
+            )}
+            </div>
 
           {/* ── Mobile Hamburger ── */}
           <button
