@@ -47,11 +47,11 @@ export default function RootLayout({
         className={`${syne.variable} ${dm.variable} antialiased w-full min-w-dvw overflow-hidden`}
       >
         <SmoothScrollProvider>
-          <ThemeProvider>
+          {/* <ThemeProvider> */}
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
             {children}
             <Toaster position="bottom-right" richColors />
-          </ThemeProvider>
+          {/* </ThemeProvider> */}
         </SmoothScrollProvider>
       </body>
     </html>

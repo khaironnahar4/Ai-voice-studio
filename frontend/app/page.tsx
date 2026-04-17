@@ -9,18 +9,27 @@ import Playground from '@/components/homepage/sections/Playground'
 import Pricing from '@/components/homepage/sections/Pricing'
 import SocialProof from '@/components/homepage/sections/SocialProof'
 import UseCases from '@/components/homepage/sections/UseCases'
-import Voices from '@/components/homepage/sections/Voices'
+import dynamic from 'next/dynamic'
 
 
 
 function HomePage() {
+  const VoiceSamples = dynamic(
+  () => import("@/components/homepage/sections/voice-samples"),
+  { ssr: false }   // audio API browser-only
+)
+
+//  const HeroScene = dynamic(() => import('@/components/homepage/sections/HeroScene'), { ssr: false })
+
   return (
     <main className="relative">
       <Navbar />
       <Hero />
+      {/* <HeroScene /> */}
       <Features />
       <Playground />
-      <Voices />
+      {/* <Voices /> */}
+      <VoiceSamples />
       <SocialProof />
       <Pricing />
       <UseCases />

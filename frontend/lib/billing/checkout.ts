@@ -1,5 +1,3 @@
-// lib/billing/checkout.ts
-
 import Stripe from "stripe";
 import { stripe, getStripePriceId } from "./stripe";
 import  prisma  from "@/lib/auth/prisma";
