@@ -70,7 +70,8 @@
     "tailwind-merge": "^3.4.0",
     "three": "^0.183.2",
     "uploadthing": "^7.7.4",
-    "zod": "^4.3.5"
+    "zod": "^4.3.5",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

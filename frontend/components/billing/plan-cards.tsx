@@ -205,7 +205,7 @@ export function PlanCards({
                 )
               ) : isFree ? (
                 <div className="w-full py-2.5 rounded-xl text-xs font-medium
-                                text-center text-white/20 border border-[#282846]
+                                text-center text-white border border-[#282846]
                                 cursor-default">
                   {currentPlanId ? "Downgrade via portal" : "Default plan"}
                 </div>
