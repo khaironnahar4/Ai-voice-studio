@@ -1,3 +1,4 @@
+import WaveBars from "@/components/homepage/sections/WaveBars"
 import Link from "next/link"
 
 export default function NotFound() {
@@ -7,7 +8,7 @@ export default function NotFound() {
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
                       w-100 h-75 rounded-full
-                      bg-[rgba(120,62,246,0.06)] blur-[100px] pointer-events-none"/>
+                      bg-[rgba(120,62,246,0.06)] blur-[50px] pointer-events-none"/>
 
       <div className="relative">
         {/* 404 number */}
@@ -18,15 +19,8 @@ export default function NotFound() {
         </p>
 
         {/* Waveform decoration */}
-        <div className="flex items-center justify-center gap-0.75 h-8 mb-6 opacity-40">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <span
-              key={i}
-              className="w-0.75 rounded-full bg-linear-to-t
-                         from-[rgb(120,62,246)] to-[rgb(34,211,238)]"
-              style={{ height: `${8 + Math.sin(i * 0.6) * 14}px` }}
-            />
-          ))}
+        <div className="flex items-center justify-center mb-6 opacity-40">
+         <WaveBars count={20}/>
         </div>
 
         <h1 className="text-2xl font-semibold text-white mb-2 tracking-tight">
