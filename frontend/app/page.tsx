@@ -26,7 +26,9 @@ function HomePage() {
       <Navbar />
       <Hero />
       {/* <HeroScene /> */}
+      {/* <Features /> */}
       <Features />
+      {/* <HowItWorks /> */}
       <Playground />
       {/* <Voices /> */}
       <VoiceSamples />
