@@ -263,19 +263,19 @@ export default function Hero() {
           </div>
 
           {/* ── Right Column — Demo Widget ── */}
-          {/* <div className="hero-reveal opacity-0 translate-y-8 transition-all duration-700 ease-out flex justify-center lg:justify-end">
+          <div className="hero-reveal opacity-0 translate-y-8 transition-all duration-700 ease-out flex justify-center lg:justify-end">
             <LiveDemoWidget />
            
-          </div> */}
+          </div>
            
-          <div style={{ flex:"1 1 440px", height:"520px", position:"relative", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          {/* <div style={{ flex:"1 1 440px", height:"520px", position:"relative", display:"flex", alignItems:"center", justifyContent:"center" }}>
             <div style={{ position:"absolute", width:"380px", height:"380px", borderRadius:"50%", background:"radial-gradient(circle, rgba(120,62,246,0.18) 0%, transparent 70%)", animation:"glowPulse 3s ease-in-out infinite" }}/>
               <div style={{ width:"100%", height:"100%", position:"relative", zIndex:1 }}>
                 <ParticleSphere/>
               </div>
             </div>
-          </div>
-
+          </div> */}
+        </div>
         {/* Scroll hint */}
         <div className="flex justify-center mt-20">
           <button
