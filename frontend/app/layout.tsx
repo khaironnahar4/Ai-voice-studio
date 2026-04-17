@@ -6,7 +6,6 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/utils/ThemeProvider";
 import { SmoothScrollProvider } from "@/utils/SmoothScrollProvider";
 import { SessionProvider } from "@/components/providers/session-provider";
 
