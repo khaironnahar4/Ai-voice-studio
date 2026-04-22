@@ -2,7 +2,6 @@
 
 import { useState }   from "react"
 import { useRouter }  from "next/navigation"
-import { log } from "console"
 
 const PRO_FEATURES = [
   { icon: "🎙", text: "100,000 chars/month",       sub: "10× more than Free"          },
