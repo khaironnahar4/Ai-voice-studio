@@ -10,12 +10,8 @@ function getPeriods(sub: Stripe.Subscription): {
 } {
   const item = sub.items.data[0];
   // v17+ এ item level এ থাকে
-  const start =
-    item.current_period_start ??
-    sub.current_period_start;
-  const end =
-    item.current_period_end ??
-    sub.current_period_end;
+  const start = item.current_period_start ?? sub.current_period_start;
+  const end = item.current_period_end ?? sub.current_period_end;
 
   if (!start || !end) {
     throw new Error(`Missing period data on subscription ${sub.id}`);
@@ -23,42 +19,69 @@ function getPeriods(sub: Stripe.Subscription): {
   return { currentPeriodStart: start, currentPeriodEnd: end };
 }
 
+// ── Helper ────────────────────────────────────────────────────────────
+
+function mapStatus(
+  s: Stripe.Subscription.Status,
+): "active" | "trialing" | "past_due" | "cancelled" | "expired" {
+  const map: Record<string, any> = {
+    active: "active",
+    trialing: "trialing",
+    past_due: "past_due",
+    canceled: "cancelled",
+    incomplete: "past_due",
+    incomplete_expired: "expired",
+    unpaid: "past_due",
+    paused: "cancelled",
+  };
+  return map[s] ?? "expired";
+}
+
 // ── Helper: Invoice এর subscription id safe ভাবে বের করা
 function getInvoiceSubId(inv: Stripe.Invoice): string | null {
   const sub = inv.subscription;
   if (!sub) return null;
   if (typeof sub === "string") return sub;
-  if (typeof sub === "object" && "id" in sub) return (sub as Stripe.Subscription).id;
+  if (typeof sub === "object" && "id" in sub)
+    return (sub as Stripe.Subscription).id;
   return null;
 }
 
 // ── checkout.session.completed ────────────────────────────────
-export async function handleCheckoutCompleted(
-  event: Stripe.CheckoutSessionCompletedEvent
-) {
-  const session = event.data.object;
+export async function handleCheckoutCompleted(session: Stripe.CheckoutSession) {
   if (session.mode !== "subscription") return;
 
-  const stripeSubId = session.subscription as string;
-  const stripeSubData = await stripe.subscriptions.retrieve(stripeSubId, {
-    expand: ["items.data.price"],
-  });
-
-  const userId       = session.metadata?.userId;
-  const planSlug     = session.metadata?.planSlug;
-  const billingCycle = session.metadata?.billingCycle as "monthly" | "yearly";
+  // metadata check
+  const userId = session.metadata?.userId;
+  const planSlug = session.metadata?.planSlug;
+  const billingCycle = (session.metadata?.billingCycle ?? "monthly") as
+    | "monthly"
+    | "yearly";
 
   if (!userId || !planSlug) {
     throw new Error(`Missing metadata on checkout session ${session.id}`);
   }
 
+  // findout the current plan
   const plan = await prisma.plan.findUnique({ where: { slug: planSlug } });
   if (!plan) throw new Error(`Plan not found: ${planSlug}`);
+
+  // find out the stripe subscription data
+  const stripeSubId =
+    typeof session.subscription === "string"
+      ? session.subscription
+      : session.subscription?.id;
+
+  if (!stripeSubId) throw new Error("No subscription ID in checkout session");
+
+  const stripeSubData = await stripe.subscriptions.retrieve(stripeSubId, {
+    expand: ["items.data.price"],
+  });
 
   const stripeCustomerId =
     typeof session.customer === "string"
       ? session.customer
-      : (session.customer as Stripe.Customer)?.id ?? null;
+      : ((session.customer as Stripe.Customer)?.id ?? null);
 
   const { currentPeriodStart, currentPeriodEnd } = getPeriods(stripeSubData);
 
@@ -69,34 +92,114 @@ export async function handleCheckoutCompleted(
       status: { in: ["active", "trialing"] },
     },
     data: {
-      status:      "cancelled",
+      status: "cancelled",
       cancelledAt: new Date(),
     },
   });
 
+  // Check if subscription already exists
+  const existingSubscription = await prisma.subscription.findFirst({
+    where: { stripeSubscriptionId: stripeSubId },
+  });
+
+  if (existingSubscription) {
+    await prisma.subscription.update({
+      where: { id: existingSubscription.id },
+      data: {
+        planId: plan.id,
+        status: mapStripeStatus(stripeSubData.status),
+        billingCycle,
+        currentPeriodStart: fromUnix(currentPeriodStart)!,
+        currentPeriodEnd: fromUnix(currentPeriodEnd)!,
+        trialEndsAt: fromUnix(stripeSubData.trial_end),
+        stripeCustomerId,
+      },
+    });
+  } else {
+    await prisma.subscription.create({
+      data: {
+        userId,
+        planId: plan.id,
+        status: mapStripeStatus(stripeSubData.status),
+        billingCycle,
+        currentPeriodStart: fromUnix(currentPeriodStart)!,
+        currentPeriodEnd: fromUnix(currentPeriodEnd)!,
+        trialEndsAt: fromUnix(stripeSubData.trial_end),
+        stripeSubscriptionId: stripeSubId,
+        stripeCustomerId,
+      },
+    });
+  }
+
+  console.log(
+    `[billing] subscription created for user ${userId} on plan ${planSlug}`,
+  );
+}
+
+// ── customer.subscription.created ─────────────────────────────────────
+export async function handleSubscriptionCreated(sub: Stripe.Subscription) {
+  const existing = await prisma.subscription.findFirst({
+    where: { stripeSubscriptionId: sub.id },
+  });
+
+  // if subscription already exists, skip and update will be handled by subscription.updated event
+  if (existing) {
+    console.log(
+      `[billing] subscription.created: row exists, skipping — ${sub.id}`,
+    );
+    return;
+  }
+
+  // if no existing subscription, create one.
+  const userId = sub.metadata?.userId;
+  const planSlug = sub.metadata?.planSlug;
+  const billingCycle = (sub.metadata?.billingCycle ?? "monthly") as
+    | "monthly"
+    | "yearly";
+
+  if (!userId || !planSlug) {
+    console.warn(
+      `[billing] subscription.created: missing metadata — ${sub.id}`,
+    );
+    return;
+  }
+
+  const plan = await prisma.plan.findUnique({ where: { slug: planSlug } });
+  if (!plan) {
+    console.error(
+      `[billing] subscription.created: plan not found — ${planSlug}`,
+    );
+    return;
+  }
+
+  const customerId =
+    typeof sub.customer === "string"
+      ? sub.customer
+      : ((sub.customer as Stripe.Customer)?.id ?? null);
+
+  const { currentPeriodStart, currentPeriodEnd } = getPeriods(sub);
+
   await prisma.subscription.create({
     data: {
       userId,
-      planId:               plan.id,
-      status:               mapStripeStatus(stripeSubData.status),
+      planId: plan.id,
+      status: mapStatus(sub.status),
       billingCycle,
-      currentPeriodStart:   fromUnix(currentPeriodStart)!,
-      currentPeriodEnd:     fromUnix(currentPeriodEnd)!,
-      trialEndsAt:          fromUnix(stripeSubData.trial_end),
-      stripeSubscriptionId: stripeSubId,
-      stripeCustomerId,
+      currentPeriodStart: fromUnix(currentPeriodStart)!,
+      currentPeriodEnd: fromUnix(currentPeriodEnd)!,
+      trialEndsAt: fromUnix(sub.trial_end),
+      stripeSubscriptionId: sub.id,
+      stripeCustomerId: customerId,
     },
   });
 
-  console.log(`[billing] subscription created for user ${userId} on plan ${planSlug}`);
+  console.log(
+    `[billing] subscription.created: fallback row created — ${sub.id}`,
+  );
 }
 
 // ── customer.subscription.updated ────────────────────────────
-export async function handleSubscriptionUpdated(
-  event: Stripe.CustomerSubscriptionUpdatedEvent
-) {
-  const sub = event.data.object;
-
+export async function handleSubscriptionUpdated(sub: Stripe.Subscription) {
   const existing = await prisma.subscription.findFirst({
     where: { stripeSubscriptionId: sub.id },
   });
@@ -106,7 +209,14 @@ export async function handleSubscriptionUpdated(
     return;
   }
 
-  // v17+ এ price সরাসরি item এ আছে (expanded হলে)
+  // user metadata
+  // const userId = sub.metadata?.userId;
+  // const planSlug = sub.metadata?.planSlug;
+  // const billingCycle = (sub.metadata?.billingCycle ?? "monthly") as
+  //   | "monthly"
+  //   | "yearly";
+
+  // v17+ এ price সরাসরি item এ আছে
   const priceObj = sub.items.data[0]?.price;
   const stripePriceId = typeof priceObj === "string" ? priceObj : priceObj?.id;
   let planId = existing.planId;
@@ -116,7 +226,7 @@ export async function handleSubscriptionUpdated(
       where: {
         OR: [
           { stripeMonthlyPriceId: stripePriceId },
-          { stripeYearlyPriceId:  stripePriceId },
+          { stripeYearlyPriceId: stripePriceId },
         ],
       },
     });
@@ -129,25 +239,21 @@ export async function handleSubscriptionUpdated(
     where: { id: existing.id },
     data: {
       planId,
-      status:             mapStripeStatus(sub.status),
+      status: mapStripeStatus(sub.status),
       currentPeriodStart: fromUnix(currentPeriodStart)!,
-      currentPeriodEnd:   fromUnix(currentPeriodEnd)!,
-      trialEndsAt:        fromUnix(sub.trial_end),
-      cancelledAt:        sub.canceled_at ? fromUnix(sub.canceled_at) : null,
+      currentPeriodEnd: fromUnix(currentPeriodEnd)!,
+      trialEndsAt: fromUnix(sub.trial_end),
+      cancelledAt: sub.canceled_at ? fromUnix(sub.canceled_at) : null,
     },
   });
 }
 
-// ── customer.subscription.deleted ────────────────────────────
-export async function handleSubscriptionDeleted(
-  event: Stripe.CustomerSubscriptionDeletedEvent
-) {
-  const sub = event.data.object;
-
+// ── cancel user subscription when payment expired ────────────────────────────
+export async function handleSubscriptionDeleted(sub: Stripe.Subscription) {
   await prisma.subscription.updateMany({
     where: { stripeSubscriptionId: sub.id },
     data: {
-      status:      "expired",
+      status: "expired",
       cancelledAt: new Date(),
     },
   });
@@ -155,16 +261,13 @@ export async function handleSubscriptionDeleted(
   console.log(`[billing] subscription expired: ${sub.id}`);
 }
 
-// ── invoice.paid ──────────────────────────────────────────────
-export async function handleInvoicePaid(
-  event: Stripe.InvoicePaidEvent
-) {
-  const inv = event.data.object;
+// ── successful payment with monthly renewal ──────────────────────────────────────────────
+export async function handleInvoicePaid(inv: Stripe.Invoice) {
   const subId = getInvoiceSubId(inv);
   if (!subId) return; // one-off charge, not a subscription
 
   const subscription = await prisma.subscription.findFirst({
-    where:  { stripeSubscriptionId: subId },
+    where: { stripeSubscriptionId: subId },
     select: { id: true, userId: true },
   });
   if (!subscription) return;
@@ -175,50 +278,67 @@ export async function handleInvoicePaid(
   });
   if (exists) return;
 
-  const invoice = await prisma.invoice.create({
-    data: {
-      subscriptionId:  subscription.id,
-      userId:          subscription.userId,
-      status:          "paid",
-      amountCents:     inv.amount_paid,
-      currency:        inv.currency.toUpperCase(),
-      periodStart:     fromUnix(inv.period_start)!,
-      periodEnd:       fromUnix(inv.period_end)!,
-      paidAt:          fromUnix(inv.status_transitions?.paid_at),
-      stripeInvoiceId: inv.id,
-      pdfUrl:          inv.invoice_pdf,
-    },
+  // trial invoice
+  const isTrial = inv.amount_paid === 0;
+
+  await prisma.$transaction(async (tx) => {
+    const invoice = await tx.invoice.create({
+      data: {
+        subscriptionId: subscription.id,
+        userId: subscription.userId,
+        status: "paid",
+        amountCents: inv.amount_paid, // 0 for trial
+        currency: inv.currency.toUpperCase(),
+        periodStart: fromUnix(inv.period_start)!,
+        periodEnd: fromUnix(inv.period_end)!,
+        paidAt: fromUnix(inv.status_transitions?.paid_at),
+        stripeInvoiceId: inv.id,
+        pdfUrl: inv.invoice_pdf ?? null,
+      },
+    });
+
+    const items = inv.lines.data.map((line) => {
+      const priceObj = (line as any).price as Stripe.Price | null;
+      return {
+        invoiceId: invoice.id,
+        description: isTrial
+          ? "7-day free trial"
+          : (line.description ?? "Subscription"),
+        quantity: (line as any).quantity ?? 1,
+        unitPriceCents: priceObj?.unit_amount ?? line.amount,
+        totalCents: line.amount,
+        type: "plan" as const,
+      };
+    });
+
+    if (items.length > 0) {
+      await tx.invoiceItem.createMany({ data: items });
+    }
+
+    // Real payment হলে subscription status active করো
+    if (!isTrial) {
+      await tx.subscription.updateMany({
+        where: { stripeSubscriptionId: subId },
+        data: { status: "active" },
+      });
+    }
   });
 
-  // Line items — v17+ এ price আলাদা object
-  const items = inv.lines.data.map((line) => {
-    const priceObj = (line as any).price as Stripe.Price | null;
-    const unitPrice = priceObj?.unit_amount ?? line.amount;
-
-    return {
-      invoiceId:      invoice.id,
-      description:    line.description ?? "Subscription",
-      quantity:       (line as any).quantity ?? 1,
-      unitPriceCents: unitPrice,
-      totalCents:     line.amount,
-      type:           "plan" as const,
-    };
-  });
-
-  await prisma.invoiceItem.createMany({ data: items });
+  console.log(
+    isTrial
+      ? `[billing] trial invoice recorded (${inv.id})`
+      : `[billing] invoice paid: $${inv.amount_paid / 100} (${inv.id})`
+  );
 }
 
-// ── invoice.payment_failed ────────────────────────────────────
-export async function handleInvoicePaymentFailed(
-  event: Stripe.InvoicePaymentFailedEvent
-) {
-  const inv = event.data.object;
+// ── invoice payment failed ────────────────────────────────────
+export async function handleInvoicePaymentFailed(inv: Stripe.Invoice) {
   const subId = getInvoiceSubId(inv);
   if (!subId) return;
 
   await prisma.subscription.updateMany({
     where: { stripeSubscriptionId: subId },
-    data:  { status: "past_due" },
+    data: { status: "past_due" },
   });
 
   console.warn(`[billing] payment failed for subscription ${subId}`);
