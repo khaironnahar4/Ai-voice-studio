@@ -41,6 +41,6 @@ export async function getBillingData(userId: string) {
     subscription,
     invoices,
     plans,
-    charsUsed: Number(charUsage._sum.charCount ?? 0),
+    charsUsed: Number(charUsage._sum?.charCount ?? 0),
   }
 }

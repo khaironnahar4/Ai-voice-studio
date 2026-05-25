@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     switch (event.type) {
       case "checkout.session.completed":
         await handleCheckoutCompleted(
-          event.data.object as Stripe.CheckoutSession
+          event.data.object as Stripe.Checkout.Session
         )
         break
 

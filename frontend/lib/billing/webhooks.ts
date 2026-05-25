@@ -10,8 +10,8 @@ function getPeriods(sub: Stripe.Subscription): {
 } {
   const item = sub.items.data[0];
   // v17+ এ item level এ থাকে
-  const start = item.current_period_start ?? sub.current_period_start;
-  const end = item.current_period_end ?? sub.current_period_end;
+  const start = item.current_period_start;
+  const end = item.current_period_end;
 
   if (!start || !end) {
     throw new Error(`Missing period data on subscription ${sub.id}`);
@@ -38,7 +38,11 @@ function mapStatus(
 }
 
 // ── Helper: Invoice এর subscription id safe ভাবে বের করা
-function getInvoiceSubId(inv: Stripe.Invoice): string | null {
+type InvoiceWithSubscription = Stripe.Invoice & {
+  subscription?: string | Stripe.Subscription;
+};
+
+function getInvoiceSubId(inv: InvoiceWithSubscription): string | null {
   const sub = inv.subscription;
   if (!sub) return null;
   if (typeof sub === "string") return sub;
@@ -48,7 +52,7 @@ function getInvoiceSubId(inv: Stripe.Invoice): string | null {
 }
 
 // ── checkout.session.completed ────────────────────────────────
-export async function handleCheckoutCompleted(session: Stripe.CheckoutSession) {
+export async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   if (session.mode !== "subscription") return;
 
   // metadata check

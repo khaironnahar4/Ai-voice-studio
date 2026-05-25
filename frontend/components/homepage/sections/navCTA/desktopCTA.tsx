@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOut } from "@/lib/auth/auth-client";
 import prisma from "@/lib/auth/prisma";
 import { getSession } from "@/lib/auth/session";
 import { Bell, LogOut, Settings, Zap } from "lucide-react";
@@ -24,14 +25,22 @@ async function getUserWithPlan(userId: string) {
 
 export default async function DesktopCTA() {
   const session = await getSession();
-//   const planName = await getUserWithPlan(session?.user.id);
-
+  const planName = session?.user.id ? await getUserWithPlan(session.user.id) : "Free";
+  const notificationCount = 3; // Placeholder for unread notifications count
+  const isPro = planName !== "Free";
+  const planLabel = isPro ? planName : "Free";
   const user = {
     name: session?.user.name ?? "User",
     email: session?.user.email ?? "",
     image: session?.user.image ?? null,
     plan: planName,
   };
+  const initials = user.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
+
   return (
     <div>
       {session ? (
@@ -134,7 +143,7 @@ export default async function DesktopCTA() {
               <DropdownMenuSeparator className="bg-[#282846]" />
 
               <DropdownMenuItem
-                onClick={handleSignOut}
+                onClick={() => signOut()}
                 className="cursor-pointer text-red-400 hover:text-red-300
                                      hover:bg-red-500/10 focus:bg-red-500/10
                                      focus:text-red-300"
