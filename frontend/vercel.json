@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/cleanup-cache",
-      "schedule": "0 1 * * 7"
+      "schedule": "0 1 * * 0"
     }
   ]
 }
