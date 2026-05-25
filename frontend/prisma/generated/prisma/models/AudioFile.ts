@@ -34,6 +34,7 @@ export type AudioFileAvgAggregateOutputType = {
   bitrateKbps: number | null
   downloadCount: number | null
   elCharacterCost: number | null
+  providerCost: number | null
 }
 
 export type AudioFileSumAggregateOutputType = {
@@ -43,6 +44,7 @@ export type AudioFileSumAggregateOutputType = {
   bitrateKbps: number | null
   downloadCount: number | null
   elCharacterCost: number | null
+  providerCost: number | null
 }
 
 export type AudioFileMinAggregateOutputType = {
@@ -67,6 +69,10 @@ export type AudioFileMinAggregateOutputType = {
   elCharacterCost: number | null
   elModelUsed: string | null
   elVoiceIdUsed: string | null
+  providerRequestId: string | null
+  providerCost: number | null
+  providerModelUsed: string | null
+  providerVoiceUsed: string | null
   createdAt: Date | null
   deletedAt: Date | null
 }
@@ -93,6 +99,10 @@ export type AudioFileMaxAggregateOutputType = {
   elCharacterCost: number | null
   elModelUsed: string | null
   elVoiceIdUsed: string | null
+  providerRequestId: string | null
+  providerCost: number | null
+  providerModelUsed: string | null
+  providerVoiceUsed: string | null
   createdAt: Date | null
   deletedAt: Date | null
 }
@@ -119,6 +129,10 @@ export type AudioFileCountAggregateOutputType = {
   elCharacterCost: number
   elModelUsed: number
   elVoiceIdUsed: number
+  providerRequestId: number
+  providerCost: number
+  providerModelUsed: number
+  providerVoiceUsed: number
   createdAt: number
   deletedAt: number
   _all: number
@@ -132,6 +146,7 @@ export type AudioFileAvgAggregateInputType = {
   bitrateKbps?: true
   downloadCount?: true
   elCharacterCost?: true
+  providerCost?: true
 }
 
 export type AudioFileSumAggregateInputType = {
@@ -141,6 +156,7 @@ export type AudioFileSumAggregateInputType = {
   bitrateKbps?: true
   downloadCount?: true
   elCharacterCost?: true
+  providerCost?: true
 }
 
 export type AudioFileMinAggregateInputType = {
@@ -165,6 +181,10 @@ export type AudioFileMinAggregateInputType = {
   elCharacterCost?: true
   elModelUsed?: true
   elVoiceIdUsed?: true
+  providerRequestId?: true
+  providerCost?: true
+  providerModelUsed?: true
+  providerVoiceUsed?: true
   createdAt?: true
   deletedAt?: true
 }
@@ -191,6 +211,10 @@ export type AudioFileMaxAggregateInputType = {
   elCharacterCost?: true
   elModelUsed?: true
   elVoiceIdUsed?: true
+  providerRequestId?: true
+  providerCost?: true
+  providerModelUsed?: true
+  providerVoiceUsed?: true
   createdAt?: true
   deletedAt?: true
 }
@@ -217,6 +241,10 @@ export type AudioFileCountAggregateInputType = {
   elCharacterCost?: true
   elModelUsed?: true
   elVoiceIdUsed?: true
+  providerRequestId?: true
+  providerCost?: true
+  providerModelUsed?: true
+  providerVoiceUsed?: true
   createdAt?: true
   deletedAt?: true
   _all?: true
@@ -330,6 +358,10 @@ export type AudioFileGroupByOutputType = {
   elCharacterCost: number | null
   elModelUsed: string | null
   elVoiceIdUsed: string | null
+  providerRequestId: string | null
+  providerCost: number | null
+  providerModelUsed: string | null
+  providerVoiceUsed: string | null
   createdAt: Date
   deletedAt: Date | null
   _count: AudioFileCountAggregateOutputType | null
@@ -379,6 +411,10 @@ export type AudioFileWhereInput = {
   elCharacterCost?: Prisma.IntNullableFilter<"AudioFile"> | number | null
   elModelUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
   elVoiceIdUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerRequestId?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerCost?: Prisma.IntNullableFilter<"AudioFile"> | number | null
+  providerModelUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerVoiceUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AudioFile"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"AudioFile"> | Date | string | null
   request?: Prisma.XOR<Prisma.TtsRequestScalarRelationFilter, Prisma.TtsRequestWhereInput>
@@ -408,6 +444,10 @@ export type AudioFileOrderByWithRelationInput = {
   elCharacterCost?: Prisma.SortOrderInput | Prisma.SortOrder
   elModelUsed?: Prisma.SortOrderInput | Prisma.SortOrder
   elVoiceIdUsed?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerCost?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerModelUsed?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVoiceUsed?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   request?: Prisma.TtsRequestOrderByWithRelationInput
@@ -440,6 +480,10 @@ export type AudioFileWhereUniqueInput = Prisma.AtLeast<{
   elCharacterCost?: Prisma.IntNullableFilter<"AudioFile"> | number | null
   elModelUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
   elVoiceIdUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerRequestId?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerCost?: Prisma.IntNullableFilter<"AudioFile"> | number | null
+  providerModelUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerVoiceUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AudioFile"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"AudioFile"> | Date | string | null
   request?: Prisma.XOR<Prisma.TtsRequestScalarRelationFilter, Prisma.TtsRequestWhereInput>
@@ -469,6 +513,10 @@ export type AudioFileOrderByWithAggregationInput = {
   elCharacterCost?: Prisma.SortOrderInput | Prisma.SortOrder
   elModelUsed?: Prisma.SortOrderInput | Prisma.SortOrder
   elVoiceIdUsed?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerCost?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerModelUsed?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVoiceUsed?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AudioFileCountOrderByAggregateInput
@@ -503,6 +551,10 @@ export type AudioFileScalarWhereWithAggregatesInput = {
   elCharacterCost?: Prisma.IntNullableWithAggregatesFilter<"AudioFile"> | number | null
   elModelUsed?: Prisma.StringNullableWithAggregatesFilter<"AudioFile"> | string | null
   elVoiceIdUsed?: Prisma.StringNullableWithAggregatesFilter<"AudioFile"> | string | null
+  providerRequestId?: Prisma.StringNullableWithAggregatesFilter<"AudioFile"> | string | null
+  providerCost?: Prisma.IntNullableWithAggregatesFilter<"AudioFile"> | number | null
+  providerModelUsed?: Prisma.StringNullableWithAggregatesFilter<"AudioFile"> | string | null
+  providerVoiceUsed?: Prisma.StringNullableWithAggregatesFilter<"AudioFile"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AudioFile"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AudioFile"> | Date | string | null
 }
@@ -527,6 +579,10 @@ export type AudioFileCreateInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   request: Prisma.TtsRequestCreateNestedOneWithoutAudioFileInput
@@ -556,6 +612,10 @@ export type AudioFileUncheckedCreateInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   requestCaches?: Prisma.RequestCacheUncheckedCreateNestedManyWithoutAudioFileInput
@@ -581,6 +641,10 @@ export type AudioFileUpdateInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   request?: Prisma.TtsRequestUpdateOneRequiredWithoutAudioFileNestedInput
@@ -610,6 +674,10 @@ export type AudioFileUncheckedUpdateInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requestCaches?: Prisma.RequestCacheUncheckedUpdateManyWithoutAudioFileNestedInput
@@ -637,6 +705,10 @@ export type AudioFileCreateManyInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -661,6 +733,10 @@ export type AudioFileUpdateManyMutationInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -687,6 +763,10 @@ export type AudioFileUncheckedUpdateManyInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -728,6 +808,10 @@ export type AudioFileCountOrderByAggregateInput = {
   elCharacterCost?: Prisma.SortOrder
   elModelUsed?: Prisma.SortOrder
   elVoiceIdUsed?: Prisma.SortOrder
+  providerRequestId?: Prisma.SortOrder
+  providerCost?: Prisma.SortOrder
+  providerModelUsed?: Prisma.SortOrder
+  providerVoiceUsed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -739,6 +823,7 @@ export type AudioFileAvgOrderByAggregateInput = {
   bitrateKbps?: Prisma.SortOrder
   downloadCount?: Prisma.SortOrder
   elCharacterCost?: Prisma.SortOrder
+  providerCost?: Prisma.SortOrder
 }
 
 export type AudioFileMaxOrderByAggregateInput = {
@@ -763,6 +848,10 @@ export type AudioFileMaxOrderByAggregateInput = {
   elCharacterCost?: Prisma.SortOrder
   elModelUsed?: Prisma.SortOrder
   elVoiceIdUsed?: Prisma.SortOrder
+  providerRequestId?: Prisma.SortOrder
+  providerCost?: Prisma.SortOrder
+  providerModelUsed?: Prisma.SortOrder
+  providerVoiceUsed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -789,6 +878,10 @@ export type AudioFileMinOrderByAggregateInput = {
   elCharacterCost?: Prisma.SortOrder
   elModelUsed?: Prisma.SortOrder
   elVoiceIdUsed?: Prisma.SortOrder
+  providerRequestId?: Prisma.SortOrder
+  providerCost?: Prisma.SortOrder
+  providerModelUsed?: Prisma.SortOrder
+  providerVoiceUsed?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -800,6 +893,7 @@ export type AudioFileSumOrderByAggregateInput = {
   bitrateKbps?: Prisma.SortOrder
   downloadCount?: Prisma.SortOrder
   elCharacterCost?: Prisma.SortOrder
+  providerCost?: Prisma.SortOrder
 }
 
 export type AudioFileScalarRelationFilter = {
@@ -915,6 +1009,10 @@ export type AudioFileCreateWithoutUserInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   request: Prisma.TtsRequestCreateNestedOneWithoutAudioFileInput
@@ -942,6 +1040,10 @@ export type AudioFileUncheckedCreateWithoutUserInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   requestCaches?: Prisma.RequestCacheUncheckedCreateNestedManyWithoutAudioFileInput
@@ -998,6 +1100,10 @@ export type AudioFileScalarWhereInput = {
   elCharacterCost?: Prisma.IntNullableFilter<"AudioFile"> | number | null
   elModelUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
   elVoiceIdUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerRequestId?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerCost?: Prisma.IntNullableFilter<"AudioFile"> | number | null
+  providerModelUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
+  providerVoiceUsed?: Prisma.StringNullableFilter<"AudioFile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AudioFile"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"AudioFile"> | Date | string | null
 }
@@ -1022,6 +1128,10 @@ export type AudioFileCreateWithoutRequestInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutAudioFilesInput
@@ -1049,6 +1159,10 @@ export type AudioFileUncheckedCreateWithoutRequestInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   requestCaches?: Prisma.RequestCacheUncheckedCreateNestedManyWithoutAudioFileInput
@@ -1090,6 +1204,10 @@ export type AudioFileUpdateWithoutRequestInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutAudioFilesNestedInput
@@ -1117,6 +1235,10 @@ export type AudioFileUncheckedUpdateWithoutRequestInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requestCaches?: Prisma.RequestCacheUncheckedUpdateManyWithoutAudioFileNestedInput
@@ -1142,6 +1264,10 @@ export type AudioFileCreateWithoutRequestCachesInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   request: Prisma.TtsRequestCreateNestedOneWithoutAudioFileInput
@@ -1170,6 +1296,10 @@ export type AudioFileUncheckedCreateWithoutRequestCachesInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -1210,6 +1340,10 @@ export type AudioFileUpdateWithoutRequestCachesInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   request?: Prisma.TtsRequestUpdateOneRequiredWithoutAudioFileNestedInput
@@ -1238,6 +1372,10 @@ export type AudioFileUncheckedUpdateWithoutRequestCachesInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -1263,6 +1401,10 @@ export type AudioFileCreateManyUserInput = {
   elCharacterCost?: number | null
   elModelUsed?: string | null
   elVoiceIdUsed?: string | null
+  providerRequestId?: string | null
+  providerCost?: number | null
+  providerModelUsed?: string | null
+  providerVoiceUsed?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -1287,6 +1429,10 @@ export type AudioFileUpdateWithoutUserInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   request?: Prisma.TtsRequestUpdateOneRequiredWithoutAudioFileNestedInput
@@ -1314,6 +1460,10 @@ export type AudioFileUncheckedUpdateWithoutUserInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   requestCaches?: Prisma.RequestCacheUncheckedUpdateManyWithoutAudioFileNestedInput
@@ -1340,6 +1490,10 @@ export type AudioFileUncheckedUpdateManyWithoutUserInput = {
   elCharacterCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   elModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elVoiceIdUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerCost?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  providerModelUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVoiceUsed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -1397,6 +1551,10 @@ export type AudioFileSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   elCharacterCost?: boolean
   elModelUsed?: boolean
   elVoiceIdUsed?: boolean
+  providerRequestId?: boolean
+  providerCost?: boolean
+  providerModelUsed?: boolean
+  providerVoiceUsed?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   request?: boolean | Prisma.TtsRequestDefaultArgs<ExtArgs>
@@ -1427,6 +1585,10 @@ export type AudioFileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   elCharacterCost?: boolean
   elModelUsed?: boolean
   elVoiceIdUsed?: boolean
+  providerRequestId?: boolean
+  providerCost?: boolean
+  providerModelUsed?: boolean
+  providerVoiceUsed?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   request?: boolean | Prisma.TtsRequestDefaultArgs<ExtArgs>
@@ -1455,6 +1617,10 @@ export type AudioFileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   elCharacterCost?: boolean
   elModelUsed?: boolean
   elVoiceIdUsed?: boolean
+  providerRequestId?: boolean
+  providerCost?: boolean
+  providerModelUsed?: boolean
+  providerVoiceUsed?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   request?: boolean | Prisma.TtsRequestDefaultArgs<ExtArgs>
@@ -1483,11 +1649,15 @@ export type AudioFileSelectScalar = {
   elCharacterCost?: boolean
   elModelUsed?: boolean
   elVoiceIdUsed?: boolean
+  providerRequestId?: boolean
+  providerCost?: boolean
+  providerModelUsed?: boolean
+  providerVoiceUsed?: boolean
   createdAt?: boolean
   deletedAt?: boolean
 }
 
-export type AudioFileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "requestId" | "userId" | "storageBucket" | "storageKey" | "fileName" | "fileFormat" | "fileSizeBytes" | "durationSeconds" | "sampleRateHz" | "bitrateKbps" | "cdnUrl" | "signedUrl" | "signedUrlExpiresAt" | "downloadCount" | "isPublic" | "checksumMd5" | "elRequestId" | "elCharacterCost" | "elModelUsed" | "elVoiceIdUsed" | "createdAt" | "deletedAt", ExtArgs["result"]["audioFile"]>
+export type AudioFileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "requestId" | "userId" | "storageBucket" | "storageKey" | "fileName" | "fileFormat" | "fileSizeBytes" | "durationSeconds" | "sampleRateHz" | "bitrateKbps" | "cdnUrl" | "signedUrl" | "signedUrlExpiresAt" | "downloadCount" | "isPublic" | "checksumMd5" | "elRequestId" | "elCharacterCost" | "elModelUsed" | "elVoiceIdUsed" | "providerRequestId" | "providerCost" | "providerModelUsed" | "providerVoiceUsed" | "createdAt" | "deletedAt", ExtArgs["result"]["audioFile"]>
 export type AudioFileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   request?: boolean | Prisma.TtsRequestDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1547,21 +1717,16 @@ export type $AudioFilePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     isPublic: boolean
     checksumMd5: string | null
     /**
-     * xi-request-id header from EL response — critical for support tickets
+     * El specific metadata for debugging and analytics
      */
     elRequestId: string | null
-    /**
-     * Actual characters billed by EL (may differ from tts_requests.charCount after normalization)
-     */
     elCharacterCost: number | null
-    /**
-     * Denormalized EL model string for audit queries without JOIN
-     */
     elModelUsed: string | null
-    /**
-     * Denormalized EL voice_id (protects history if voice_model row changes)
-     */
     elVoiceIdUsed: string | null
+    providerRequestId: string | null
+    providerCost: number | null
+    providerModelUsed: string | null
+    providerVoiceUsed: string | null
     createdAt: Date
     /**
      * Soft delete — S3 purge happens after 30 days via cleanup job
@@ -2014,6 +2179,10 @@ export interface AudioFileFieldRefs {
   readonly elCharacterCost: Prisma.FieldRef<"AudioFile", 'Int'>
   readonly elModelUsed: Prisma.FieldRef<"AudioFile", 'String'>
   readonly elVoiceIdUsed: Prisma.FieldRef<"AudioFile", 'String'>
+  readonly providerRequestId: Prisma.FieldRef<"AudioFile", 'String'>
+  readonly providerCost: Prisma.FieldRef<"AudioFile", 'Int'>
+  readonly providerModelUsed: Prisma.FieldRef<"AudioFile", 'String'>
+  readonly providerVoiceUsed: Prisma.FieldRef<"AudioFile", 'String'>
   readonly createdAt: Prisma.FieldRef<"AudioFile", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"AudioFile", 'DateTime'>
 }

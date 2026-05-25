@@ -575,11 +575,6 @@ export type ElSpeechModelNullableScalarRelationFilter = {
   isNot?: Prisma.ElSpeechModelWhereInput | null
 }
 
-export type ElSpeechModelScalarRelationFilter = {
-  is?: Prisma.ElSpeechModelWhereInput
-  isNot?: Prisma.ElSpeechModelWhereInput
-}
-
 export type ElSpeechModelCreatesupportedLanguagesInput = {
   set: string[]
 }
@@ -627,10 +622,12 @@ export type ElSpeechModelCreateNestedOneWithoutTtsRequestsInput = {
   connect?: Prisma.ElSpeechModelWhereUniqueInput
 }
 
-export type ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput = {
+export type ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput = {
   create?: Prisma.XOR<Prisma.ElSpeechModelCreateWithoutTtsRequestsInput, Prisma.ElSpeechModelUncheckedCreateWithoutTtsRequestsInput>
   connectOrCreate?: Prisma.ElSpeechModelCreateOrConnectWithoutTtsRequestsInput
   upsert?: Prisma.ElSpeechModelUpsertWithoutTtsRequestsInput
+  disconnect?: Prisma.ElSpeechModelWhereInput | boolean
+  delete?: Prisma.ElSpeechModelWhereInput | boolean
   connect?: Prisma.ElSpeechModelWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ElSpeechModelUpdateToOneWithWhereWithoutTtsRequestsInput, Prisma.ElSpeechModelUpdateWithoutTtsRequestsInput>, Prisma.ElSpeechModelUncheckedUpdateWithoutTtsRequestsInput>
 }

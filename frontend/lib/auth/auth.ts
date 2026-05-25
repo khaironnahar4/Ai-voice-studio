@@ -77,27 +77,27 @@ export const auth = betterAuth({
   ],
 
   // ── Callbacks ─────────────────────────────────────────────────
-  callbacks: {
-    // Fires after any sign-in (password or OAuth)
-    async session({ session, user }) {
-      // Attach role to session so middleware can read it without a DB hit
-      session.user.role = user.role ?? null;
-      session.user.banned = user.banned ?? false;
-      return session;
-    },
+  // callbacks: {
+  //   // Fires after any sign-in (password or OAuth)
+  //   async session({ session, user }) {
+  //     // Attach role to session so middleware can read it without a DB hit
+  //     session.user.role = user.role ?? null;
+  //     session.user.banned = user.banned ?? false;
+  //     return session;
+  //   },
 
-    // Block banned users at the auth layer — never reaches your app
-    async signIn({ user }) {
-      if (user.banned) {
-        const expires = user.banExpires;
-        const isPermanent = !expires || new Date(expires) > new Date();
-        if (isPermanent) {
-          throw new Error("Your account has been suspended.");
-        }
-      }
-      return true;
-    },
-  },
+  //   // Block banned users at the auth layer — never reaches your app
+  //   async signIn({ user }: { user: User }) {
+  //     if (user.banned) {
+  //       const expires = user.banExpires;
+  //       const isPermanent = !expires || new Date(expires) > new Date();
+  //       if (isPermanent) {
+  //         throw new Error("Your account has been suspended.");
+  //       }
+  //     }
+  //     return true;
+  //   },
+  // },
 
 });
 

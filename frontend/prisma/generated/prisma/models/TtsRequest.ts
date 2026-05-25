@@ -38,6 +38,10 @@ export type TtsRequestAvgAggregateOutputType = {
   stability: runtime.Decimal | null
   similarityBoost: runtime.Decimal | null
   style: runtime.Decimal | null
+  edgeSpeed: runtime.Decimal | null
+  speakingRate: runtime.Decimal | null
+  pitch: runtime.Decimal | null
+  volumeGainDb: runtime.Decimal | null
   seed: number | null
   retryCount: number | null
 }
@@ -49,6 +53,10 @@ export type TtsRequestSumAggregateOutputType = {
   stability: runtime.Decimal | null
   similarityBoost: runtime.Decimal | null
   style: runtime.Decimal | null
+  edgeSpeed: runtime.Decimal | null
+  speakingRate: runtime.Decimal | null
+  pitch: runtime.Decimal | null
+  volumeGainDb: runtime.Decimal | null
   seed: number | null
   retryCount: number | null
 }
@@ -70,6 +78,10 @@ export type TtsRequestMinAggregateOutputType = {
   similarityBoost: runtime.Decimal | null
   style: runtime.Decimal | null
   useSpeakerBoost: boolean | null
+  edgeSpeed: runtime.Decimal | null
+  speakingRate: runtime.Decimal | null
+  pitch: runtime.Decimal | null
+  volumeGainDb: runtime.Decimal | null
   seed: number | null
   applyTextNormalization: string | null
   servedFromCache: boolean | null
@@ -97,6 +109,10 @@ export type TtsRequestMaxAggregateOutputType = {
   similarityBoost: runtime.Decimal | null
   style: runtime.Decimal | null
   useSpeakerBoost: boolean | null
+  edgeSpeed: runtime.Decimal | null
+  speakingRate: runtime.Decimal | null
+  pitch: runtime.Decimal | null
+  volumeGainDb: runtime.Decimal | null
   seed: number | null
   applyTextNormalization: string | null
   servedFromCache: boolean | null
@@ -124,6 +140,10 @@ export type TtsRequestCountAggregateOutputType = {
   similarityBoost: number
   style: number
   useSpeakerBoost: number
+  edgeSpeed: number
+  speakingRate: number
+  pitch: number
+  volumeGainDb: number
   seed: number
   applyTextNormalization: number
   servedFromCache: number
@@ -144,6 +164,10 @@ export type TtsRequestAvgAggregateInputType = {
   stability?: true
   similarityBoost?: true
   style?: true
+  edgeSpeed?: true
+  speakingRate?: true
+  pitch?: true
+  volumeGainDb?: true
   seed?: true
   retryCount?: true
 }
@@ -155,6 +179,10 @@ export type TtsRequestSumAggregateInputType = {
   stability?: true
   similarityBoost?: true
   style?: true
+  edgeSpeed?: true
+  speakingRate?: true
+  pitch?: true
+  volumeGainDb?: true
   seed?: true
   retryCount?: true
 }
@@ -176,6 +204,10 @@ export type TtsRequestMinAggregateInputType = {
   similarityBoost?: true
   style?: true
   useSpeakerBoost?: true
+  edgeSpeed?: true
+  speakingRate?: true
+  pitch?: true
+  volumeGainDb?: true
   seed?: true
   applyTextNormalization?: true
   servedFromCache?: true
@@ -203,6 +235,10 @@ export type TtsRequestMaxAggregateInputType = {
   similarityBoost?: true
   style?: true
   useSpeakerBoost?: true
+  edgeSpeed?: true
+  speakingRate?: true
+  pitch?: true
+  volumeGainDb?: true
   seed?: true
   applyTextNormalization?: true
   servedFromCache?: true
@@ -230,6 +266,10 @@ export type TtsRequestCountAggregateInputType = {
   similarityBoost?: true
   style?: true
   useSpeakerBoost?: true
+  edgeSpeed?: true
+  speakingRate?: true
+  pitch?: true
+  volumeGainDb?: true
   seed?: true
   applyTextNormalization?: true
   servedFromCache?: true
@@ -332,7 +372,7 @@ export type TtsRequestGroupByOutputType = {
   id: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -345,6 +385,10 @@ export type TtsRequestGroupByOutputType = {
   similarityBoost: runtime.Decimal
   style: runtime.Decimal
   useSpeakerBoost: boolean
+  edgeSpeed: runtime.Decimal | null
+  speakingRate: runtime.Decimal | null
+  pitch: runtime.Decimal | null
+  volumeGainDb: runtime.Decimal | null
   seed: number | null
   applyTextNormalization: string
   servedFromCache: boolean
@@ -383,7 +427,7 @@ export type TtsRequestWhereInput = {
   id?: Prisma.UuidFilter<"TtsRequest"> | string
   userId?: Prisma.UuidFilter<"TtsRequest"> | string
   voiceModelId?: Prisma.UuidFilter<"TtsRequest"> | string
-  elSpeechModelId?: Prisma.UuidFilter<"TtsRequest"> | string
+  elSpeechModelId?: Prisma.UuidNullableFilter<"TtsRequest"> | string | null
   inputText?: Prisma.StringFilter<"TtsRequest"> | string
   inputTextHash?: Prisma.StringFilter<"TtsRequest"> | string
   charCount?: Prisma.IntFilter<"TtsRequest"> | number
@@ -396,6 +440,10 @@ export type TtsRequestWhereInput = {
   similarityBoost?: Prisma.DecimalFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFilter<"TtsRequest"> | boolean
+  edgeSpeed?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.IntNullableFilter<"TtsRequest"> | number | null
   applyTextNormalization?: Prisma.StringFilter<"TtsRequest"> | string
   servedFromCache?: Prisma.BoolFilter<"TtsRequest"> | boolean
@@ -407,7 +455,7 @@ export type TtsRequestWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TtsRequest"> | Date | string
   audioFile?: Prisma.XOR<Prisma.AudioFileNullableScalarRelationFilter, Prisma.AudioFileWhereInput> | null
   jobs?: Prisma.JobListRelationFilter
-  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelScalarRelationFilter, Prisma.ElSpeechModelWhereInput>
+  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelNullableScalarRelationFilter, Prisma.ElSpeechModelWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voiceModel?: Prisma.XOR<Prisma.VoiceModelScalarRelationFilter, Prisma.VoiceModelWhereInput>
 }
@@ -416,7 +464,7 @@ export type TtsRequestOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   voiceModelId?: Prisma.SortOrder
-  elSpeechModelId?: Prisma.SortOrder
+  elSpeechModelId?: Prisma.SortOrderInput | Prisma.SortOrder
   inputText?: Prisma.SortOrder
   inputTextHash?: Prisma.SortOrder
   charCount?: Prisma.SortOrder
@@ -429,6 +477,10 @@ export type TtsRequestOrderByWithRelationInput = {
   similarityBoost?: Prisma.SortOrder
   style?: Prisma.SortOrder
   useSpeakerBoost?: Prisma.SortOrder
+  edgeSpeed?: Prisma.SortOrderInput | Prisma.SortOrder
+  speakingRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  pitch?: Prisma.SortOrderInput | Prisma.SortOrder
+  volumeGainDb?: Prisma.SortOrderInput | Prisma.SortOrder
   seed?: Prisma.SortOrderInput | Prisma.SortOrder
   applyTextNormalization?: Prisma.SortOrder
   servedFromCache?: Prisma.SortOrder
@@ -452,7 +504,7 @@ export type TtsRequestWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TtsRequestWhereInput | Prisma.TtsRequestWhereInput[]
   userId?: Prisma.UuidFilter<"TtsRequest"> | string
   voiceModelId?: Prisma.UuidFilter<"TtsRequest"> | string
-  elSpeechModelId?: Prisma.UuidFilter<"TtsRequest"> | string
+  elSpeechModelId?: Prisma.UuidNullableFilter<"TtsRequest"> | string | null
   inputText?: Prisma.StringFilter<"TtsRequest"> | string
   inputTextHash?: Prisma.StringFilter<"TtsRequest"> | string
   charCount?: Prisma.IntFilter<"TtsRequest"> | number
@@ -465,6 +517,10 @@ export type TtsRequestWhereUniqueInput = Prisma.AtLeast<{
   similarityBoost?: Prisma.DecimalFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFilter<"TtsRequest"> | boolean
+  edgeSpeed?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.IntNullableFilter<"TtsRequest"> | number | null
   applyTextNormalization?: Prisma.StringFilter<"TtsRequest"> | string
   servedFromCache?: Prisma.BoolFilter<"TtsRequest"> | boolean
@@ -476,7 +532,7 @@ export type TtsRequestWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"TtsRequest"> | Date | string
   audioFile?: Prisma.XOR<Prisma.AudioFileNullableScalarRelationFilter, Prisma.AudioFileWhereInput> | null
   jobs?: Prisma.JobListRelationFilter
-  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelScalarRelationFilter, Prisma.ElSpeechModelWhereInput>
+  elSpeechModel?: Prisma.XOR<Prisma.ElSpeechModelNullableScalarRelationFilter, Prisma.ElSpeechModelWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   voiceModel?: Prisma.XOR<Prisma.VoiceModelScalarRelationFilter, Prisma.VoiceModelWhereInput>
 }, "id">
@@ -485,7 +541,7 @@ export type TtsRequestOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   voiceModelId?: Prisma.SortOrder
-  elSpeechModelId?: Prisma.SortOrder
+  elSpeechModelId?: Prisma.SortOrderInput | Prisma.SortOrder
   inputText?: Prisma.SortOrder
   inputTextHash?: Prisma.SortOrder
   charCount?: Prisma.SortOrder
@@ -498,6 +554,10 @@ export type TtsRequestOrderByWithAggregationInput = {
   similarityBoost?: Prisma.SortOrder
   style?: Prisma.SortOrder
   useSpeakerBoost?: Prisma.SortOrder
+  edgeSpeed?: Prisma.SortOrderInput | Prisma.SortOrder
+  speakingRate?: Prisma.SortOrderInput | Prisma.SortOrder
+  pitch?: Prisma.SortOrderInput | Prisma.SortOrder
+  volumeGainDb?: Prisma.SortOrderInput | Prisma.SortOrder
   seed?: Prisma.SortOrderInput | Prisma.SortOrder
   applyTextNormalization?: Prisma.SortOrder
   servedFromCache?: Prisma.SortOrder
@@ -521,7 +581,7 @@ export type TtsRequestScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"TtsRequest"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"TtsRequest"> | string
   voiceModelId?: Prisma.UuidWithAggregatesFilter<"TtsRequest"> | string
-  elSpeechModelId?: Prisma.UuidWithAggregatesFilter<"TtsRequest"> | string
+  elSpeechModelId?: Prisma.UuidNullableWithAggregatesFilter<"TtsRequest"> | string | null
   inputText?: Prisma.StringWithAggregatesFilter<"TtsRequest"> | string
   inputTextHash?: Prisma.StringWithAggregatesFilter<"TtsRequest"> | string
   charCount?: Prisma.IntWithAggregatesFilter<"TtsRequest"> | number
@@ -534,6 +594,10 @@ export type TtsRequestScalarWhereWithAggregatesInput = {
   similarityBoost?: Prisma.DecimalWithAggregatesFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalWithAggregatesFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolWithAggregatesFilter<"TtsRequest"> | boolean
+  edgeSpeed?: Prisma.DecimalNullableWithAggregatesFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.DecimalNullableWithAggregatesFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.DecimalNullableWithAggregatesFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.DecimalNullableWithAggregatesFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.IntNullableWithAggregatesFilter<"TtsRequest"> | number | null
   applyTextNormalization?: Prisma.StringWithAggregatesFilter<"TtsRequest"> | string
   servedFromCache?: Prisma.BoolWithAggregatesFilter<"TtsRequest"> | boolean
@@ -559,6 +623,10 @@ export type TtsRequestCreateInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -570,7 +638,7 @@ export type TtsRequestCreateInput = {
   updatedAt?: Date | string
   audioFile?: Prisma.AudioFileCreateNestedOneWithoutRequestInput
   jobs?: Prisma.JobCreateNestedManyWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   user: Prisma.UserCreateNestedOneWithoutTtsRequestsInput
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutTtsRequestsInput
 }
@@ -579,7 +647,7 @@ export type TtsRequestUncheckedCreateInput = {
   id?: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -592,6 +660,10 @@ export type TtsRequestUncheckedCreateInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -619,6 +691,10 @@ export type TtsRequestUpdateInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -630,7 +706,7 @@ export type TtsRequestUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneWithoutRequestNestedInput
   jobs?: Prisma.JobUpdateManyWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTtsRequestsNestedInput
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
@@ -639,7 +715,7 @@ export type TtsRequestUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -652,6 +728,10 @@ export type TtsRequestUncheckedUpdateInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -669,7 +749,7 @@ export type TtsRequestCreateManyInput = {
   id?: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -682,6 +762,10 @@ export type TtsRequestCreateManyInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -707,6 +791,10 @@ export type TtsRequestUpdateManyMutationInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -722,7 +810,7 @@ export type TtsRequestUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -735,6 +823,10 @@ export type TtsRequestUncheckedUpdateManyInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -773,6 +865,10 @@ export type TtsRequestCountOrderByAggregateInput = {
   similarityBoost?: Prisma.SortOrder
   style?: Prisma.SortOrder
   useSpeakerBoost?: Prisma.SortOrder
+  edgeSpeed?: Prisma.SortOrder
+  speakingRate?: Prisma.SortOrder
+  pitch?: Prisma.SortOrder
+  volumeGainDb?: Prisma.SortOrder
   seed?: Prisma.SortOrder
   applyTextNormalization?: Prisma.SortOrder
   servedFromCache?: Prisma.SortOrder
@@ -791,6 +887,10 @@ export type TtsRequestAvgOrderByAggregateInput = {
   stability?: Prisma.SortOrder
   similarityBoost?: Prisma.SortOrder
   style?: Prisma.SortOrder
+  edgeSpeed?: Prisma.SortOrder
+  speakingRate?: Prisma.SortOrder
+  pitch?: Prisma.SortOrder
+  volumeGainDb?: Prisma.SortOrder
   seed?: Prisma.SortOrder
   retryCount?: Prisma.SortOrder
 }
@@ -812,6 +912,10 @@ export type TtsRequestMaxOrderByAggregateInput = {
   similarityBoost?: Prisma.SortOrder
   style?: Prisma.SortOrder
   useSpeakerBoost?: Prisma.SortOrder
+  edgeSpeed?: Prisma.SortOrder
+  speakingRate?: Prisma.SortOrder
+  pitch?: Prisma.SortOrder
+  volumeGainDb?: Prisma.SortOrder
   seed?: Prisma.SortOrder
   applyTextNormalization?: Prisma.SortOrder
   servedFromCache?: Prisma.SortOrder
@@ -839,6 +943,10 @@ export type TtsRequestMinOrderByAggregateInput = {
   similarityBoost?: Prisma.SortOrder
   style?: Prisma.SortOrder
   useSpeakerBoost?: Prisma.SortOrder
+  edgeSpeed?: Prisma.SortOrder
+  speakingRate?: Prisma.SortOrder
+  pitch?: Prisma.SortOrder
+  volumeGainDb?: Prisma.SortOrder
   seed?: Prisma.SortOrder
   applyTextNormalization?: Prisma.SortOrder
   servedFromCache?: Prisma.SortOrder
@@ -856,6 +964,10 @@ export type TtsRequestSumOrderByAggregateInput = {
   stability?: Prisma.SortOrder
   similarityBoost?: Prisma.SortOrder
   style?: Prisma.SortOrder
+  edgeSpeed?: Prisma.SortOrder
+  speakingRate?: Prisma.SortOrder
+  pitch?: Prisma.SortOrder
+  volumeGainDb?: Prisma.SortOrder
   seed?: Prisma.SortOrder
   retryCount?: Prisma.SortOrder
 }
@@ -1052,6 +1164,10 @@ export type TtsRequestCreateWithoutUserInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1063,14 +1179,14 @@ export type TtsRequestCreateWithoutUserInput = {
   updatedAt?: Date | string
   audioFile?: Prisma.AudioFileCreateNestedOneWithoutRequestInput
   jobs?: Prisma.JobCreateNestedManyWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutTtsRequestsInput
 }
 
 export type TtsRequestUncheckedCreateWithoutUserInput = {
   id?: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1083,6 +1199,10 @@ export type TtsRequestUncheckedCreateWithoutUserInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1129,7 +1249,7 @@ export type TtsRequestScalarWhereInput = {
   id?: Prisma.UuidFilter<"TtsRequest"> | string
   userId?: Prisma.UuidFilter<"TtsRequest"> | string
   voiceModelId?: Prisma.UuidFilter<"TtsRequest"> | string
-  elSpeechModelId?: Prisma.UuidFilter<"TtsRequest"> | string
+  elSpeechModelId?: Prisma.UuidNullableFilter<"TtsRequest"> | string | null
   inputText?: Prisma.StringFilter<"TtsRequest"> | string
   inputTextHash?: Prisma.StringFilter<"TtsRequest"> | string
   charCount?: Prisma.IntFilter<"TtsRequest"> | number
@@ -1142,6 +1262,10 @@ export type TtsRequestScalarWhereInput = {
   similarityBoost?: Prisma.DecimalFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFilter<"TtsRequest"> | boolean
+  edgeSpeed?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.DecimalNullableFilter<"TtsRequest"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.IntNullableFilter<"TtsRequest"> | number | null
   applyTextNormalization?: Prisma.StringFilter<"TtsRequest"> | string
   servedFromCache?: Prisma.BoolFilter<"TtsRequest"> | boolean
@@ -1167,6 +1291,10 @@ export type TtsRequestCreateWithoutElSpeechModelInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1198,6 +1326,10 @@ export type TtsRequestUncheckedCreateWithoutElSpeechModelInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1251,6 +1383,10 @@ export type TtsRequestCreateWithoutVoiceModelInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1262,14 +1398,14 @@ export type TtsRequestCreateWithoutVoiceModelInput = {
   updatedAt?: Date | string
   audioFile?: Prisma.AudioFileCreateNestedOneWithoutRequestInput
   jobs?: Prisma.JobCreateNestedManyWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   user: Prisma.UserCreateNestedOneWithoutTtsRequestsInput
 }
 
 export type TtsRequestUncheckedCreateWithoutVoiceModelInput = {
   id?: string
   userId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1282,6 +1418,10 @@ export type TtsRequestUncheckedCreateWithoutVoiceModelInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1335,6 +1475,10 @@ export type TtsRequestCreateWithoutAudioFileInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1345,7 +1489,7 @@ export type TtsRequestCreateWithoutAudioFileInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   jobs?: Prisma.JobCreateNestedManyWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   user: Prisma.UserCreateNestedOneWithoutTtsRequestsInput
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutTtsRequestsInput
 }
@@ -1354,7 +1498,7 @@ export type TtsRequestUncheckedCreateWithoutAudioFileInput = {
   id?: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1367,6 +1511,10 @@ export type TtsRequestUncheckedCreateWithoutAudioFileInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1409,6 +1557,10 @@ export type TtsRequestUpdateWithoutAudioFileInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1419,7 +1571,7 @@ export type TtsRequestUpdateWithoutAudioFileInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   jobs?: Prisma.JobUpdateManyWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTtsRequestsNestedInput
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
@@ -1428,7 +1580,7 @@ export type TtsRequestUncheckedUpdateWithoutAudioFileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1441,6 +1593,10 @@ export type TtsRequestUncheckedUpdateWithoutAudioFileInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1467,6 +1623,10 @@ export type TtsRequestCreateWithoutJobsInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1477,7 +1637,7 @@ export type TtsRequestCreateWithoutJobsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   audioFile?: Prisma.AudioFileCreateNestedOneWithoutRequestInput
-  elSpeechModel: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
+  elSpeechModel?: Prisma.ElSpeechModelCreateNestedOneWithoutTtsRequestsInput
   user: Prisma.UserCreateNestedOneWithoutTtsRequestsInput
   voiceModel: Prisma.VoiceModelCreateNestedOneWithoutTtsRequestsInput
 }
@@ -1486,7 +1646,7 @@ export type TtsRequestUncheckedCreateWithoutJobsInput = {
   id?: string
   userId: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1499,6 +1659,10 @@ export type TtsRequestUncheckedCreateWithoutJobsInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1541,6 +1705,10 @@ export type TtsRequestUpdateWithoutJobsInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1551,7 +1719,7 @@ export type TtsRequestUpdateWithoutJobsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTtsRequestsNestedInput
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
@@ -1560,7 +1728,7 @@ export type TtsRequestUncheckedUpdateWithoutJobsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1573,6 +1741,10 @@ export type TtsRequestUncheckedUpdateWithoutJobsInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1588,7 +1760,7 @@ export type TtsRequestUncheckedUpdateWithoutJobsInput = {
 export type TtsRequestCreateManyUserInput = {
   id?: string
   voiceModelId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1601,6 +1773,10 @@ export type TtsRequestCreateManyUserInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1626,6 +1802,10 @@ export type TtsRequestUpdateWithoutUserInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1637,14 +1817,14 @@ export type TtsRequestUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneWithoutRequestNestedInput
   jobs?: Prisma.JobUpdateManyWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   voiceModel?: Prisma.VoiceModelUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
 
 export type TtsRequestUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1657,6 +1837,10 @@ export type TtsRequestUncheckedUpdateWithoutUserInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1673,7 +1857,7 @@ export type TtsRequestUncheckedUpdateWithoutUserInput = {
 export type TtsRequestUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   voiceModelId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1686,6 +1870,10 @@ export type TtsRequestUncheckedUpdateManyWithoutUserInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1713,6 +1901,10 @@ export type TtsRequestCreateManyElSpeechModelInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1738,6 +1930,10 @@ export type TtsRequestUpdateWithoutElSpeechModelInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1769,6 +1965,10 @@ export type TtsRequestUncheckedUpdateWithoutElSpeechModelInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1798,6 +1998,10 @@ export type TtsRequestUncheckedUpdateManyWithoutElSpeechModelInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1812,7 +2016,7 @@ export type TtsRequestUncheckedUpdateManyWithoutElSpeechModelInput = {
 export type TtsRequestCreateManyVoiceModelInput = {
   id?: string
   userId: string
-  elSpeechModelId: string
+  elSpeechModelId?: string | null
   inputText: string
   inputTextHash: string
   charCount: number
@@ -1825,6 +2029,10 @@ export type TtsRequestCreateManyVoiceModelInput = {
   similarityBoost?: runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: boolean
+  edgeSpeed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: number | null
   applyTextNormalization?: string
   servedFromCache?: boolean
@@ -1850,6 +2058,10 @@ export type TtsRequestUpdateWithoutVoiceModelInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1861,14 +2073,14 @@ export type TtsRequestUpdateWithoutVoiceModelInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   audioFile?: Prisma.AudioFileUpdateOneWithoutRequestNestedInput
   jobs?: Prisma.JobUpdateManyWithoutRequestNestedInput
-  elSpeechModel?: Prisma.ElSpeechModelUpdateOneRequiredWithoutTtsRequestsNestedInput
+  elSpeechModel?: Prisma.ElSpeechModelUpdateOneWithoutTtsRequestsNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTtsRequestsNestedInput
 }
 
 export type TtsRequestUncheckedUpdateWithoutVoiceModelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1881,6 +2093,10 @@ export type TtsRequestUncheckedUpdateWithoutVoiceModelInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1897,7 +2113,7 @@ export type TtsRequestUncheckedUpdateWithoutVoiceModelInput = {
 export type TtsRequestUncheckedUpdateManyWithoutVoiceModelInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  elSpeechModelId?: Prisma.StringFieldUpdateOperationsInput | string
+  elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inputText?: Prisma.StringFieldUpdateOperationsInput | string
   inputTextHash?: Prisma.StringFieldUpdateOperationsInput | string
   charCount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1910,6 +2126,10 @@ export type TtsRequestUncheckedUpdateManyWithoutVoiceModelInput = {
   similarityBoost?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   style?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   useSpeakerBoost?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  edgeSpeed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  speakingRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  pitch?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  volumeGainDb?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   seed?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   applyTextNormalization?: Prisma.StringFieldUpdateOperationsInput | string
   servedFromCache?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1969,6 +2189,10 @@ export type TtsRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   similarityBoost?: boolean
   style?: boolean
   useSpeakerBoost?: boolean
+  edgeSpeed?: boolean
+  speakingRate?: boolean
+  pitch?: boolean
+  volumeGainDb?: boolean
   seed?: boolean
   applyTextNormalization?: boolean
   servedFromCache?: boolean
@@ -1980,7 +2204,7 @@ export type TtsRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   audioFile?: boolean | Prisma.TtsRequest$audioFileArgs<ExtArgs>
   jobs?: boolean | Prisma.TtsRequest$jobsArgs<ExtArgs>
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TtsRequestCountOutputTypeDefaultArgs<ExtArgs>
@@ -2003,6 +2227,10 @@ export type TtsRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   similarityBoost?: boolean
   style?: boolean
   useSpeakerBoost?: boolean
+  edgeSpeed?: boolean
+  speakingRate?: boolean
+  pitch?: boolean
+  volumeGainDb?: boolean
   seed?: boolean
   applyTextNormalization?: boolean
   servedFromCache?: boolean
@@ -2012,7 +2240,7 @@ export type TtsRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ttsRequest"]>
@@ -2034,6 +2262,10 @@ export type TtsRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   similarityBoost?: boolean
   style?: boolean
   useSpeakerBoost?: boolean
+  edgeSpeed?: boolean
+  speakingRate?: boolean
+  pitch?: boolean
+  volumeGainDb?: boolean
   seed?: boolean
   applyTextNormalization?: boolean
   servedFromCache?: boolean
@@ -2043,7 +2275,7 @@ export type TtsRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   completedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ttsRequest"]>
@@ -2065,6 +2297,10 @@ export type TtsRequestSelectScalar = {
   similarityBoost?: boolean
   style?: boolean
   useSpeakerBoost?: boolean
+  edgeSpeed?: boolean
+  speakingRate?: boolean
+  pitch?: boolean
+  volumeGainDb?: boolean
   seed?: boolean
   applyTextNormalization?: boolean
   servedFromCache?: boolean
@@ -2076,22 +2312,22 @@ export type TtsRequestSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TtsRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "voiceModelId" | "elSpeechModelId" | "inputText" | "inputTextHash" | "charCount" | "wordCount" | "status" | "priority" | "outputFormat" | "languageCode" | "stability" | "similarityBoost" | "style" | "useSpeakerBoost" | "seed" | "applyTextNormalization" | "servedFromCache" | "options" | "errorMessage" | "retryCount" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["ttsRequest"]>
+export type TtsRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "voiceModelId" | "elSpeechModelId" | "inputText" | "inputTextHash" | "charCount" | "wordCount" | "status" | "priority" | "outputFormat" | "languageCode" | "stability" | "similarityBoost" | "style" | "useSpeakerBoost" | "edgeSpeed" | "speakingRate" | "pitch" | "volumeGainDb" | "seed" | "applyTextNormalization" | "servedFromCache" | "options" | "errorMessage" | "retryCount" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["ttsRequest"]>
 export type TtsRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   audioFile?: boolean | Prisma.TtsRequest$audioFileArgs<ExtArgs>
   jobs?: boolean | Prisma.TtsRequest$jobsArgs<ExtArgs>
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.TtsRequestCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TtsRequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
 }
 export type TtsRequestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  elSpeechModel?: boolean | Prisma.ElSpeechModelDefaultArgs<ExtArgs>
+  elSpeechModel?: boolean | Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   voiceModel?: boolean | Prisma.VoiceModelDefaultArgs<ExtArgs>
 }
@@ -2101,7 +2337,7 @@ export type $TtsRequestPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     audioFile: Prisma.$AudioFilePayload<ExtArgs> | null
     jobs: Prisma.$JobPayload<ExtArgs>[]
-    elSpeechModel: Prisma.$ElSpeechModelPayload<ExtArgs>
+    elSpeechModel: Prisma.$ElSpeechModelPayload<ExtArgs> | null
     user: Prisma.$UserPayload<ExtArgs>
     voiceModel: Prisma.$VoiceModelPayload<ExtArgs>
   }
@@ -2109,7 +2345,7 @@ export type $TtsRequestPayload<ExtArgs extends runtime.Types.Extensions.Internal
     id: string
     userId: string
     voiceModelId: string
-    elSpeechModelId: string
+    elSpeechModelId: string | null
     /**
      * The submitted text to convert to speech
      */
@@ -2153,6 +2389,10 @@ export type $TtsRequestPayload<ExtArgs extends runtime.Types.Extensions.Internal
      * Boosts speaker clarity (adds slight latency)
      */
     useSpeakerBoost: boolean
+    edgeSpeed: runtime.Decimal | null
+    speakingRate: runtime.Decimal | null
+    pitch: runtime.Decimal | null
+    volumeGainDb: runtime.Decimal | null
     /**
      * For deterministic generation. NULL = random each time.
      */
@@ -2570,7 +2810,7 @@ export interface Prisma__TtsRequestClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   audioFile<T extends Prisma.TtsRequest$audioFileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TtsRequest$audioFileArgs<ExtArgs>>): Prisma.Prisma__AudioFileClient<runtime.Types.Result.GetResult<Prisma.$AudioFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   jobs<T extends Prisma.TtsRequest$jobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TtsRequest$jobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  elSpeechModel<T extends Prisma.ElSpeechModelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ElSpeechModelDefaultArgs<ExtArgs>>): Prisma.Prisma__ElSpeechModelClient<runtime.Types.Result.GetResult<Prisma.$ElSpeechModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  elSpeechModel<T extends Prisma.TtsRequest$elSpeechModelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TtsRequest$elSpeechModelArgs<ExtArgs>>): Prisma.Prisma__ElSpeechModelClient<runtime.Types.Result.GetResult<Prisma.$ElSpeechModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   voiceModel<T extends Prisma.VoiceModelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VoiceModelDefaultArgs<ExtArgs>>): Prisma.Prisma__VoiceModelClient<runtime.Types.Result.GetResult<Prisma.$VoiceModelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -2618,6 +2858,10 @@ export interface TtsRequestFieldRefs {
   readonly similarityBoost: Prisma.FieldRef<"TtsRequest", 'Decimal'>
   readonly style: Prisma.FieldRef<"TtsRequest", 'Decimal'>
   readonly useSpeakerBoost: Prisma.FieldRef<"TtsRequest", 'Boolean'>
+  readonly edgeSpeed: Prisma.FieldRef<"TtsRequest", 'Decimal'>
+  readonly speakingRate: Prisma.FieldRef<"TtsRequest", 'Decimal'>
+  readonly pitch: Prisma.FieldRef<"TtsRequest", 'Decimal'>
+  readonly volumeGainDb: Prisma.FieldRef<"TtsRequest", 'Decimal'>
   readonly seed: Prisma.FieldRef<"TtsRequest", 'Int'>
   readonly applyTextNormalization: Prisma.FieldRef<"TtsRequest", 'String'>
   readonly servedFromCache: Prisma.FieldRef<"TtsRequest", 'Boolean'>
@@ -3063,6 +3307,25 @@ export type TtsRequest$jobsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.JobScalarFieldEnum | Prisma.JobScalarFieldEnum[]
+}
+
+/**
+ * TtsRequest.elSpeechModel
+ */
+export type TtsRequest$elSpeechModelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ElSpeechModel
+   */
+  select?: Prisma.ElSpeechModelSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ElSpeechModel
+   */
+  omit?: Prisma.ElSpeechModelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ElSpeechModelInclude<ExtArgs> | null
+  where?: Prisma.ElSpeechModelWhereInput
 }
 
 /**

@@ -58,6 +58,14 @@ export type VoiceModelMinAggregateOutputType = {
   elSafetyControl: string | null
   elSharingEnabled: boolean | null
   elSpeechModelId: string | null
+  gcpVoiceName: string | null
+  gcpLanguageCode: string | null
+  gcpSsmlGender: string | null
+  gcpVoiceType: string | null
+  edgeVoiceName: string | null
+  edgeLocale: string | null
+  edgeGender: string | null
+  edgeFriendlyName: string | null
   lastSyncedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -84,6 +92,14 @@ export type VoiceModelMaxAggregateOutputType = {
   elSafetyControl: string | null
   elSharingEnabled: boolean | null
   elSpeechModelId: string | null
+  gcpVoiceName: string | null
+  gcpLanguageCode: string | null
+  gcpSsmlGender: string | null
+  gcpVoiceType: string | null
+  edgeVoiceName: string | null
+  edgeLocale: string | null
+  edgeGender: string | null
+  edgeFriendlyName: string | null
   lastSyncedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -115,6 +131,14 @@ export type VoiceModelCountAggregateOutputType = {
   elSafetyControl: number
   elSharingEnabled: number
   elSpeechModelId: number
+  gcpVoiceName: number
+  gcpLanguageCode: number
+  gcpSsmlGender: number
+  gcpVoiceType: number
+  edgeVoiceName: number
+  edgeLocale: number
+  edgeGender: number
+  edgeFriendlyName: number
   lastSyncedAt: number
   createdAt: number
   updatedAt: number
@@ -153,6 +177,14 @@ export type VoiceModelMinAggregateInputType = {
   elSafetyControl?: true
   elSharingEnabled?: true
   elSpeechModelId?: true
+  gcpVoiceName?: true
+  gcpLanguageCode?: true
+  gcpSsmlGender?: true
+  gcpVoiceType?: true
+  edgeVoiceName?: true
+  edgeLocale?: true
+  edgeGender?: true
+  edgeFriendlyName?: true
   lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -179,6 +211,14 @@ export type VoiceModelMaxAggregateInputType = {
   elSafetyControl?: true
   elSharingEnabled?: true
   elSpeechModelId?: true
+  gcpVoiceName?: true
+  gcpLanguageCode?: true
+  gcpSsmlGender?: true
+  gcpVoiceType?: true
+  edgeVoiceName?: true
+  edgeLocale?: true
+  edgeGender?: true
+  edgeFriendlyName?: true
   lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -210,6 +250,14 @@ export type VoiceModelCountAggregateInputType = {
   elSafetyControl?: true
   elSharingEnabled?: true
   elSpeechModelId?: true
+  gcpVoiceName?: true
+  gcpLanguageCode?: true
+  gcpSsmlGender?: true
+  gcpVoiceType?: true
+  edgeVoiceName?: true
+  edgeLocale?: true
+  edgeGender?: true
+  edgeFriendlyName?: true
   lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -328,6 +376,14 @@ export type VoiceModelGroupByOutputType = {
   elSafetyControl: string | null
   elSharingEnabled: boolean
   elSpeechModelId: string | null
+  gcpVoiceName: string | null
+  gcpLanguageCode: string | null
+  gcpSsmlGender: string | null
+  gcpVoiceType: string | null
+  edgeVoiceName: string | null
+  edgeLocale: string | null
+  edgeGender: string | null
+  edgeFriendlyName: string | null
   lastSyncedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -382,6 +438,14 @@ export type VoiceModelWhereInput = {
   elSafetyControl?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
   elSharingEnabled?: Prisma.BoolFilter<"VoiceModel"> | boolean
   elSpeechModelId?: Prisma.UuidNullableFilter<"VoiceModel"> | string | null
+  gcpVoiceName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpLanguageCode?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpSsmlGender?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpVoiceType?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeVoiceName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeLocale?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeGender?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeFriendlyName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"VoiceModel"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
@@ -417,6 +481,14 @@ export type VoiceModelOrderByWithRelationInput = {
   elSafetyControl?: Prisma.SortOrderInput | Prisma.SortOrder
   elSharingEnabled?: Prisma.SortOrder
   elSpeechModelId?: Prisma.SortOrderInput | Prisma.SortOrder
+  gcpVoiceName?: Prisma.SortOrderInput | Prisma.SortOrder
+  gcpLanguageCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  gcpSsmlGender?: Prisma.SortOrderInput | Prisma.SortOrder
+  gcpVoiceType?: Prisma.SortOrderInput | Prisma.SortOrder
+  edgeVoiceName?: Prisma.SortOrderInput | Prisma.SortOrder
+  edgeLocale?: Prisma.SortOrderInput | Prisma.SortOrder
+  edgeGender?: Prisma.SortOrderInput | Prisma.SortOrder
+  edgeFriendlyName?: Prisma.SortOrderInput | Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -456,6 +528,14 @@ export type VoiceModelWhereUniqueInput = Prisma.AtLeast<{
   elSafetyControl?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
   elSharingEnabled?: Prisma.BoolFilter<"VoiceModel"> | boolean
   elSpeechModelId?: Prisma.UuidNullableFilter<"VoiceModel"> | string | null
+  gcpVoiceName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpLanguageCode?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpSsmlGender?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpVoiceType?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeVoiceName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeLocale?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeGender?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeFriendlyName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"VoiceModel"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
@@ -491,6 +571,14 @@ export type VoiceModelOrderByWithAggregationInput = {
   elSafetyControl?: Prisma.SortOrderInput | Prisma.SortOrder
   elSharingEnabled?: Prisma.SortOrder
   elSpeechModelId?: Prisma.SortOrderInput | Prisma.SortOrder
+  gcpVoiceName?: Prisma.SortOrderInput | Prisma.SortOrder
+  gcpLanguageCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  gcpSsmlGender?: Prisma.SortOrderInput | Prisma.SortOrder
+  gcpVoiceType?: Prisma.SortOrderInput | Prisma.SortOrder
+  edgeVoiceName?: Prisma.SortOrderInput | Prisma.SortOrder
+  edgeLocale?: Prisma.SortOrderInput | Prisma.SortOrder
+  edgeGender?: Prisma.SortOrderInput | Prisma.SortOrder
+  edgeFriendlyName?: Prisma.SortOrderInput | Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -530,6 +618,14 @@ export type VoiceModelScalarWhereWithAggregatesInput = {
   elSafetyControl?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
   elSharingEnabled?: Prisma.BoolWithAggregatesFilter<"VoiceModel"> | boolean
   elSpeechModelId?: Prisma.UuidNullableWithAggregatesFilter<"VoiceModel"> | string | null
+  gcpVoiceName?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
+  gcpLanguageCode?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
+  gcpSsmlGender?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
+  gcpVoiceType?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
+  edgeVoiceName?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
+  edgeLocale?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
+  edgeGender?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
+  edgeFriendlyName?: Prisma.StringNullableWithAggregatesFilter<"VoiceModel"> | string | null
   lastSyncedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"VoiceModel"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"VoiceModel"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"VoiceModel"> | Date | string
@@ -559,6 +655,14 @@ export type VoiceModelCreateInput = {
   elFineTuningStatus?: string | null
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -594,6 +698,14 @@ export type VoiceModelUncheckedCreateInput = {
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
   elSpeechModelId?: string | null
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -625,6 +737,14 @@ export type VoiceModelUpdateInput = {
   elFineTuningStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -660,6 +780,14 @@ export type VoiceModelUncheckedUpdateInput = {
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -693,6 +821,14 @@ export type VoiceModelCreateManyInput = {
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
   elSpeechModelId?: string | null
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -722,6 +858,14 @@ export type VoiceModelUpdateManyMutationInput = {
   elFineTuningStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -753,6 +897,14 @@ export type VoiceModelUncheckedUpdateManyInput = {
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -799,6 +951,14 @@ export type VoiceModelCountOrderByAggregateInput = {
   elSafetyControl?: Prisma.SortOrder
   elSharingEnabled?: Prisma.SortOrder
   elSpeechModelId?: Prisma.SortOrder
+  gcpVoiceName?: Prisma.SortOrder
+  gcpLanguageCode?: Prisma.SortOrder
+  gcpSsmlGender?: Prisma.SortOrder
+  gcpVoiceType?: Prisma.SortOrder
+  edgeVoiceName?: Prisma.SortOrder
+  edgeLocale?: Prisma.SortOrder
+  edgeGender?: Prisma.SortOrder
+  edgeFriendlyName?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -830,6 +990,14 @@ export type VoiceModelMaxOrderByAggregateInput = {
   elSafetyControl?: Prisma.SortOrder
   elSharingEnabled?: Prisma.SortOrder
   elSpeechModelId?: Prisma.SortOrder
+  gcpVoiceName?: Prisma.SortOrder
+  gcpLanguageCode?: Prisma.SortOrder
+  gcpSsmlGender?: Prisma.SortOrder
+  gcpVoiceType?: Prisma.SortOrder
+  edgeVoiceName?: Prisma.SortOrder
+  edgeLocale?: Prisma.SortOrder
+  edgeGender?: Prisma.SortOrder
+  edgeFriendlyName?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -856,6 +1024,14 @@ export type VoiceModelMinOrderByAggregateInput = {
   elSafetyControl?: Prisma.SortOrder
   elSharingEnabled?: Prisma.SortOrder
   elSpeechModelId?: Prisma.SortOrder
+  gcpVoiceName?: Prisma.SortOrder
+  gcpLanguageCode?: Prisma.SortOrder
+  gcpSsmlGender?: Prisma.SortOrder
+  gcpVoiceType?: Prisma.SortOrder
+  edgeVoiceName?: Prisma.SortOrder
+  edgeLocale?: Prisma.SortOrder
+  edgeGender?: Prisma.SortOrder
+  edgeFriendlyName?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -1034,6 +1210,14 @@ export type VoiceModelCreateWithoutElSpeechModelInput = {
   elFineTuningStatus?: string | null
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1067,6 +1251,14 @@ export type VoiceModelUncheckedCreateWithoutElSpeechModelInput = {
   elFineTuningStatus?: string | null
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1129,6 +1321,14 @@ export type VoiceModelScalarWhereInput = {
   elSafetyControl?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
   elSharingEnabled?: Prisma.BoolFilter<"VoiceModel"> | boolean
   elSpeechModelId?: Prisma.UuidNullableFilter<"VoiceModel"> | string | null
+  gcpVoiceName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpLanguageCode?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpSsmlGender?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  gcpVoiceType?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeVoiceName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeLocale?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeGender?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
+  edgeFriendlyName?: Prisma.StringNullableFilter<"VoiceModel"> | string | null
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"VoiceModel"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VoiceModel"> | Date | string
@@ -1158,6 +1358,14 @@ export type VoiceModelCreateWithoutLanguageInput = {
   elFineTuningStatus?: string | null
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1191,6 +1399,14 @@ export type VoiceModelUncheckedCreateWithoutLanguageInput = {
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
   elSpeechModelId?: string | null
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1248,6 +1464,14 @@ export type VoiceModelCreateWithoutTtsRequestsInput = {
   elFineTuningStatus?: string | null
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1282,6 +1506,14 @@ export type VoiceModelUncheckedCreateWithoutTtsRequestsInput = {
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
   elSpeechModelId?: string | null
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1328,6 +1560,14 @@ export type VoiceModelUpdateWithoutTtsRequestsInput = {
   elFineTuningStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1362,6 +1602,14 @@ export type VoiceModelUncheckedUpdateWithoutTtsRequestsInput = {
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1392,6 +1640,14 @@ export type VoiceModelCreateWithoutRequestCachesInput = {
   elFineTuningStatus?: string | null
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1426,6 +1682,14 @@ export type VoiceModelUncheckedCreateWithoutRequestCachesInput = {
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
   elSpeechModelId?: string | null
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1472,6 +1736,14 @@ export type VoiceModelUpdateWithoutRequestCachesInput = {
   elFineTuningStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1506,6 +1778,14 @@ export type VoiceModelUncheckedUpdateWithoutRequestCachesInput = {
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1537,6 +1817,14 @@ export type VoiceModelCreateManyElSpeechModelInput = {
   elFineTuningStatus?: string | null
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1566,6 +1854,14 @@ export type VoiceModelUpdateWithoutElSpeechModelInput = {
   elFineTuningStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1599,6 +1895,14 @@ export type VoiceModelUncheckedUpdateWithoutElSpeechModelInput = {
   elFineTuningStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1631,6 +1935,14 @@ export type VoiceModelUncheckedUpdateManyWithoutElSpeechModelInput = {
   elFineTuningStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1661,6 +1973,14 @@ export type VoiceModelCreateManyLanguageInput = {
   elSafetyControl?: string | null
   elSharingEnabled?: boolean
   elSpeechModelId?: string | null
+  gcpVoiceName?: string | null
+  gcpLanguageCode?: string | null
+  gcpSsmlGender?: string | null
+  gcpVoiceType?: string | null
+  edgeVoiceName?: string | null
+  edgeLocale?: string | null
+  edgeGender?: string | null
+  edgeFriendlyName?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1690,6 +2010,14 @@ export type VoiceModelUpdateWithoutLanguageInput = {
   elFineTuningStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1723,6 +2051,14 @@ export type VoiceModelUncheckedUpdateWithoutLanguageInput = {
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1755,6 +2091,14 @@ export type VoiceModelUncheckedUpdateManyWithoutLanguageInput = {
   elSafetyControl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elSharingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   elSpeechModelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpLanguageCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpSsmlGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gcpVoiceType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeVoiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeLocale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeGender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  edgeFriendlyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1826,6 +2170,14 @@ export type VoiceModelSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   elSafetyControl?: boolean
   elSharingEnabled?: boolean
   elSpeechModelId?: boolean
+  gcpVoiceName?: boolean
+  gcpLanguageCode?: boolean
+  gcpSsmlGender?: boolean
+  gcpVoiceType?: boolean
+  edgeVoiceName?: boolean
+  edgeLocale?: boolean
+  edgeGender?: boolean
+  edgeFriendlyName?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1862,6 +2214,14 @@ export type VoiceModelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   elSafetyControl?: boolean
   elSharingEnabled?: boolean
   elSpeechModelId?: boolean
+  gcpVoiceName?: boolean
+  gcpLanguageCode?: boolean
+  gcpSsmlGender?: boolean
+  gcpVoiceType?: boolean
+  edgeVoiceName?: boolean
+  edgeLocale?: boolean
+  edgeGender?: boolean
+  edgeFriendlyName?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1895,6 +2255,14 @@ export type VoiceModelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   elSafetyControl?: boolean
   elSharingEnabled?: boolean
   elSpeechModelId?: boolean
+  gcpVoiceName?: boolean
+  gcpLanguageCode?: boolean
+  gcpSsmlGender?: boolean
+  gcpVoiceType?: boolean
+  edgeVoiceName?: boolean
+  edgeLocale?: boolean
+  edgeGender?: boolean
+  edgeFriendlyName?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1928,12 +2296,20 @@ export type VoiceModelSelectScalar = {
   elSafetyControl?: boolean
   elSharingEnabled?: boolean
   elSpeechModelId?: boolean
+  gcpVoiceName?: boolean
+  gcpLanguageCode?: boolean
+  gcpSsmlGender?: boolean
+  gcpVoiceType?: boolean
+  edgeVoiceName?: boolean
+  edgeLocale?: boolean
+  edgeGender?: boolean
+  edgeFriendlyName?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type VoiceModelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "languageId" | "name" | "slug" | "provider" | "providerVoiceId" | "gender" | "accent" | "styleTags" | "sampleAudioUrl" | "isPremium" | "isActive" | "sortOrder" | "elVoiceId" | "elCategory" | "elLabels" | "elDescription" | "elPreviewUrl" | "elAvailableForTiers" | "elVerifiedLanguages" | "elHighQualityModelIds" | "elFineTuningStatus" | "elSafetyControl" | "elSharingEnabled" | "elSpeechModelId" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["voiceModel"]>
+export type VoiceModelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "languageId" | "name" | "slug" | "provider" | "providerVoiceId" | "gender" | "accent" | "styleTags" | "sampleAudioUrl" | "isPremium" | "isActive" | "sortOrder" | "elVoiceId" | "elCategory" | "elLabels" | "elDescription" | "elPreviewUrl" | "elAvailableForTiers" | "elVerifiedLanguages" | "elHighQualityModelIds" | "elFineTuningStatus" | "elSafetyControl" | "elSharingEnabled" | "elSpeechModelId" | "gcpVoiceName" | "gcpLanguageCode" | "gcpSsmlGender" | "gcpVoiceType" | "edgeVoiceName" | "edgeLocale" | "edgeGender" | "edgeFriendlyName" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["voiceModel"]>
 export type VoiceModelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   requestCaches?: boolean | Prisma.VoiceModel$requestCachesArgs<ExtArgs>
   ttsRequests?: boolean | Prisma.VoiceModel$ttsRequestsArgs<ExtArgs>
@@ -1982,47 +2358,28 @@ export type $VoiceModelPayload<ExtArgs extends runtime.Types.Extensions.Internal
     isActive: boolean
     sortOrder: number
     /**
-     * EL voice_id — used in all API calls
+     * Eleven lab tts specific
      */
     elVoiceId: string
-    /**
-     * premade | cloned | generated | professional | community
-     */
     elCategory: string
-    /**
-     * { "accent": "american", "description": "...", "age": "young", "gender": "female", "use_case": "narration" }
-     */
     elLabels: runtime.JsonValue | null
     elDescription: string | null
-    /**
-     * EL-hosted voice preview audio URL (embed directly — free)
-     */
     elPreviewUrl: string | null
-    /**
-     * EL plan tiers this voice is available on: ["free", "starter", "creator", "pro"]
-     */
     elAvailableForTiers: string[]
-    /**
-     * [{ "language_id": "en", "model_id": "eleven_v3" }, ...]
-     */
     elVerifiedLanguages: runtime.JsonValue | null
-    /**
-     * EL base model IDs this voice supports at high quality
-     */
     elHighQualityModelIds: string[]
-    /**
-     * draft | not_started | fine_tuning | fine_tuned | failed
-     */
     elFineTuningStatus: string | null
-    /**
-     * NONE | BAN | CAPTCHA | ENTERPRISE_BAN
-     */
     elSafetyControl: string | null
     elSharingEnabled: boolean
-    /**
-     * FK to primary EL speech model for this voice
-     */
     elSpeechModelId: string | null
+    gcpVoiceName: string | null
+    gcpLanguageCode: string | null
+    gcpSsmlGender: string | null
+    gcpVoiceType: string | null
+    edgeVoiceName: string | null
+    edgeLocale: string | null
+    edgeGender: string | null
+    edgeFriendlyName: string | null
     lastSyncedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -2478,6 +2835,14 @@ export interface VoiceModelFieldRefs {
   readonly elSafetyControl: Prisma.FieldRef<"VoiceModel", 'String'>
   readonly elSharingEnabled: Prisma.FieldRef<"VoiceModel", 'Boolean'>
   readonly elSpeechModelId: Prisma.FieldRef<"VoiceModel", 'String'>
+  readonly gcpVoiceName: Prisma.FieldRef<"VoiceModel", 'String'>
+  readonly gcpLanguageCode: Prisma.FieldRef<"VoiceModel", 'String'>
+  readonly gcpSsmlGender: Prisma.FieldRef<"VoiceModel", 'String'>
+  readonly gcpVoiceType: Prisma.FieldRef<"VoiceModel", 'String'>
+  readonly edgeVoiceName: Prisma.FieldRef<"VoiceModel", 'String'>
+  readonly edgeLocale: Prisma.FieldRef<"VoiceModel", 'String'>
+  readonly edgeGender: Prisma.FieldRef<"VoiceModel", 'String'>
+  readonly edgeFriendlyName: Prisma.FieldRef<"VoiceModel", 'String'>
   readonly lastSyncedAt: Prisma.FieldRef<"VoiceModel", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"VoiceModel", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"VoiceModel", 'DateTime'>

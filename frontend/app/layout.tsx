@@ -6,8 +6,8 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/utils/ThemeProvider";
 import { SmoothScrollProvider } from "@/utils/SmoothScrollProvider";
+import { SessionProvider } from "@/components/providers/session-provider";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -46,13 +46,15 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${dm.variable} antialiased w-full min-w-dvw overflow-hidden`}
       >
-        <SmoothScrollProvider>
-          <ThemeProvider>
+        <SessionProvider>
+          <SmoothScrollProvider>
+            {/* <ThemeProvider> */}
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
             {children}
             <Toaster position="bottom-right" richColors />
-          </ThemeProvider>
-        </SmoothScrollProvider>
+            {/* </ThemeProvider> */}
+          </SmoothScrollProvider>
+        </SessionProvider>
       </body>
     </html>
   );
