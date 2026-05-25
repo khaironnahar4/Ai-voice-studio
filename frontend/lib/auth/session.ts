@@ -26,6 +26,6 @@ export async function requireAdmin(): Promise<{
   user: User;
 }> {
   const { session, user } = await requireSession();
-  if (user.role !== "admin") redirect("/dashboard");
+  if (user.role !== "admin") redirect("/");
   return { session, user };
 }

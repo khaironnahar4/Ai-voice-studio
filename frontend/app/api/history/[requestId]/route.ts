@@ -4,15 +4,16 @@ import prisma            from "@/lib/auth/prisma"
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: { requestId: string } }
+  { params }: { params: Promise<{ requestId: string }> }
 ) {
   const session = await getSession()
+  const { requestId } = await params
   if (!session) {
     return NextResponse.json({ error: "Unauthenticated." }, { status: 401 })
   }
 
   const request = await prisma.ttsRequest.findUnique({
-    where:  { id: params.requestId },
+    where:  { id: requestId },
     select: { userId: true, audioFile: { select: { id: true } } },
   })
 

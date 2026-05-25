@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Play, ArrowRight, Mic, Globe2, Zap, ChevronDown } from 'lucide-react'
-import ParticleSphere from '@/components/3D/ParticleSphere'
 
 const TRUST_STATS = [
   { icon: Mic,    value: '10M+',  label: 'Conversions' },
