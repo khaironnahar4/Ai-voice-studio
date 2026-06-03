@@ -1,6 +1,29 @@
 import prisma from "@/lib/auth/prisma";
 import { createTtsWorker } from "@/lib/queue";
 import { processTtsJob }   from "@/lib/tts/worker";
+import http from "http";
+
+// ─── Health Check Server ──────────────────────────────────────
+const PORT = process.env.PORT || 8080;
+
+const server = http.createServer((req, res) => {
+  if (req.url === "/health" && req.method === "GET") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({
+      status: "ok",
+      worker: worker.isRunning() ? "running" : "idle",
+      timestamp: new Date().toISOString(),
+    }));
+    return;
+  }
+  res.writeHead(404);
+  res.end();
+});
+
+// Worker 
+server.listen(PORT, () => {
+  console.log(`[worker] health check listening on port ${PORT}`);
+});
 
 const worker = createTtsWorker(processTtsJob);
 
@@ -38,6 +61,8 @@ worker.on("failed", async (job, err) => {
 worker.on("error", (err) => {
   console.error("[worker] Redis error:", err);
 });
+
+
 
 // Graceful shutdown
 async function shutdown() {
