@@ -238,3 +238,33 @@ export async function POST(req: Request) {
     { status: 202 },
   );
 }
+
+// Worker wake-up endpoint
+export async function GET() {
+  const WORKER_URL = process.env.WORKER_HEALTH_URL ?? 
+    "https://ai-voice-studio-unqu.onrender.com/health";
+  
+  try {
+    // Render এর worker ঘুমিয়ে থাকলে জেগে উঠতে 30-50s লাগে
+    // তাই timeout 60s দিচ্ছি
+    const res = await fetch(WORKER_URL, {
+      signal: AbortSignal.timeout(60_000),
+    });
+    
+    if (!res.ok) {
+      return NextResponse.json(
+        { ready: false, error: "Worker unhealthy" }, 
+        { status: 502 }
+      );
+    }
+    
+    const data = await res.json();
+    return NextResponse.json({ ready: true, worker: data });
+    
+  } catch (err) {
+    return NextResponse.json(
+      { ready: false, error: "Worker unreachable" }, 
+      { status: 503 }
+    );
+  }
+}
