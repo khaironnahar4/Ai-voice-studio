@@ -21,9 +21,9 @@ const server = http.createServer((req, res) => {
 });
 
 // Worker 
-// server.listen(PORT, "0.0.0.0", () => {
-//   console.log(`[worker] health check listening on port ${PORT}`);
-// });
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`[worker] health check listening on port ${PORT}`);
+});
 
 const worker = createTtsWorker(processTtsJob);
 
