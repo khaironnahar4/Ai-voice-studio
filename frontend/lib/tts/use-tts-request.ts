@@ -26,8 +26,9 @@ export function useTtsRequest(requestId: string | null) {
 
   useEffect(() => {
     if (!requestId) return;
-
+    
     const poll = async () => {
+      setResult(null);
       setLoading(true);
 
       try {

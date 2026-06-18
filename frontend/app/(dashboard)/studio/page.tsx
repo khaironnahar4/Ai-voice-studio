@@ -43,19 +43,20 @@ export default function StudioPage() {
   const [error, setError] = useState<string | null>(null);
   const [wakingUp, setWakingUp] = useState(false);
   const progressTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const processedRequestIdRef = useRef<string | null>(null);
 
   const { result, loading: polling } = useTtsRequest(requestId);
 
   // Sync poll result → audio state
-  if (result?.status === "completed" && result.audio?.url && !audio) {
-    setAudio({
-      requestId: result.requestId,
-      url: result.audio.url,
-      format: settings.outputFormat,
-      fromCache: result.fromCache ?? false,
-    });
-    setRequestId(null);
-  }
+  // if (result?.status === "completed" && result.audio?.url && requestId) {
+  //   setAudio({
+  //     requestId: result.requestId,
+  //     url: result.audio.url,
+  //     format: settings.outputFormat,
+  //     fromCache: result.fromCache ?? false,
+  //   });
+  //   setRequestId(null);
+  // }
 
   const charCount = text.length;
   const overLimit = charCount > MAX_CHARS;
@@ -146,14 +147,15 @@ export default function StudioPage() {
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      setSubmitting(false);
 
+      setSubmitting(false);
       if (!res.ok) {
         stopProgressAnimation();
         setError(data.error ?? "Generation failed. Please try again.");
         return;
       }
 
+      // setSubmitting(false);
       // Cache hit — instant
       if (data.status === "completed" && data.url) {
         stopProgressAnimation();
@@ -163,6 +165,7 @@ export default function StudioPage() {
           format: settings.outputFormat,
           fromCache: true,
         });
+
         return;
       }
 
@@ -174,6 +177,28 @@ export default function StudioPage() {
       setError("Network error. Check your connection.");
     }
   }
+
+  useEffect(() => {
+    const setNewAudio = () => {
+      if (
+      result?.status === "completed" &&
+      result.audio?.url &&
+      result.requestId &&
+      processedRequestIdRef.current !== result.requestId
+    ) {
+      processedRequestIdRef.current = result.requestId;
+      setAudio({
+        requestId: result.requestId,
+        url: result.audio.url,
+        format: settings.outputFormat,
+        fromCache: result.fromCache ?? false,
+      });
+      setRequestId(null);
+      stopProgressAnimation();
+    }
+    }
+    setNewAudio();
+  }, [result]);
 
   // When polling completes
   useEffect(() => {
