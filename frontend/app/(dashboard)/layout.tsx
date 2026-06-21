@@ -40,6 +40,7 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider
       defaultOpen={true}
+      className="bg-[rgb(var(--surface))]"
       style={{
         // shadcn CSS variable overrides — match your palette
         "--sidebar-width":          "220px",
