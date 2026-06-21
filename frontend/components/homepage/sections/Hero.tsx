@@ -3,6 +3,8 @@
 import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Play, ArrowRight, Mic, Globe2, Zap, ChevronDown } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+
 
 const TRUST_STATS = [
   { icon: Mic,    value: '10M+',  label: 'Conversions' },
@@ -47,6 +49,7 @@ function LiveDemoWidget() {
   const [playing,       setPlaying]  = useState(false)
   const [loading,       setLoading]  = useState(false)
   const [converted,     setConverted] = useState(false)
+  const router = useRouter()
   const charLimit = 300
 
   const handleConvert = async () => {
@@ -57,6 +60,7 @@ function LiveDemoWidget() {
     setConverted(true)
     setPlaying(true)
     setTimeout(() => setPlaying(false), 6000)
+    router.push(`/studio`)
   }
 
   return (
@@ -228,7 +232,7 @@ export default function Hero() {
             {/* CTAs */}
             <div className="hero-reveal opacity-0 translate-y-8 transition-all duration-700 ease-out flex flex-col sm:flex-row gap-3">
               <Link
-                href="/sign-up"
+                href="/studio"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-vocera-purple hover:bg-vocera-violet text-white font-semibold text-base transition-all duration-200 glow-purple hover:glow-purple hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vocera-violet"
               >
                 Start Converting Free
