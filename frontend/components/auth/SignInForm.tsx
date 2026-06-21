@@ -174,7 +174,7 @@ export function SignInForm() {
           <Separator className="gap-6 my-1" />
         </div>
 
-        <div className="flex flex-col w-full gap-3">
+        {/* <div className="flex flex-col w-full gap-3">
           <Button
             type="button"
             className="text-sm cursor-pointer"
@@ -190,7 +190,7 @@ export function SignInForm() {
           >
             Continue with Github
           </Button>
-        </div>
+        </div> */}
       </CardFooter>
     </Card>
   );
