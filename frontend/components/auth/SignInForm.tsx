@@ -85,9 +85,9 @@ export function SignInForm() {
 //   };
 
   return (
-    <Card className="w-full sm:max-w-md">
-      <CardHeader>
-        <CardTitle>Sign in</CardTitle>
+    <Card className="w-full sm:max-w-md border border-[#282846] bg-[#141424] p-6">
+      <CardHeader className="">
+        {/* <CardTitle>Sign in</CardTitle> */}
         <CardDescription>Sign in to your account</CardDescription>
       </CardHeader>
       <CardContent>
@@ -123,7 +123,7 @@ export function SignInForm() {
                   <FieldLabel className="flex items-center justify-between">
                     <span>Password</span>
                     <Link
-                      className="text-blue-600 cursor-pointer"
+                      className="text-xs text-[rgb(167,139,250)] hover:text-[rgb(120,62,246)] transition-colors cursor-pointer"
                       href="/request-password"
                     >
                       Forgot password
@@ -149,7 +149,7 @@ export function SignInForm() {
           orientation="horizontal"
           className="flex w-full items-center justify-between flex-col gap-2"
         >
-          <Button
+          {/* <Button
             type="submit"
             form="signin-form"
             className="cursor-pointer w-full"
@@ -159,20 +159,38 @@ export function SignInForm() {
             ) : (
               "Sign in"
             )}
-          </Button>
+          </Button> */}
+
+           <button
+              type="submit"
+              form="signin-form"
+              disabled={form.formState.isSubmitting}
+              className={`w-full h-11 rounded-xl text-sm font-medium
+                         transition-all duration-150 flex items-center justify-center gap-2
+                         ${form.formState.isSubmitting
+                           ? "bg-white/5 text-white/25 cursor-not-allowed"
+                           : "bg-[rgb(120,62,246)] text-white hover:bg-[rgba(120,62,246,0.85)] hover:scale-[1.01] active:scale-[0.99]"
+                         }`}
+            >
+              {form.formState.isSubmitting ? (
+              <Spinner className="size-6" />
+            ) : (
+              "Sign in"
+            )}
+            </button>
 
           <p className="text-sm flex items-center gap-1">
             Do not have an account?{" "}
-            <Link href="/sign-up" className="text-blue-500">
+            <Link href="/sign-up" className="font-bold text-[rgb(167,139,250)] hover:text-[rgb(120,62,246)] transition-colors">
               {" "}
               Sign up
             </Link>
           </p>
         </Field>
-        <div className="flex flex-col w-full my-6 items-center justify-center">
+        {/* <div className="flex flex-col w-full my-6 items-center justify-center">
           <p className="text-sm">Or</p>
           <Separator className="gap-6 my-1" />
-        </div>
+        </div> */}
 
         {/* <div className="flex flex-col w-full gap-3">
           <Button
@@ -193,5 +211,6 @@ export function SignInForm() {
         </div> */}
       </CardFooter>
     </Card>
+
   );
 }
