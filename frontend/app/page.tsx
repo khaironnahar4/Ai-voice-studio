@@ -9,6 +9,8 @@ import Playground from '@/components/homepage/sections/Playground'
 import Pricing from '@/components/homepage/sections/Pricing'
 import SocialProof from '@/components/homepage/sections/SocialProof'
 import UseCases from '@/components/homepage/sections/UseCases'
+import { MobileNav } from '@/components/layout/user-dashboard/mobile-nav'
+import { useIsMobile } from '@/hooks/use-mobile'
 import dynamic from 'next/dynamic'
 
 
@@ -19,9 +21,10 @@ function HomePage() {
   { ssr: false }   // audio API browser-only
 )
 
+  const isMobile = useIsMobile()
 
   return (
-    <main>
+    <main className="overflow-hidden">
       <Navbar />
       <Hero />
       {/* <HeroScene /> */}
@@ -37,6 +40,9 @@ function HomePage() {
       <FAQ />
       <CTABanner />
       <Footer />
+      {isMobile && (
+        <MobileNav />
+      )}
     </main>
   )
 }
