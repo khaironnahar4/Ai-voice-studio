@@ -33,6 +33,11 @@ export const NAV_MAIN: NavItem[] = [
     href:  "/history",
     icon:  History,
   },
+  {
+    title: "Voices",
+    href: "/voices",
+    icon: Mic2,
+  }
 ]
 
 export const NAV_ACCOUNT: NavItem[] = [
