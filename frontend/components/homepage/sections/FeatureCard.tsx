@@ -25,7 +25,7 @@ export default function FeatureCard({ feature }: { feature: Feature }) {
   return (
     <article
       className={[
-        'reveal opacity-0 translate-y-2 transition-all duration-[1.2s] ease-out delay-500',
+        'revealed transition-all duration-[1.2s] ease-out delay-500',
         'relative glass-card rounded-2xl p-6 overflow-hidden',
         'hover:border-vocera-purple hover:glow-purple-sm transition-all duration-700',
         'group cursor-default',

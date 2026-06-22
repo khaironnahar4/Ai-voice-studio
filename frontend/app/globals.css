@@ -368,7 +368,7 @@
 
   /* Smooth scrolling — overridden by Lenis in JS */
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     font-feature-settings:

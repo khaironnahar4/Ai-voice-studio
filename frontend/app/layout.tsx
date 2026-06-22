@@ -48,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${syne.variable} ${dm.variable} antialiased w-full min-w-dvw overflow-hidden`}
+        className={`${syne.variable} ${dm.variable} antialiased w-full`}
       >
         <SessionProvider>
           <SmoothScrollProvider>
