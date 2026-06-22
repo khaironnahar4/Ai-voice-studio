@@ -21,7 +21,7 @@ function HomePage() {
 
 
   return (
-    <main className="relative">
+    <main>
       <Navbar />
       <Hero />
       {/* <HeroScene /> */}

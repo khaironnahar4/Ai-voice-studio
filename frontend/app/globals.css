@@ -1480,13 +1480,19 @@
     transform: translateY(0);
   }
   /* Respect reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .reveal {
+  @media (max-width: 767px) {
+  .reveal {
+    transition-duration: 0.4s;
+     animation: mobileFallback 0.1s ease 2s forwards;
+  }
+  
+  @keyframes mobileFallback {
+    to {
       opacity: 1;
       transform: none;
-      transition: none;
     }
   }
+}
 
   /* Fade in only variant */
   .reveal-fade {

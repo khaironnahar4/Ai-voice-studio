@@ -2,17 +2,19 @@
 
 import { useRef, useEffect } from 'react'
 
-/**
- * Lightweight scroll reveal using IntersectionObserver.
- * Falls back gracefully without GSAP — elements animate via CSS classes.
- * For full GSAP, import useGSAP directly in components that need it.
- */
 export function useScrollReveal(selector = '.reveal') {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (mq.matches) return
+    
+    if (mq.matches) {
+      const elements = containerRef.current?.querySelectorAll<HTMLElement>(selector) ?? []
+      elements.forEach((el) => el.classList.add('revealed'))
+      return
+    }
+
+    const isMobile = window.innerWidth < 768
 
     const elements = containerRef.current?.querySelectorAll<HTMLElement>(selector) ?? []
 
@@ -25,11 +27,28 @@ export function useScrollReveal(selector = '.reveal') {
           }
         })
       },
-      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+      {
+        threshold: 0,
+        // Mobile এ negative rootMargin সরিয়ে দাও
+        rootMargin: isMobile ? '0px' : '0px 0px -60px 0px',
+      }
     )
 
     elements.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+
+    // Safety fallback: 3 সেকেন্ড পরেও যে elements reveal হয়নি, force reveal করো
+    const fallbackTimer = setTimeout(() => {
+      elements.forEach((el) => {
+        if (!el.classList.contains('revealed')) {
+          el.classList.add('revealed')
+        }
+      })
+    }, 3000)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(fallbackTimer)
+    }
   }, [selector])
 
   return containerRef
