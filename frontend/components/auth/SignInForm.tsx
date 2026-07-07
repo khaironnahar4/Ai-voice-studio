@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "@/lib/auth/auth-client";
 import VoceraName from "@/components/branding/vocera-name";
+import { useRouter } from "next/navigation"
 
 
 export function SignInForm() {
@@ -18,6 +19,7 @@ export function SignInForm() {
   //   const [oauthLoading, setOauthLoading] = useState<"google"|"github"|null>(null)
   const [error, setError] = useState<string | null>(null);
   const [showPass, setShowPass] = useState(false);
+   const Router = useRouter()
 
   async function handleEmailSignIn(e: React.FormEvent) {
     e.preventDefault();
@@ -31,6 +33,12 @@ export function SignInForm() {
           password: password,
           callbackURL: callbackUrl,
         },
+        {
+          onSuccess: async () => {
+            setLoading(false);
+            Router.push("/dashboard");
+          }
+        }
         // {
         //   onSuccess: async () => {
         //     const { error } = await twoFactor.sendOtp({});
