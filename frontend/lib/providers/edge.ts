@@ -64,8 +64,8 @@ export class EdgeTtsProvider implements TtsProvider {
           "Authorization": `Bearer ${apiKey}`,
         },
         body: JSON.stringify(body),
-        // HF Space cold start এ সময় লাগে — 60s timeout
-        signal: AbortSignal.timeout(60_000),
+        // HF Space cold start required time - 60s timeout
+        signal: AbortSignal.timeout(90_000),
       })
     } catch (err: unknown) {
       // Timeout বা network error
@@ -83,7 +83,6 @@ export class EdgeTtsProvider implements TtsProvider {
     }
 
     // ── Audio buffer ──────────────────────────────────────────────────
-    // FastAPI StreamingResponse পাঠায় — arrayBuffer() ব্যবহার করো
     const arrayBuffer = await res.arrayBuffer()
     const buffer      = Buffer.from(arrayBuffer)
 
@@ -91,10 +90,8 @@ export class EdgeTtsProvider implements TtsProvider {
       throw new Error("Edge TTS returned empty audio buffer")
     }
 
-    // ── Edge TTS response header এ request ID নেই ─────────────────────
     const providerRequestId = randomUUID()
 
-    // ── Character cost locally count  ─────────────────────────────
     const providerCost = params.inputText.length
 
     return {
