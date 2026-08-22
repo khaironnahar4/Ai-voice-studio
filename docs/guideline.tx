@@ -29,20 +29,7 @@ guidelines for running edge model in local machine:
 
 
 
-Frontend pages: 
-2. dashboard
-3. setting
-4. billing
-5. sign-in , sign-up page
-6. 404 not found page
-7. loading skeleton
 
-
-tumi idea ta onekta dorte parcho, tobe amr visualization ta ami aro ektu explain kori. 
-amar left side e ami tumake jei code diyechilam oitar left column e ja ache ta thakbe, r right side e thakbe amar sample 
-text. then user scroll korle ei left side er  column ta disappear hoye jabe, r right side er sample text middle e ashbe 
-r boro hobe. then onscoll text activation, ai processing visuallization, voice generation, , voice visualization stable state, 
-fade out transition hobe. r ami technology hisebe react three fiber, gsap use korte cai. 
 
 
 frontend in vercel
