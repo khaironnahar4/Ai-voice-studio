@@ -120,10 +120,10 @@ export default function Navbar() {
               <div className="flex items-center gap-3">
                 {/* dashboard btn */}
                 <Link
-                  href="/dashboard"
+                  href="/studio"
                   className="relative inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-xl bg-vocera-purple hover:bg-vocera-violet transition-all duration-200 glow-purple-sm hover:glow-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vocera-violet"
                 >
-                  Dashboard
+                  Studio
                 </Link>
                 {/* user dropdown icon */}
                 <DropdownMenu>
@@ -316,12 +316,12 @@ export default function Navbar() {
               <div className="flex flex-col gap-3 pt-6 border-t border-white/8">
                 {/* dashboard btn */}
                 <Link
-                  href="/dashboard"
+                  href="/studio"
                    onClick={() => setDrawerOpen(false)}
                   className="relative inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-xl bg-vocera-purple hover:bg-vocera-violet 
                   transition-all duration-200 glow-purple-sm hover:glow-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-vocera-violet"
                 >
-                  Dashboard
+                  Studio
                 </Link>
                 <div
                       onClick={() => signOut()}

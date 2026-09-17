@@ -1,4 +1,3 @@
-// app/(auth)/sign-in/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -11,7 +10,7 @@ import { useRouter } from "next/navigation"
 
 export function SignInForm() {
   const params = useSearchParams();
-  const callbackUrl = params.get("callbackUrl") ?? "/dashboard";
+  const callbackUrl = params.get("callbackUrl") ?? "/studio";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +35,7 @@ export function SignInForm() {
         {
           onSuccess: async () => {
             setLoading(false);
-            Router.push("/dashboard");
+            Router.push("/studio");
           }
         }
         // {

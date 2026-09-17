@@ -57,7 +57,7 @@ export function SignUpForm() {
                   onSuccess: async () => {
                     setLoading(false);
                     toast.success("Created your account successfully.");
-                    Router.push("/dashboard");
+                    Router.push("/studio");
                     // toast.success("Please see your email to verify your account");
                   },
                   onError: (ctx) => {
