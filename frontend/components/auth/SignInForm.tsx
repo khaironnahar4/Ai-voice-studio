@@ -12,8 +12,8 @@ export function SignInForm() {
   const params = useSearchParams();
   const callbackUrl = params.get("callbackUrl") ?? "/studio";
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("khaironnahar4@gmail.com");
+  const [password, setPassword] = useState("12345678");
   const [loading, setLoading] = useState(false);
   //   const [oauthLoading, setOauthLoading] = useState<"google"|"github"|null>(null)
   const [error, setError] = useState<string | null>(null);
